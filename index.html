@@ -6,72 +6,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background:
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
-    url("anonymous-bg.jpg") center/cover fixed;
+  background: black;
   color: #eaffea;
+  overflow-x: hidden;
 }
 
-/* ===== HERO ===== */
-.hero {
+/* ===== BACKGROUND ANIMÉ ===== */
+.bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(circle at center, rgba(0,255,136,0.15), transparent 70%),
+    url("anonymous-bg.png") center/contain no-repeat;
+  animation: rotateMask 120s linear infinite;
+  z-index: -3;
+}
+
+/* Rotation lente */
+@keyframes rotateMask {
+  from { transform: rotate(0deg) scale(1.1); }
+  to { transform: rotate(360deg) scale(1.1); }
+}
+
+/* ===== FLASH / GLITCH ===== */
+.flash {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,255,136,0.15);
+  opacity: 0;
+  animation: flashEffect 6s infinite;
+  z-index: -2;
+}
+
+@keyframes flashEffect {
+  0%, 92%, 100% { opacity: 0; }
+  93% { opacity: 0.6; }
+  94% { opacity: 0.1; }
+  95% { opacity: 0.7; }
+  96% { opacity: 0; }
+}
+
+/* ===== ÉCLAIRS ===== */
+.lightning {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(120deg, transparent 45%, rgba(0,255,136,0.8) 50%, transparent 55%);
+  opacity: 0;
+  animation: lightning 10s infinite;
+  z-index: -1;
+}
+
+@keyframes lightning {
+  0%, 96%, 100% { opacity: 0; }
+  97% { opacity: 1; }
+  98% { opacity: 0.2; }
+}
+
+/* ===== CONTENU ===== */
+.main {
   min-height: 100vh;
-  padding: 80px 20px 40px;
+  padding: 100px 20px;
   text-align: center;
+  backdrop-filter: blur(2px);
 }
 
-.hero h1 {
+h1 {
   color: #00ff88;
-  font-size: 42px;
+  font-size: 44px;
   margin-bottom: 10px;
+  text-shadow: 0 0 15px rgba(0,255,136,0.6);
 }
 
-.hero p {
+.subtitle {
   max-width: 700px;
   margin: auto;
-  font-size: 17px;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
-/* ===== SECTIONS ===== */
-.sections {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  max-width: 1100px;
-  margin: 60px auto;
-  padding: 0 20px;
-}
-
-.card {
-  border: 1px solid #00ff88;
-  border-radius: 12px;
-  padding: 20px;
-  background: rgba(0,0,0,0.6);
-  box-shadow: 0 0 15px rgba(0,255,136,0.2);
-}
-
-.card h3 {
-  color: #00ff88;
-  margin-top: 0;
-}
-
-/* ===== LOGIN BOX ===== */
+/* ===== LOGIN ===== */
 .login-box {
+  margin: 80px auto;
   max-width: 380px;
-  margin: 80px auto 40px;
-  padding: 25px;
-  border-radius: 14px;
   background: rgba(0,0,0,0.75);
   border: 1px solid #00ff88;
-  box-shadow: 0 0 25px rgba(0,255,136,0.35);
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 0 30px rgba(0,255,136,0.4);
 }
 
 .login-box h2 {
-  text-align: center;
   color: #00ff88;
+  margin-top: 0;
 }
 
 .login-box input {
@@ -86,81 +117,53 @@ body {
   width: 100%;
   padding: 12px;
   margin-top: 8px;
-  border: none;
   border-radius: 8px;
+  border: none;
   font-weight: bold;
   cursor: pointer;
 }
 
-.create {
-  background: #007bff;
-  color: white;
-}
-
-.login {
-  background: #00c853;
-  color: black;
-}
+.create { background: #007bff; color: white; }
+.login { background: #00c853; color: black; }
 
 .status {
-  text-align: center;
-  margin-top: 12px;
+  margin-top: 10px;
   font-size: 14px;
 }
 
 footer {
   text-align: center;
-  padding: 30px;
   font-size: 12px;
-  opacity: 0.6;
+  opacity: 0.5;
+  padding-bottom: 30px;
 }
 </style>
 </head>
 
 <body>
 
-<section class="hero">
+<div class="bg"></div>
+<div class="flash"></div>
+<div class="lightning"></div>
+
+<div class="main">
   <h1>Anonymous SOS FR</h1>
-  <p>
-    Plateforme communautaire inspirée des valeurs d’anonymat, de responsabilité
-    et d’entraide. Un espace encadré, sécurisé et respectueux.
+  <p class="subtitle">
+    Plateforme communautaire sécurisée inspirée des valeurs d’anonymat,
+    de responsabilité et d’entraide.
   </p>
-</section>
 
-<section class="sections">
-  <div class="card">
-    <h3>Pourquoi ce projet</h3>
-    <p>Informer, protéger et accompagner dans un cadre responsable.</p>
+  <div class="login-box">
+    <h2>Connexion / Inscription</h2>
+    <input id="email" type="email" placeholder="Adresse e-mail">
+    <input id="password" type="password" placeholder="Mot de passe">
+    <button class="create" onclick="register()">Créer un compte</button>
+    <button class="login" onclick="login()">Se connecter</button>
+    <div class="status" id="status"></div>
   </div>
 
-  <div class="card">
-    <h3>Nos valeurs</h3>
-    <p>Anonymat respecté, aucune haine, aucune violence.</p>
-  </div>
-
-  <div class="card">
-    <h3>Sécurité & confiance</h3>
-    <p>Modération active, données minimales, transparence.</p>
-  </div>
-
-  <div class="card">
-    <h3>Ce que nous ne sommes pas</h3>
-    <p>Pas un groupe officiel Anonymous, pas une organisation illégale.</p>
-  </div>
-</section>
-
-<section class="login-box">
-  <h2>Connexion / Inscription</h2>
-  <input type="email" id="email" placeholder="Adresse e-mail">
-  <input type="password" id="password" placeholder="Mot de passe">
-
-  <button class="create" onclick="register()">Créer un compte</button>
-  <button class="login" onclick="login()">Se connecter</button>
-
-  <div class="status" id="status"></div>
-</section>
-
-<footer>© Anonymous SOS FR — Tous droits réservés</footer>
+  <footer>© Anonymous SOS FR — Tous droits réservés</footer>
+</div>
 
 <!-- FIREBASE -->
 <script type="module">
