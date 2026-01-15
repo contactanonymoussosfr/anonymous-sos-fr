@@ -7,142 +7,181 @@
 
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: #0b0b0b;
+      background: #0e0e0e;
       color: #eaeaea;
+    }
+
+    header {
+      background: #111;
+      padding: 15px 20px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      height: 100vh;
+      border-bottom: 1px solid #222;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+      color: #00ff88;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
     }
 
     .box {
       background: #151515;
       padding: 25px;
       border-radius: 10px;
-      width: 100%;
-      max-width: 350px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
-
-    h1 {
-      text-align: center;
       margin-bottom: 20px;
-      color: #00ff88;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
     }
 
     input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 10px;
+      margin: 8px 0;
       border-radius: 5px;
       border: none;
       outline: none;
     }
 
     button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 10px 15px;
       border: none;
       border-radius: 5px;
-      font-weight: bold;
       cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
     }
 
-    .register {
-      background: #007bff;
-      color: white;
-    }
+    .btn-login { background: #00ff88; color: #000; }
+    .btn-register { background: #007bff; color: #fff; }
+    .btn-logout { background: #ff4444; color: #fff; }
 
-    .login {
-      background: #00ff88;
-      color: black;
-    }
+    .hidden { display: none; }
 
-    .logout {
-      background: #ff4444;
-      color: white;
-      display: none;
-    }
-
-    .status {
-      margin-top: 15px;
+    footer {
       text-align: center;
-      font-size: 14px;
+      padding: 15px;
+      font-size: 13px;
+      color: #777;
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <h1>Anonymous SOS FR</h1>
+<header>
+  <h1>Anonymous SOS FR</h1>
+  <button id="logoutBtn" class="btn-logout hidden" onclick="logout()">Déconnexion</button>
+</header>
+
+<main>
+
+  <!-- ZONE PUBLIQUE -->
+  <div id="publicZone" class="box">
+    <h2>Bienvenue</h2>
+    <p>
+      Plateforme communautaire sécurisée.  
+      Inscris-toi ou connecte-toi pour accéder au contenu.
+    </p>
 
     <input type="email" id="email" placeholder="Adresse email">
     <input type="password" id="password" placeholder="Mot de passe">
 
-    <button class="register" onclick="register()">S'inscrire</button>
-    <button class="login" onclick="login()">Se connecter</button>
-    <button class="logout" id="logoutBtn" onclick="logout()">Se déconnecter</button>
-
-    <div class="status" id="status">Déconnecté</div>
+    <button class="btn-register" onclick="register()">Créer un compte</button>
+    <button class="btn-login" onclick="login()">Se connecter</button>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+  <!-- ZONE PRIVÉE -->
+  <div id="privateZone" class="box hidden">
+    <h2>Espace membre</h2>
+    <p id="userEmail"></p>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-      authDomain: "anonymous-sos-fr.firebaseapp.com",
-      projectId: "anonymous-sos-fr",
-      storageBucket: "anonymous-sos-fr.firebasestorage.app",
-      messagingSenderId: "490705618757",
-      appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
-    };
+    <p>
+      ✅ Tu es connecté  
+      <br>
+      Ici, plus tard :
+      <ul>
+        <li>Radio</li>
+        <li>Messages</li>
+        <li>Contenus privés</li>
+        <li>Paramètres compte</li>
+      </ul>
+    </p>
+  </div>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+</main>
 
-    const status = document.getElementById("status");
-    const logoutBtn = document.getElementById("logoutBtn");
+<footer>
+  © Anonymous SOS FR — Tous droits réservés
+</footer>
 
-    window.register = () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
-      createUserWithEmailAndPassword(auth, email, password)
-        .catch(err => alert(err.message));
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+    authDomain: "anonymous-sos-fr.firebaseapp.com",
+    projectId: "anonymous-sos-fr",
+    storageBucket: "anonymous-sos-fr.firebasestorage.app",
+    messagingSenderId: "490705618757",
+    appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
+  };
 
-    window.login = () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-      signInWithEmailAndPassword(auth, email, password)
-        .catch(err => alert(err.message));
-    };
+  const publicZone = document.getElementById("publicZone");
+  const privateZone = document.getElementById("privateZone");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const userEmail = document.getElementById("userEmail");
 
-    window.logout = () => {
-      signOut(auth);
-    };
+  window.register = () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        status.innerText = "Connecté : " + user.email;
-        logoutBtn.style.display = "block";
-      } else {
-        status.innerText = "Déconnecté";
-        logoutBtn.style.display = "none";
-      }
-    });
-  </script>
+    createUserWithEmailAndPassword(auth, email, password)
+      .catch(e => alert(e.message));
+  };
+
+  window.login = () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .catch(e => alert(e.message));
+  };
+
+  window.logout = () => {
+    signOut(auth);
+  };
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      publicZone.classList.add("hidden");
+      privateZone.classList.remove("hidden");
+      logoutBtn.classList.remove("hidden");
+      userEmail.innerText = "Connecté en tant que : " + user.email;
+    } else {
+      publicZone.classList.remove("hidden");
+      privateZone.classList.add("hidden");
+      logoutBtn.classList.add("hidden");
+    }
+  });
+</script>
 
 </body>
 </html>
