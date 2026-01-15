@@ -8,26 +8,24 @@
 <style>
 body{
     margin:0;
-    font-family:Arial, sans-serif;
-    background:#0b0b0b;
-    color:#eee;
+    font-family: Arial, sans-serif;
+    background:#0c0c0c;
+    color:#eaeaea;
 }
 
 header{
     text-align:center;
     padding:40px 20px;
-    border-bottom:3px solid red;
+    border-bottom:3px solid #c00000;
 }
 
 header h1{
-    color:red;
-    margin:0;
-    font-size:36px;
+    color:#e00000;
+    margin-bottom:10px;
 }
 
 header p{
-    color:#ccc;
-    margin-top:10px;
+    color:#bdbdbd;
 }
 
 .buttons{
@@ -35,14 +33,14 @@ header p{
 }
 
 .buttons a{
-    text-decoration:none;
-    color:white;
-    background:red;
-    padding:12px 22px;
+    display:inline-block;
     margin:5px;
+    padding:12px 22px;
+    background:#c00000;
+    color:#fff;
+    text-decoration:none;
     border-radius:6px;
     font-weight:bold;
-    display:inline-block;
 }
 
 section{
@@ -52,9 +50,9 @@ section{
 }
 
 h2{
-    color:red;
+    color:#e00000;
     border-bottom:1px solid #333;
-    padding-bottom:10px;
+    padding-bottom:8px;
 }
 
 ul{
@@ -62,15 +60,16 @@ ul{
 }
 
 .radio-box{
-    background:#111;
+    background:#141414;
     padding:20px;
-    border-radius:10px;
-    margin-top:20px;
+    border-radius:8px;
+    max-width:500px;
 }
 
 audio{
     width:100%;
-    margin-top:15px;
+    max-width:320px;
+    margin-top:10px;
 }
 
 footer{
@@ -87,7 +86,7 @@ footer{
 
 <header>
     <h1>🔴 Anonymous SOS FR</h1>
-    <p>Plateforme communautaire sécurisée et surveillée</p>
+    <p>Plateforme communautaire sécurisée, encadrée et surveillée</p>
 
     <div class="buttons">
         <a href="inscription.html">S’inscrire</a>
@@ -98,21 +97,20 @@ footer{
 <section>
     <h2>🎯 Objectif du projet</h2>
     <ul>
-        <li>Créer une plateforme communautaire moderne</li>
-        <li>Proposer des lives encadrés et sécurisés</li>
-        <li>Mettre en avant les créateurs</li>
-        <li>Garantir un environnement respectueux</li>
-        <li>Assurer une surveillance permanente</li>
+        <li>Créer une plateforme communautaire française fiable</li>
+        <li>Informer et accompagner les utilisateurs</li>
+        <li>Proposer des contenus audio et projets à venir</li>
+        <li>Garantir un cadre sécurisé et respectueux</li>
     </ul>
 </section>
 
 <section>
     <h2>🎬 Salle de films (à venir)</h2>
     <ul>
-        <li>Films accessibles via URL ou QR Code</li>
+        <li>Films accessibles via lien ou QR Code</li>
         <li>Films intégrés directement sur le site</li>
-        <li>Présence de publicités</li>
-        <li>Visionnage permettant de gagner XP et badges</li>
+        <li>Présence de publicités encadrées</li>
+        <li>Système de récompenses (XP, badges)</li>
     </ul>
 </section>
 
@@ -129,8 +127,8 @@ footer{
 <section>
     <h2>💻 Création de votre site web</h2>
     <ul>
-        <li>Création de site sur mesure</li>
-        <li>Site codé par nous-mêmes, sécurisé et optimisé</li>
+        <li>Création de sites sur mesure</li>
+        <li>Code réalisé par nos soins, sécurisé et optimisé</li>
         <li>Aucune solution toute faite, tout est personnalisé</li>
         <li>Accompagnement et conseils possibles</li>
     </ul>
@@ -144,8 +142,7 @@ footer{
         <strong>Radio officielle du site</strong><br>
         Informations, consignes et présentation de la plateforme.
 
-        <!-- REMPLACE radio.mp3 PAR LE NOM EXACT DE TON FICHIER AUDIO -->
-        <audio controls>
+        <audio controls preload="none">
             <source src="radio.mp3" type="audio/mpeg">
             Ton navigateur ne supporte pas l’audio.
         </audio>
