@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Anonymous SOS FR — Chat</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:black;
+  color:#aaffaa;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* MATRIX */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+/* LAYOUT */
+.overlay{
+  position:relative;
+  z-index:1;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.chat-box{
+  width:420px;
+  height:600px;
+  background:#0a0f0a;
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 0 40px #00ff66;
+  border:1px solid #00ff66;
+}
+
+header{
+  padding:14px;
+  text-align:center;
+  border-bottom:1px solid #00ff66;
+}
+
+header h1{
+  color:#00ff66;
+  text-shadow:0 0 12px #00ff66;
+  font-size:20px;
+}
+
+header p{
+  font-size:11px;
+  opacity:.8;
+}
+
+#messages{
+  flex:1;
+  padding:12px;
+  overflow-y:auto;
+  font-size:13px;
+}
+
+.message{
+  margin-bottom:10px;
+}
+
+.admin{
+  color:#ff5555;
+}
+
+.membre{
+  color:#00ff66;
+}
+
+form{
+  display:flex;
+  border-top:1px solid #00ff66;
+}
+
+input{
+  flex:1;
+  padding:12px;
+  border:none;
+  outline:none;
+  background:#111;
+  color:#aaffaa;
+}
+
+button{
+  padding:12px 18px;
+  border:none;
+  background:#00ff66;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+footer{
+  text-align:center;
+  font-size:11px;
+  opacity:.5;
+  padding:6px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="overlay">
+  <div class="chat-box">
+    <header>
+      <h1>Chat Anonymous SOS FR</h1>
+      <p id="userInfo"></p>
+    </header>
+
+    <div id="messages"></div>
+
+    <form id="chatForm">
+      <input id="messageInput" placeholder="Écrire un message..." autocomplete="off">
+      <button>Envoyer</button>
+    </form>
+
+    <footer>Chat communautaire sécurisé</footer>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr",
+  storageBucket: "anonymous-sos-fr.appspot.com",
+  messagingSenderId: "490705618757",
+  appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const messagesDiv = document.getElementById("messages");
+const form = document.getElementById("chatForm");
+const input = document.getElementById("messageInput");
+const userInfo = document.getElementById("userInfo");
+
+let currentUser;
+let role = "membre";
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  currentUser = user;
+
+  if (user.email === "despeschez@gmail.com") {
+    role = "admin";
+    userInfo.innerHTML = ${user.email} — <span class="admin">ADMIN</span>;
+  } else {
+    userInfo.innerHTML = ${user.email} — <span class="membre">MEMBRE</span>;
+  }
+
+  loadMessages();
+});
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!input.value.trim()) return;
+
+  await addDoc(collection(db, "chat"), {
+    email: currentUser.email,
+    role: role,
+    message: input.value,
+    createdAt: serverTimestamp()
+  });
+
+  input.value = "";
+});
+
+function loadMessages(){
+  const q = query(collection(db, "chat"), orderBy("createdAt"));
+  onSnapshot(q, (snapshot) => {
+    messagesDiv.innerHTML = "";
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const div = document.createElement("div");
+      div.className = "message " + (data.role === "admin" ? "admin" : "membre");
+      div.innerHTML = <strong>${data.role.toUpperCase()}</strong> — ${data.email}<br>${data.message};
+      messagesDiv.appendChild(div);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  });
+}
+</script>
+
+<script>
+/* MATRIX */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+const letters = "01";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff66";
+  ctx.font=fontSize+"px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(draw,33);
+</script>
+
+</body>
+</html>
