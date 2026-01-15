@@ -1,185 +1,125 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Anonymous SOS FR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0b0b;
-      color: #f1f1f1;
-    }
+<style>
+/* ===== STYLE GLOBAL ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f0f;
+    color: #f1f1f1;
+}
 
-    header {
-      background: #111;
-      text-align: center;
-      padding: 30px 20px;
-      border-bottom: 3px solid red;
-    }
+/* ===== HEADER ===== */
+header {
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom: 3px solid red;
+    background: #111;
+}
 
-    header h1 {
-      color: red;
-      margin: 0;
-      font-size: 36px;
-    }
+header h1 {
+    color: red;
+    margin: 0;
+    font-size: 36px;
+}
 
-    header p {
-      margin-top: 10px;
-      font-size: 16px;
-      color: #ccc;
-    }
+header p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #ccc;
+}
 
-    .stars {
-      margin-top: 15px;
-      color: gold;
-      font-size: 22px;
-    }
+/* ===== BOUTON INSCRIPTION ===== */
+.btn-inscription {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 30px;
+    background: red;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+}
 
-    .cta {
-      margin-top: 20px;
-    }
+.btn-inscription:hover {
+    background: darkred;
+}
 
-    .cta a {
-      display: inline-block;
-      padding: 12px 25px;
-      background: red;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 6px;
-    }
+/* ===== SECTIONS ===== */
+section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
 
-    section {
-      max-width: 900px;
-      margin: auto;
-      padding: 30px 20px;
-      border-bottom: 1px solid #333;
-    }
+section h2 {
+    color: red;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
 
-    section h2 {
-      color: red;
-      margin-bottom: 15px;
-    }
+ul {
+    margin-top: 15px;
+}
 
-    ul {
-      padding-left: 20px;
-    }
+li {
+    margin: 8px 0;
+}
 
-    li {
-      margin-bottom: 8px;
-    }
+/* ===== RADIO ===== */
+.radio-box {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
 
-    .radio-box {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
-      margin-top: 15px;
-    }
+.radio-box p {
+    color: #ccc;
+    margin-bottom: 15px;
+}
 
-    audio {
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #aaa;
-      background: #0f0f0f;
-    }
-  </style>
+/* ===== FOOTER ===== */
+footer {
+    margin-top: 60px;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+    border-top: 1px solid #333;
+}
+</style>
 </head>
 
 <body>
 
+<!-- ===== ACCUEIL ===== -->
 <header>
-  <h1>🔴 Anonymous SOS FR</h1>
-  <p>Plateforme communautaire sécurisée et surveillée</p>
+    <h1>🔴 Anonymous SOS FR</h1>
+    <p>Plateforme communautaire sécurisée et surveillée</p>
 
-  <div class="stars">★★★★★</div>
-
-  <div class="cta">
-    <a href="inscription.html">👉 S’inscrire / Connexion</a>
-  </div>
+    <!-- BOUTON INSCRIPTION -->
+    <a class="btn-inscription" href="inscription.html">👉 S’inscrire / Connexion</a>
 </header>
 
+<!-- ===== OBJECTIF ===== -->
 <section>
-  <h2>🎯 Objectif du projet</h2>
-  <ul>
-    <li>Créer une plateforme communautaire moderne</li>
-    <li>Proposer des lives encadrés et sécurisés</li>
-    <li>Mettre en avant les créateurs</li>
-    <li>Garantir un environnement respectueux</li>
-    <li>Assurer une surveillance permanente</li>
-  </ul>
+    <h2>🎯 Objectif du projet</h2>
+    <ul>
+        <li>Créer une plateforme communautaire moderne</li>
+        <li>Lives encadrés et sécurisés</li>
+        <li>Mise en avant des créateurs</li>
+        <li>Environnement respectueux</li>
+        <li>Surveillance permanente</li>
+    </ul>
 </section>
 
+<!-- ===== SALLE DE FILMS ===== -->
 <section>
-  <h2>🎥 Lives</h2>
-  <ul>
-    <li>Nombre de spectateurs illimité</li>
-    <li>Jusqu’à 50 personnes peuvent monter en vocal</li>
-    <li>Chat écrit sans limite</li>
-    <li>Vérification d’identité obligatoire</li>
-    <li>Message automatique quand un modérateur entre</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🎁 Cadeaux, badges & niveaux</h2>
-  <ul>
-    <li>Cadeaux envoyés pendant les lives</li>
-    <li>Gain d’XP et montée de niveaux</li>
-    <li>Badge spécial niveau 50</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🎬 Salle de films (à venir)</h2>
-  <ul>
-    <li>Films accessibles via URL ou QR Code</li>
-    <li>Films intégrés directement sur le site</li>
-    <li>Présence de publicités</li>
-    <li>Visionnage permettant de gagner XP et badges</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🛡️ Sécurité & confiance</h2>
-  <ul>
-    <li>Annonces vérifiées avant publication</li>
-    <li>Aucune arnaque tolérée</li>
-    <li>Modération active et visible</li>
-    <li>Système d’évaluation par étoiles</li>
-  </ul>
-</section>
-
-<section>
-  <h2>📻 Radio Anonymous SOS FR</h2>
-
-  <div class="radio-box">
-    <p>
-      Radio officielle du site.<br>
-      Informations, consignes et présentation de la plateforme.
-    </p>
-
-    <!-- IMPORTANT : le fichier radio.mp3 doit être à côté de index.html -->
-    <audio controls>
-      <source src="radio.mp3" type="audio/mpeg">
-      Votre navigateur ne supporte pas l’audio.
-    </audio>
-  </div>
-</section>
-
-<footer>
-  © Anonymous SOS FR — Créateur du projet<br>
-  Tous droits réservés
-</footer>
-
-</body>
-</html>
+    <h2>🎬 Salle
