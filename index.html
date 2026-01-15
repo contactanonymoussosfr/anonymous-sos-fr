@@ -13,56 +13,64 @@
   font-family:Segoe UI, Arial, sans-serif;
 }
 
+/* ===== FOND D'ÉCRAN ===== */
 body{
   min-height:100vh;
   background:
-    linear-gradient(rgba(0,0,0,.78), rgba(0,0,0,.9)),
-    url("background-anonymous.jpg") center/cover no-repeat fixed;
+    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)),
+    url("fond-anonymous.jpg") center/cover no-repeat fixed;
   color:#eaffea;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
+/* ===== CARTE CENTRALE ===== */
 .card{
   width:100%;
   max-width:520px;
-  background:rgba(0,0,0,.65);
+  background:rgba(0,0,0,0.70);
   border:2px solid #00ff88;
   box-shadow:0 0 40px #00ff88;
-  border-radius:16px;
-  padding:30px;
+  border-radius:18px;
+  padding:35px;
 }
 
+/* ===== TEXTE ===== */
 h1{
   text-align:center;
   color:#00ff88;
   margin-bottom:10px;
+  letter-spacing:1px;
 }
 
 .subtitle{
   text-align:center;
   font-size:14px;
-  opacity:.85;
-  margin-bottom:20px;
+  opacity:0.85;
+  margin-bottom:25px;
 }
 
 .values{
   font-size:14px;
   line-height:1.6;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
 
-.values span{color:#00ff88}
+.values span{
+  color:#00ff88;
+}
 
+/* ===== FORMULAIRE ===== */
 input{
   width:100%;
   padding:12px;
   margin:8px 0;
   border:none;
-  border-radius:6px;
+  border-radius:8px;
   background:#111;
   color:#00ff88;
+  outline:none;
 }
 
 button{
@@ -70,28 +78,46 @@ button{
   padding:12px;
   margin-top:10px;
   border:none;
-  border-radius:6px;
+  border-radius:8px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.register{background:#007bff;color:white}
-.login{background:#00ff88;color:black}
-.logout{background:#ff4d4d;color:white}
+.register{
+  background:#1e90ff;
+  color:white;
+}
+
+.login{
+  background:#00ff88;
+  color:black;
+}
+
+.logout{
+  background:#ff4d4d;
+  color:white;
+}
+
+button:hover{
+  opacity:0.9;
+}
+
+.hidden{
+  display:none;
+}
 
 #status{
-  margin-top:12px;
+  margin-top:15px;
   text-align:center;
   font-size:13px;
 }
 
-.hidden{display:none}
-
+/* ===== FOOTER ===== */
 footer{
-  margin-top:20px;
+  margin-top:25px;
   text-align:center;
   font-size:12px;
-  opacity:.6;
+  opacity:0.6;
 }
 </style>
 </head>
@@ -100,15 +126,17 @@ footer{
 
 <div class="card">
 
-<!-- ===== ACCUEIL PUBLIC ===== -->
+<!-- ===== PARTIE PUBLIQUE ===== -->
 <div id="public">
   <h1>Anonymous SOS FR</h1>
-  <div class="subtitle">Plateforme communautaire indépendante et sécurisée</div>
+  <div class="subtitle">
+    Plateforme communautaire indépendante et sécurisée
+  </div>
 
   <div class="values">
     <span>•</span> Anonymat respecté<br>
-    <span>•</span> Respect & responsabilité<br>
-    <span>•</span> Aucune haine, aucune violence<br>
+    <span>•</span> Responsabilité individuelle<br>
+    <span>•</span> Aucun contenu haineux ou illégal<br>
     <span>•</span> Projet indépendant, non officiel
   </div>
 
@@ -119,14 +147,14 @@ footer{
   <button class="login" onclick="login()">Se connecter</button>
 </div>
 
-<!-- ===== CONTENU CONNECTÉ ===== -->
+<!-- ===== PARTIE CONNECTÉE ===== -->
 <div id="private" class="hidden">
   <h1>Bienvenue</h1>
   <div class="subtitle" id="userEmail"></div>
 
   <div class="values">
     Vous êtes connecté à l’espace sécurisé Anonymous SOS FR.<br><br>
-    Les fonctionnalités (radio, contenu, communauté) seront accessibles ici.
+    Les fonctionnalités seront ajoutées progressivement.
   </div>
 
   <button class="logout" onclick="logout()">Se déconnecter</button>
@@ -138,6 +166,7 @@ footer{
 
 </div>
 
+<!-- ===== FIREBASE AUTH ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -165,23 +194,23 @@ const publicBox = document.getElementById("public");
 const privateBox = document.getElementById("private");
 const userEmail = document.getElementById("userEmail");
 
-window.register = function(){
+window.register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then(()=> status.textContent="Compte créé et connecté")
     .catch(e=> status.textContent=e.message);
-}
+};
 
-window.login = function(){
+window.login = () => {
   signInWithEmailAndPassword(auth, email.value, password.value)
     .then(()=> status.textContent="Connexion réussie")
     .catch(()=> status.textContent="Identifiants invalides");
-}
+};
 
-window.logout = function(){
+window.logout = () => {
   signOut(auth);
-}
+};
 
-onAuthStateChanged(auth, user=>{
+onAuthStateChanged(auth, user => {
   if(user){
     publicBox.classList.add("hidden");
     privateBox.classList.remove("hidden");
