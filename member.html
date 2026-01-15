@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR — Espace Membre</title>
+<title>Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -10,12 +10,12 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:Segoe UI, Arial, sans-serif;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
   background:black;
-  color:#aaffaa;
+  color:#aaffea;
   height:100vh;
   overflow:hidden;
 }
@@ -27,10 +27,10 @@ canvas{
   z-index:0;
 }
 
-/* CONTENT */
+/* CENTER CARD */
 .container{
   position:relative;
-  z-index:2;
+  z-index:1;
   height:100vh;
   display:flex;
   justify-content:center;
@@ -38,13 +38,13 @@ canvas{
 }
 
 .card{
-  width:420px;
-  background:rgba(0,0,0,0.85);
+  width:360px;
+  background:rgba(0,0,0,0.75);
+  border:2px solid #00ff66;
   border-radius:16px;
-  padding:30px;
+  padding:24px;
+  box-shadow:0 0 30px #00ff66;
   text-align:center;
-  box-shadow:0 0 40px #00ff66;
-  border:1px solid #00ff66;
 }
 
 h1{
@@ -54,40 +54,57 @@ h1{
 }
 
 p{
-  font-size:14px;
-  margin-bottom:15px;
+  font-size:13px;
+  margin-bottom:14px;
+  line-height:1.5;
 }
 
-.info{
-  background:rgba(0,255,100,0.1);
+ul{
+  text-align:left;
+  font-size:13px;
+  margin-bottom:14px;
+}
+
+input{
+  width:100%;
   padding:10px;
-  border-radius:8px;
-  margin-bottom:15px;
+  margin:6px 0;
+  border-radius:6px;
+  border:none;
+  outline:none;
+  background:#eee;
 }
 
 button{
   width:100%;
-  padding:12px;
-  margin-top:10px;
+  padding:10px;
+  margin-top:8px;
   border:none;
-  border-radius:8px;
-  font-weight:bold;
+  border-radius:6px;
   cursor:pointer;
+  font-weight:bold;
 }
 
-.logout{
-  background:#ff4444;
+.btn-create{
+  background:#1976ff;
   color:white;
 }
 
-.logout:hover{
-  background:#ff2222;
+.btn-login{
+  background:#00c853;
+  color:black;
+}
+
+#status{
+  margin-top:10px;
+  font-size:13px;
+  min-height:18px;
 }
 
 footer{
-  margin-top:15px;
-  font-size:12px;
-  opacity:0.6;
+  margin-top:12px;
+  font-size:11px;
+  opacity:0.7;
 }
 </style>
 </head>
@@ -99,26 +116,23 @@ footer{
 <div class="container">
   <div class="card">
     <h1>Anonymous SOS FR</h1>
-    <p>Espace membre sécurisé</p>
+    <p>Plateforme communautaire indépendante et sécurisée</p>
+    <ul>
+      <li>Anonymat respecté</li>
+      <li>Aucune haine, aucune violence</li>
+      <li>Responsabilité individuelle</li>
+      <li>Projet non officiel Anonymous</li>
+    </ul>
 
-    <div class="info">
-      ✔ Connexion validée<br>
-      ✔ Accès autorisé
-    </div>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Mot de passe">
 
-    <p>
-      Ici seront ajoutés :
-      <br>• salons
-      <br>• messages
-      <br>• radio / live
-      <br>• rôles (admin / membre)
-    </p>
+    <button class="btn-create" onclick="register()">Créer un compte</button>
+    <button class="btn-login" onclick="login()">Se connecter</button>
 
-    <button class="logout" onclick="logout()">Se déconnecter</button>
+    <div id="status"></div>
 
-    <footer>
-      © Anonymous SOS FR — Tous droits réservés
-    </footer>
+    <footer>© Anonymous SOS FR — Tous droits réservés</footer>
   </div>
 </div>
 
@@ -126,39 +140,66 @@ footer{
 <script>
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
-
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const letters = "01ANONYMOUSSOSFR";
+const letters = "01";
 const fontSize = 14;
 const columns = canvas.width / fontSize;
-const drops = [];
-
-for(let i=0;i<columns;i++) drops[i]=1;
+const drops = Array.from({length: columns}).fill(1);
 
 function draw(){
-  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#00ff66";
-  ctx.font=fontSize+"px monospace";
+  ctx.fillStyle = "#00ff66";
+  ctx.font = fontSize + "px monospace";
 
-  for(let i=0;i<drops.length;i++){
-    const text = letters.charAt(Math.floor(Math.random()*letters.length));
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    if(drops[i]*fontSize>canvas.height && Math.random()>0.975){
-      drops[i]=0;
-    }
+  drops.forEach((y,i)=>{
+    const text = letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text, i*fontSize, y*fontSize);
+    if(y*fontSize > canvas.height && Math.random()>0.975) drops[i]=0;
     drops[i]++;
-  }
+  });
 }
-
 setInterval(draw,33);
+</script>
 
-/* LOGOUT */
-function logout(){
-  window.location.href="index.html";
-}
+<!-- FIREBASE AUTH -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr",
+  storageBucket: "anonymous-sos-fr.firebasestorage.app",
+  messagingSenderId: "490705618757",
+  appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const status = document.getElementById("status");
+
+window.register = () => {
+  status.textContent = "Création du compte...";
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      window.location.href = "member.html";
+    })
+    .catch(e => status.textContent = e.message);
+};
+
+window.login = () => {
+  status.textContent = "Connexion...";
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      window.location.href = "member.html";
+    })
+    .catch(() => status.textContent = "Identifiants invalides");
+};
 </script>
 
 </body>
