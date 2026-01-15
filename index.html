@@ -6,40 +6,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI, Arial, sans-serif;
+}
 
 body{
   min-height:100vh;
   background:
-    linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.85)),
+    linear-gradient(rgba(0,0,0,.78), rgba(0,0,0,.9)),
     url("background-anonymous.jpg") center/cover no-repeat fixed;
-  color:#c8ffcf;
+  color:#eaffea;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
 }
 
-.container{
+.card{
   width:100%;
   max-width:520px;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.65);
   border:2px solid #00ff88;
   box-shadow:0 0 40px #00ff88;
   border-radius:16px;
   padding:30px;
-  animation:glow 4s infinite alternate;
-}
-
-@keyframes glow{
-  from{box-shadow:0 0 20px #00ff88}
-  to{box-shadow:0 0 45px #00ffaa}
 }
 
 h1{
   text-align:center;
   color:#00ff88;
   margin-bottom:10px;
-  letter-spacing:2px;
 }
 
 .subtitle{
@@ -51,8 +49,8 @@ h1{
 
 .values{
   font-size:14px;
-  line-height:1.5;
-  margin-bottom:25px;
+  line-height:1.6;
+  margin-bottom:20px;
 }
 
 .values span{color:#00ff88}
@@ -65,7 +63,6 @@ input{
   border-radius:6px;
   background:#111;
   color:#00ff88;
-  outline:none;
 }
 
 button{
@@ -76,19 +73,19 @@ button{
   border-radius:6px;
   font-weight:bold;
   cursor:pointer;
-  transition:.3s;
 }
 
 .register{background:#007bff;color:white}
 .login{background:#00ff88;color:black}
-
-button:hover{opacity:.85}
+.logout{background:#ff4d4d;color:white}
 
 #status{
   margin-top:12px;
   text-align:center;
   font-size:13px;
 }
+
+.hidden{display:none}
 
 footer{
   margin-top:20px;
@@ -101,23 +98,39 @@ footer{
 
 <body>
 
-<div class="container">
+<div class="card">
 
-<h1>Anonymous SOS FR</h1>
-<div class="subtitle">Plateforme communautaire sécurisée</div>
+<!-- ===== ACCUEIL PUBLIC ===== -->
+<div id="public">
+  <h1>Anonymous SOS FR</h1>
+  <div class="subtitle">Plateforme communautaire indépendante et sécurisée</div>
 
-<div class="values">
-<span>•</span> Anonymat respecté<br>
-<span>•</span> Aucune haine, aucune violence<br>
-<span>•</span> Responsabilité individuelle<br>
-<span>•</span> Projet indépendant, non officiel
+  <div class="values">
+    <span>•</span> Anonymat respecté<br>
+    <span>•</span> Respect & responsabilité<br>
+    <span>•</span> Aucune haine, aucune violence<br>
+    <span>•</span> Projet indépendant, non officiel
+  </div>
+
+  <input id="email" type="email" placeholder="Adresse email">
+  <input id="password" type="password" placeholder="Mot de passe (6 caractères min)">
+
+  <button class="register" onclick="register()">Créer un compte</button>
+  <button class="login" onclick="login()">Se connecter</button>
 </div>
 
-<input id="email" type="email" placeholder="Adresse email">
-<input id="password" type="password" placeholder="Mot de passe">
+<!-- ===== CONTENU CONNECTÉ ===== -->
+<div id="private" class="hidden">
+  <h1>Bienvenue</h1>
+  <div class="subtitle" id="userEmail"></div>
 
-<button class="register" onclick="register()">Créer un compte</button>
-<button class="login" onclick="login()">Se connecter</button>
+  <div class="values">
+    Vous êtes connecté à l’espace sécurisé Anonymous SOS FR.<br><br>
+    Les fonctionnalités (radio, contenu, communauté) seront accessibles ici.
+  </div>
+
+  <button class="logout" onclick="logout()">Se déconnecter</button>
+</div>
 
 <div id="status"></div>
 
@@ -127,7 +140,13 @@ footer{
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
@@ -140,19 +159,39 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
 const status = document.getElementById("status");
+const publicBox = document.getElementById("public");
+const privateBox = document.getElementById("private");
+const userEmail = document.getElementById("userEmail");
 
 window.register = function(){
-  createUserWithEmailAndPassword(auth,email.value,password.value)
-  .then(()=> status.textContent="Compte créé avec succès")
-  .catch(e=> status.textContent=e.message);
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then(()=> status.textContent="Compte créé et connecté")
+    .catch(e=> status.textContent=e.message);
 }
 
 window.login = function(){
-  signInWithEmailAndPassword(auth,email.value,password.value)
-  .then(()=> status.textContent="Connexion réussie")
-  .catch(()=> status.textContent="Identifiants invalides");
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(()=> status.textContent="Connexion réussie")
+    .catch(()=> status.textContent="Identifiants invalides");
 }
+
+window.logout = function(){
+  signOut(auth);
+}
+
+onAuthStateChanged(auth, user=>{
+  if(user){
+    publicBox.classList.add("hidden");
+    privateBox.classList.remove("hidden");
+    userEmail.textContent = user.email;
+    status.textContent="";
+  }else{
+    publicBox.classList.remove("hidden");
+    privateBox.classList.add("hidden");
+  }
+});
 </script>
 
 </body>
