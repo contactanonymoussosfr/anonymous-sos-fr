@@ -6,7 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; font-family: "Segoe UI", Arial, sans-serif; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
 
 body {
   background: black;
@@ -14,11 +19,10 @@ body {
   overflow: hidden;
 }
 
-/* ===== BACKGROUND CANVAS ===== */
+/* ===== BACKGROUND MATRIX ===== */
 canvas {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   z-index: 0;
 }
 
@@ -28,20 +32,19 @@ canvas {
   z-index: 2;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  backdrop-filter: blur(2px);
+  justify-content: center;
 }
 
 /* ===== MAIN CARD ===== */
 .card {
-  background: rgba(0,0,0,0.75);
-  border: 2px solid #00ff88;
-  box-shadow: 0 0 40px #00ff88;
-  padding: 40px;
   width: 380px;
+  padding: 40px;
+  background: rgba(0,0,0,0.78);
+  border: 2px solid #00ff88;
+  border-radius: 14px;
+  box-shadow: 0 0 40px rgba(0,255,136,0.6);
   text-align: center;
-  border-radius: 12px;
 }
 
 /* ===== MASK ===== */
@@ -50,7 +53,7 @@ canvas {
   height: 120px;
   margin: 0 auto 20px;
   border-radius: 50%;
-  background: radial-gradient(circle at top, #00ffcc, #003322);
+  background: radial-gradient(circle at top, #00ffcc, #002a22);
   box-shadow: 0 0 25px #00ffcc;
   animation: pulse 4s infinite ease-in-out;
 }
@@ -94,7 +97,7 @@ button {
   cursor: pointer;
 }
 
-.btn-create {
+.btn-register {
   background: #007bff;
   color: white;
 }
@@ -107,7 +110,7 @@ button {
 .status {
   margin-top: 12px;
   font-size: 13px;
-  color: #ff6666;
+  min-height: 18px;
 }
 
 /* ===== FOOTER ===== */
@@ -117,7 +120,7 @@ footer {
   width: 100%;
   text-align: center;
   font-size: 12px;
-  opacity: 0.6;
+  opacity: 0.5;
   z-index: 2;
 }
 </style>
@@ -130,38 +133,44 @@ footer {
 <div class="overlay">
   <div class="card">
     <div class="mask"></div>
+
     <h1>Anonymous SOS FR</h1>
-    <p>Plateforme communautaire inspirée des valeurs d’anonymat, de responsabilité et d’entraide.</p>
+    <p>
+      Plateforme communautaire inspirée des valeurs d’anonymat,
+      de responsabilité et d’entraide.
+    </p>
 
-    <input type="email" placeholder="Adresse email">
-    <input type="password" placeholder="Mot de passe">
+    <input id="email" type="email" placeholder="Adresse email">
+    <input id="password" type="password" placeholder="Mot de passe (6 caractères minimum)">
 
-    <button class="btn-create">Créer un compte</button>
-    <button class="btn-login">Se connecter</button>
+    <button class="btn-register" onclick="register()">Créer un compte</button>
+    <button class="btn-login" onclick="login()">Se connecter</button>
 
-    <div class="status">Accès sécurisé</div>
+    <div class="status" id="status"></div>
   </div>
 </div>
 
 <footer>© Anonymous SOS FR — Tous droits réservés</footer>
 
+<!-- ===== MATRIX EFFECT ===== -->
 <script>
-/* ===== MATRIX BACKGROUND ===== */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
 
 const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
 const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = [];
-
-for (let x = 0; x < columns; x++) drops[x] = Math.random() * canvas.height;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array(columns).fill(1);
 
 function drawMatrix() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+  ctx.fillStyle = "rgba(0,0,0,0.08)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   ctx.fillStyle = "#00ff88";
@@ -171,18 +180,75 @@ function drawMatrix() {
     const text = letters.charAt(Math.floor(Math.random() * letters.length));
     ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
       drops[i] = 0;
-
+    }
     drops[i]++;
   }
 }
-
 setInterval(drawMatrix, 50);
+</script>
 
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+<!-- ===== FIREBASE AUTH ===== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr",
+  storageBucket: "anonymous-sos-fr.firebasestorage.app",
+  messagingSenderId: "490705618757",
+  appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const status = document.getElementById("status");
+
+window.register = () => {
+  if (!emailInput.value || !passwordInput.value) {
+    status.textContent = "Veuillez remplir tous les champs.";
+    return;
+  }
+
+  createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+    .then(() => {
+      status.textContent = "Compte créé et connecté ✅";
+    })
+    .catch(err => {
+      status.textContent = err.message;
+    });
+};
+
+window.login = () => {
+  if (!emailInput.value || !passwordInput.value) {
+    status.textContent = "Veuillez remplir tous les champs.";
+    return;
+  }
+
+  signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+    .then(() => {
+      status.textContent = "Connexion réussie ✅";
+    })
+    .catch(() => {
+      status.textContent = "Email ou mot de passe incorrect ❌";
+    });
+};
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    status.textContent = "Connecté : " + user.email;
+  }
 });
 </script>
 
