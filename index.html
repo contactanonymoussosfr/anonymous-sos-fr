@@ -6,74 +6,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0b0b0b;
-    color: #fff;
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#0b0b0b;
+    color:#eee;
 }
 
-header {
-    text-align: center;
-    padding: 30px;
-    border-bottom: 3px solid red;
+header{
+    text-align:center;
+    padding:40px 20px;
+    border-bottom:3px solid red;
 }
 
-header h1 {
-    color: red;
-    margin: 0;
+header h1{
+    color:red;
+    margin:0;
+    font-size:36px;
 }
 
-header p {
-    color: #ccc;
+header p{
+    color:#ccc;
+    margin-top:10px;
 }
 
-.buttons {
-    margin-top: 20px;
+.buttons{
+    margin-top:25px;
 }
 
-.buttons a {
-    display: inline-block;
-    margin: 10px;
-    padding: 12px 25px;
-    background: red;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
+.buttons a{
+    text-decoration:none;
+    color:white;
+    background:red;
+    padding:12px 22px;
+    margin:5px;
+    border-radius:6px;
+    font-weight:bold;
+    display:inline-block;
 }
 
-section {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    border-bottom: 1px solid #333;
+section{
+    max-width:900px;
+    margin:40px auto;
+    padding:0 20px;
 }
 
-h2 {
-    color: red;
+h2{
+    color:red;
+    border-bottom:1px solid #333;
+    padding-bottom:10px;
 }
 
-ul {
-    margin-top: 15px;
+ul{
+    line-height:1.8;
 }
 
-li {
-    margin: 8px 0;
+.radio-box{
+    background:#111;
+    padding:20px;
+    border-radius:10px;
+    margin-top:20px;
 }
 
-.radio-box {
-    background: #111;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
+audio{
+    width:100%;
+    margin-top:15px;
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
-    color: #aaa;
+footer{
+    text-align:center;
+    padding:25px;
+    font-size:14px;
+    color:#888;
+    border-top:1px solid #222;
 }
 </style>
 </head>
@@ -85,10 +90,21 @@ footer {
     <p>Plateforme communautaire sécurisée et surveillée</p>
 
     <div class="buttons">
-        <a href="inscription.html">📝 S’inscrire</a>
-        <a href="connexion.html">🔐 Connexion</a>
+        <a href="inscription.html">S’inscrire</a>
+        <a href="connexion.html">Connexion</a>
     </div>
 </header>
+
+<section>
+    <h2>🎯 Objectif du projet</h2>
+    <ul>
+        <li>Créer une plateforme communautaire moderne</li>
+        <li>Proposer des lives encadrés et sécurisés</li>
+        <li>Mettre en avant les créateurs</li>
+        <li>Garantir un environnement respectueux</li>
+        <li>Assurer une surveillance permanente</li>
+    </ul>
+</section>
 
 <section>
     <h2>🎬 Salle de films (à venir)</h2>
@@ -113,21 +129,22 @@ footer {
 <section>
     <h2>💻 Création de votre site web</h2>
     <ul>
-        <li>Création de votre site sur mesure</li>
+        <li>Création de site sur mesure</li>
         <li>Site codé par nous-mêmes, sécurisé et optimisé</li>
         <li>Aucune solution toute faite, tout est personnalisé</li>
         <li>Accompagnement et conseils possibles</li>
     </ul>
-    <p>👉 Contactez le responsable si vous êtes intéressé.</p>
+    👉 Contactez le responsable si vous êtes intéressé.
 </section>
 
 <section>
     <h2>📻 Radio Anonymous SOS FR</h2>
-    <div class="radio-box">
-        <p><strong>Radio officielle du site</strong></p>
-        <p>Informations, consignes et présentation de la plateforme</p>
 
-        <!-- REMPLACE radio.mp3 PAR TON FICHIER -->
+    <div class="radio-box">
+        <strong>Radio officielle du site</strong><br>
+        Informations, consignes et présentation de la plateforme.
+
+        <!-- REMPLACE radio.mp3 PAR LE NOM EXACT DE TON FICHIER AUDIO -->
         <audio controls>
             <source src="radio.mp3" type="audio/mpeg">
             Ton navigateur ne supporte pas l’audio.
@@ -136,8 +153,8 @@ footer {
 </section>
 
 <footer>
-    © Anonymous SOS FR — Créateur du projet  
-    <br>Tous droits réservés
+    © Anonymous SOS FR — Créateur du projet<br>
+    Tous droits réservés
 </footer>
 
 </body>
