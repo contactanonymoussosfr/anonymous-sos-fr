@@ -1,186 +1,161 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Anonymous SOS FR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0e0e0e;
-      color: #eaeaea;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #111 0%, #000 70%);
+  color: #eaeaea;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    header {
-      background: #111;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid #222;
-    }
+.container {
+  background: #111;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 0 40px rgba(0,255,0,0.15);
+  text-align: center;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 20px;
-      color: #00ff88;
-    }
+h1 {
+  margin-bottom: 10px;
+  color: #00ff88;
+}
 
-    main {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+p {
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 25px;
+}
 
-    .box {
-      background: #151515;
-      padding: 25px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: none;
+  background: #1c1c1c;
+  color: #fff;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-    }
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 8px;
+}
 
-    button {
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+.btn-login {
+  background: #00aa66;
+  color: #000;
+}
 
-    .btn-login { background: #00ff88; color: #000; }
-    .btn-register { background: #007bff; color: #fff; }
-    .btn-logout { background: #ff4444; color: #fff; }
+.btn-register {
+  background: #0066ff;
+  color: #fff;
+}
 
-    .hidden { display: none; }
+button:hover {
+  opacity: 0.9;
+}
 
-    footer {
-      text-align: center;
-      padding: 15px;
-      font-size: 13px;
-      color: #777;
-    }
-  </style>
+#status {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+footer {
+  margin-top: 25px;
+  font-size: 12px;
+  color: #555;
+}
+</style>
 </head>
+
 <body>
 
-<header>
+<div class="container">
   <h1>Anonymous SOS FR</h1>
-  <button id="logoutBtn" class="btn-logout hidden" onclick="logout()">Déconnexion</button>
-</header>
+  <p>Plateforme communautaire sécurisée</p>
 
-<main>
+  <input type="email" id="email" placeholder="Adresse email">
+  <input type="password" id="password" placeholder="Mot de passe">
 
-  <!-- ZONE PUBLIQUE -->
-  <div id="publicZone" class="box">
-    <h2>Bienvenue</h2>
-    <p>
-      Plateforme communautaire sécurisée.  
-      Inscris-toi ou connecte-toi pour accéder au contenu.
-    </p>
+  <button class="btn-register" onclick="register()">Créer un compte</button>
+  <button class="btn-login" onclick="login()">Se connecter</button>
 
-    <input type="email" id="email" placeholder="Adresse email">
-    <input type="password" id="password" placeholder="Mot de passe">
+  <div id="status"></div>
 
-    <button class="btn-register" onclick="register()">Créer un compte</button>
-    <button class="btn-login" onclick="login()">Se connecter</button>
-  </div>
-
-  <!-- ZONE PRIVÉE -->
-  <div id="privateZone" class="box hidden">
-    <h2>Espace membre</h2>
-    <p id="userEmail"></p>
-
-    <p>
-      ✅ Tu es connecté  
-      <br>
-      Ici, plus tard :
-      <ul>
-        <li>Radio</li>
-        <li>Messages</li>
-        <li>Contenus privés</li>
-        <li>Paramètres compte</li>
-      </ul>
-    </p>
-  </div>
-
-</main>
-
-<footer>
-  © Anonymous SOS FR — Tous droits réservés
-</footer>
+  <footer>© Anonymous SOS FR</footer>
+</div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-    authDomain: "anonymous-sos-fr.firebaseapp.com",
-    projectId: "anonymous-sos-fr",
-    storageBucket: "anonymous-sos-fr.firebasestorage.app",
-    messagingSenderId: "490705618757",
-    appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr",
+  storageBucket: "anonymous-sos-fr.firebasestorage.app",
+  messagingSenderId: "490705618757",
+  appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const status = document.getElementById("status");
 
-  const publicZone = document.getElementById("publicZone");
-  const privateZone = document.getElementById("privateZone");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const userEmail = document.getElementById("userEmail");
+window.register = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  window.register = () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      status.innerText = "Compte créé avec succès ✔️";
+    })
+    .catch(err => {
+      status.innerText = err.message;
+    });
+};
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .catch(e => alert(e.message));
-  };
+window.login = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  window.login = () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      status.innerText = "Connecté ✔️";
+    })
+    .catch(err => {
+      status.innerText = "Identifiants incorrects";
+    });
+};
 
-    signInWithEmailAndPassword(auth, email, password)
-      .catch(e => alert(e.message));
-  };
-
-  window.logout = () => {
-    signOut(auth);
-  };
-
-  onAuthStateChanged(auth, user => {
-    if (user) {
-      publicZone.classList.add("hidden");
-      privateZone.classList.remove("hidden");
-      logoutBtn.classList.remove("hidden");
-      userEmail.innerText = "Connecté en tant que : " + user.email;
-    } else {
-      publicZone.classList.remove("hidden");
-      privateZone.classList.add("hidden");
-      logoutBtn.classList.add("hidden");
-    }
-  });
+onAuthStateChanged(auth, user => {
+  if (user) {
+    status.innerText = "Connecté : " + user.email;
+  }
+});
 </script>
 
 </body>
