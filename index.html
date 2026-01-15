@@ -7,52 +7,57 @@
 
 <style>
 *{
+  margin:0;
+  padding:0;
   box-sizing:border-box;
-  font-family:Segoe UI, Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body{
-  margin:0;
   height:100vh;
-  background:
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
-    url("https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&w=1600&q=80");
-  background-size:cover;
-  background-position:center;
+  background:black;
+  color:#eafff5;
+  overflow:hidden;
+}
+
+/* ===== BACKGROUND MATRIX ===== */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+/* ===== OVERLAY ===== */
+.overlay{
+  position:relative;
+  z-index:1;
+  height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  color:#eafff4;
+  background:radial-gradient(circle at center, rgba(0,255,136,0.15), rgba(0,0,0,0.9));
 }
 
-/* Carte centrale */
+/* ===== CARD ===== */
 .card{
-  width:100%;
-  max-width:420px;
-  background:rgba(0,0,0,0.65);
+  width:360px;
+  padding:30px;
+  border-radius:16px;
   border:2px solid #00ff88;
-  border-radius:18px;
-  padding:35px;
-  box-shadow:0 0 45px rgba(0,255,136,0.6);
+  background:rgba(0,0,0,0.75);
+  box-shadow:0 0 40px #00ff88;
   text-align:center;
-  animation: glow 3s infinite alternate;
-}
-
-@keyframes glow{
-  from{ box-shadow:0 0 25px rgba(0,255,136,0.4); }
-  to{ box-shadow:0 0 55px rgba(0,255,136,0.9); }
 }
 
 h1{
-  margin:0;
-  font-size:32px;
   color:#00ff88;
+  margin-bottom:10px;
 }
 
-.subtitle{
-  margin:10px 0 25px;
+p{
   font-size:14px;
   opacity:0.85;
+  margin-bottom:20px;
 }
 
 input{
@@ -61,42 +66,32 @@ input{
   margin-bottom:12px;
   border-radius:8px;
   border:none;
-  font-size:15px;
+  outline:none;
+  font-size:14px;
 }
 
 button{
   width:100%;
   padding:12px;
-  margin-top:10px;
+  margin-top:8px;
   border:none;
   border-radius:8px;
-  font-size:16px;
+  font-size:15px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.btn-create{
-  background:#1e90ff;
-  color:white;
-}
+.btn-create{ background:#2e86ff; color:white; }
+.btn-login{ background:#00ff88; color:black; }
 
-.btn-login{
-  background:#00ff88;
-  color:black;
-}
-
-button:hover{
-  opacity:0.9;
-}
-
-.status{
+#status{
   margin-top:15px;
-  font-size:14px;
-  min-height:18px;
+  font-size:13px;
+  color:#ff6b6b;
 }
 
 footer{
-  margin-top:18px;
+  margin-top:20px;
   font-size:12px;
   opacity:0.6;
 }
@@ -105,66 +100,92 @@ footer{
 
 <body>
 
-<div class="card">
-  <h1>Anonymous SOS FR</h1>
-  <div class="subtitle">
-    Plateforme communautaire sécurisée<br>
-    Anonymat • Responsabilité • Entraide
+<canvas id="matrix"></canvas>
+
+<div class="overlay">
+  <div class="card">
+    <h1>Anonymous SOS FR</h1>
+    <p>Plateforme communautaire sécurisée</p>
+
+    <input id="email" type="email" placeholder="Adresse email">
+    <input id="password" type="password" placeholder="Mot de passe (6 caractères min)">
+
+    <button class="btn-create" onclick="register()">Créer un compte</button>
+    <button class="btn-login" onclick="login()">Se connecter</button>
+
+    <div id="status"></div>
+
+    <footer>© Anonymous SOS FR</footer>
   </div>
-
-  <input type="email" id="email" placeholder="Adresse email">
-  <input type="password" id="password" placeholder="Mot de passe">
-
-  <button class="btn-create" onclick="register()">Créer un compte</button>
-  <button class="btn-login" onclick="login()">Se connecter</button>
-
-  <div class="status" id="status"></div>
-
-  <footer>© Anonymous SOS FR — Tous droits réservés</footer>
 </div>
 
+<!-- ===== FIREBASE ===== -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-    authDomain: "anonymous-sos-fr.firebaseapp.com",
-    projectId: "anonymous-sos-fr",
-    storageBucket: "anonymous-sos-fr.firebasestorage.app",
-    messagingSenderId: "490705618757",
-    appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr",
+  storageBucket: "anonymous-sos-fr.firebasestorage.app",
+  messagingSenderId: "490705618757",
+  appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const status = document.getElementById("status");
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  window.register = function(){
-    const email = email.value;
-    const password = document.getElementById("password").value;
+const status = document.getElementById("status");
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(()=>{
-        window.location.href = "member.html";
-      })
-      .catch(e=>{
-        status.textContent = e.message;
-      });
-  }
+window.register = function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  window.login = function(){
-    const email = email.value;
-    const password = document.getElementById("password").value;
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => status.style.color="#00ff88", status.textContent="Compte créé avec succès")
+    .catch(e => status.textContent = e.message);
+}
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(()=>{
-        window.location.href = "member.html";
-      })
-      .catch(()=>{
-        status.textContent = "Identifiants invalides";
-      });
-  }
+window.login = function(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => status.style.color="#00ff88", status.textContent="Connexion réussie")
+    .catch(() => status.textContent="Identifiants invalides");
+}
+</script>
+
+<!-- ===== MATRIX EFFECT ===== -->
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function draw(){
+  ctx.fillStyle = "rgba(0,0,0,0.1)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle = "#00ff88";
+  ctx.font = fontSize + "px monospace";
+
+  drops.forEach((y, i) => {
+    const text = letters[Math.floor(Math.random() * letters.length)];
+    ctx.fillText(text, i * fontSize, y * fontSize);
+    if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  });
+}
+setInterval(draw, 33);
 </script>
 
 </body>
