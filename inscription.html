@@ -1,129 +1,157 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Inscription – Anonymous SOS FR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Connexion — Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b0b0b;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b0b0b;
+    color: #eaeaea;
+}
 
-    .container {
-      max-width: 420px;
-      margin: 60px auto;
-      background: #111;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(255,0,0,0.2);
-    }
+header {
+    text-align: center;
+    padding: 30px 20px;
+    border-bottom: 3px solid red;
+}
 
-    h1 {
-      text-align: center;
-      color: #ff3b3b;
-    }
+header h1 {
+    color: red;
+    margin: 0;
+    font-size: 32px;
+}
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-size: 14px;
-    }
+header p {
+    margin-top: 10px;
+    color: #ccc;
+    font-size: 14px;
+}
 
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
+.container {
+    max-width: 420px;
+    margin: 60px auto;
+    background: #141414;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.25);
+}
 
-    .checkbox {
-      margin-top: 15px;
-      font-size: 13px;
-    }
+.container h2 {
+    text-align: center;
+    color: red;
+    margin-bottom: 10px;
+}
 
-    .checkbox input {
-      width: auto;
-      margin-right: 6px;
-    }
+.container p {
+    text-align: center;
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 25px;
+}
 
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 12px;
-      background: #ff3b3b;
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+label {
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-size: 14px;
+}
 
-    button:hover {
-      background: #ff0000;
-    }
+input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: #222;
+    color: white;
+    font-size: 14px;
+}
 
-    .note {
-      font-size: 12px;
-      color: #aaa;
-      margin-top: 15px;
-      text-align: center;
-    }
+button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    background: red;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    a {
-      color: #ff3b3b;
-      text-decoration: none;
-    }
-  </style>
+button:hover {
+    background: #cc0000;
+}
+
+.notice {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+}
+
+.links {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.links a {
+    display: block;
+    color: red;
+    text-decoration: none;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 13px;
+    color: #777;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>📝 Inscription</h1>
+<header>
+    <h1>🔐 Connexion</h1>
+    <p>Anonymous SOS FR — Accès sécurisé</p>
+</header>
+
+<div class="container">
+    <h2>Connexion au compte</h2>
+    <p>Entrez vos identifiants pour accéder à la plateforme</p>
 
     <form>
-      <label>Pseudo *</label>
-      <input type="text" placeholder="Ton pseudo" required>
+        <label>Pseudo ou adresse e-mail</label>
+        <input type="text" placeholder="Pseudo ou email" required>
 
-      <label>Adresse e-mail *</label>
-      <input type="email" placeholder="exemple@email.com" required>
+        <label>Mot de passe</label>
+        <input type="password" placeholder="Mot de passe" required>
 
-      <label>Date de naissance *</label>
-      <input type="date" required>
-
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" required>
-          Je confirme avoir *18 ans ou plus*
-        </label>
-      </div>
-
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" required>
-          J’accepte les règles et conditions du site
-        </label>
-      </div>
-
-      <button type="submit">Créer mon compte</button>
+        <button type="submit">Se connecter</button>
     </form>
 
-    <div class="note">
-      🔒 Inscription sécurisée<br>
-      Les lives nécessitent une vérification d’identité.
-      <br><br>
-      <a href="index.html">← Retour à l’accueil</a>
+    <div class="notice">
+        ⚠️ Connexion visuelle uniquement pour le moment.<br>
+        Le système sera activé ultérieurement.
     </div>
-  </div>
+
+    <div class="links">
+        <a href="inscription.html">✍️ Créer un compte</a>
+        <a href="index.html">⬅ Retour à l’accueil</a>
+    </div>
+</div>
+
+<footer>
+    © Anonymous SOS FR — Tous droits réservés
+</footer>
 
 </body>
 </html>
