@@ -6,122 +6,122 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI,Arial,sans-serif
 }
 
-body {
-  background: black;
-  color: #e0ffe0;
-  overflow: hidden;
+body{
+  background:black;
+  color:#eaffea;
+  overflow:hidden
 }
 
 /* ===== BACKGROUND MATRIX ===== */
-canvas {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0
 }
 
 /* ===== OVERLAY ===== */
-.overlay {
-  position: relative;
-  z-index: 2;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.overlay{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center
 }
 
-/* ===== MAIN CARD ===== */
-.card {
-  width: 380px;
-  padding: 40px;
-  background: rgba(0,0,0,0.78);
-  border: 2px solid #00ff88;
-  border-radius: 14px;
-  box-shadow: 0 0 40px rgba(0,255,136,0.6);
-  text-align: center;
+/* ===== CARD ===== */
+.card{
+  width:380px;
+  padding:40px;
+  background:rgba(0,0,0,0.78);
+  border:2px solid #00ff88;
+  border-radius:14px;
+  box-shadow:0 0 40px rgba(0,255,136,.6);
+  text-align:center
 }
 
 /* ===== MASK ===== */
-.mask {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  background: radial-gradient(circle at top, #00ffcc, #002a22);
-  box-shadow: 0 0 25px #00ffcc;
-  animation: pulse 4s infinite ease-in-out;
+.mask{
+  width:120px;
+  height:120px;
+  margin:0 auto 20px;
+  border-radius:50%;
+  background:radial-gradient(circle,#00ffcc,#002a22);
+  box-shadow:0 0 25px #00ffcc;
+  animation:pulse 4s infinite
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 20px #00ffcc; }
-  50% { box-shadow: 0 0 50px #00ffcc; }
-  100% { box-shadow: 0 0 20px #00ffcc; }
+@keyframes pulse{
+  0%{box-shadow:0 0 20px #00ffcc}
+  50%{box-shadow:0 0 50px #00ffcc}
+  100%{box-shadow:0 0 20px #00ffcc}
 }
 
 /* ===== TEXT ===== */
-h1 {
-  color: #00ff88;
-  margin-bottom: 10px;
+h1{
+  color:#00ff88;
+  margin-bottom:10px
 }
 
-p {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 20px;
+p{
+  font-size:14px;
+  opacity:.85;
+  margin-bottom:20px
 }
 
 /* ===== FORM ===== */
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 6px;
-  border: none;
-  background: #111;
-  color: #00ff88;
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:6px;
+  border:none;
+  background:#111;
+  color:#00ff88
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 6px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border-radius:6px;
+  border:none;
+  font-weight:bold;
+  cursor:pointer
 }
 
-.btn-register {
-  background: #007bff;
-  color: white;
+.register{
+  background:#1e90ff;
+  color:#fff
 }
 
-.btn-login {
-  background: #00c853;
-  color: black;
+.login{
+  background:#00c853;
+  color:#000
 }
 
-.status {
-  margin-top: 12px;
-  font-size: 13px;
-  min-height: 18px;
+.status{
+  margin-top:12px;
+  font-size:13px;
+  min-height:18px
 }
 
 /* ===== FOOTER ===== */
-footer {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
-  opacity: 0.5;
-  z-index: 2;
+footer{
+  position:fixed;
+  bottom:10px;
+  width:100%;
+  text-align:center;
+  font-size:12px;
+  opacity:.6;
+  z-index:2
 }
 </style>
 </head>
@@ -140,11 +140,11 @@ footer {
       de responsabilité et d’entraide.
     </p>
 
-    <input id="email" type="email" placeholder="Adresse email">
+    <input id="email" type="email" placeholder="Adresse e-mail">
     <input id="password" type="password" placeholder="Mot de passe (6 caractères minimum)">
 
-    <button class="btn-register" onclick="register()">Créer un compte</button>
-    <button class="btn-login" onclick="login()">Se connecter</button>
+    <button class="register" onclick="register()">Créer un compte</button>
+    <button class="login" onclick="login()">Se connecter</button>
 
     <div class="status" id="status"></div>
   </div>
@@ -152,44 +152,45 @@ footer {
 
 <footer>© Anonymous SOS FR — Tous droits réservés</footer>
 
+<!-- ===== SON DE BIENVENUE ===== -->
+<audio id="welcomeSound" src="bienvenue.mp3" preload="auto"></audio>
+
 <!-- ===== MATRIX EFFECT ===== -->
 <script>
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
-function resize() {
+function resize(){
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
 resize();
 window.addEventListener("resize", resize);
 
-const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
+const chars = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@";
 const fontSize = 14;
 let columns = Math.floor(canvas.width / fontSize);
 let drops = Array(columns).fill(1);
 
-function drawMatrix() {
+function drawMatrix(){
   ctx.fillStyle = "rgba(0,0,0,0.08)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+  ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = "#00ff88";
   ctx.font = fontSize + "px monospace";
 
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+  for(let i=0;i<drops.length;i++){
+    const text = chars.charAt(Math.floor(Math.random()*chars.length));
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if(drops[i]*fontSize > canvas.height && Math.random() > 0.975){
       drops[i] = 0;
     }
     drops[i]++;
   }
 }
-setInterval(drawMatrix, 50);
+setInterval(drawMatrix,50);
 </script>
 
-<!-- ===== FIREBASE AUTH ===== -->
+<!-- ===== FIREBASE + AUTH ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
 import {
@@ -215,39 +216,53 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const status = document.getElementById("status");
 
+/* --- INSCRIPTION --- */
 window.register = () => {
-  if (!emailInput.value || !passwordInput.value) {
+  if(!emailInput.value || !passwordInput.value){
     status.textContent = "Veuillez remplir tous les champs.";
     return;
   }
 
   createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-    .then(() => {
+    .then(()=>{
       status.textContent = "Compte créé et connecté ✅";
     })
-    .catch(err => {
+    .catch(err=>{
       status.textContent = err.message;
     });
 };
 
+/* --- CONNEXION --- */
 window.login = () => {
-  if (!emailInput.value || !passwordInput.value) {
+  if(!emailInput.value || !passwordInput.value){
     status.textContent = "Veuillez remplir tous les champs.";
     return;
   }
 
   signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-    .then(() => {
+    .then(()=>{
       status.textContent = "Connexion réussie ✅";
     })
-    .catch(() => {
+    .catch(()=>{
       status.textContent = "Email ou mot de passe incorrect ❌";
     });
 };
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    status.textContent = "Connecté : " + user.email;
+/* --- REDIRECTION --- */
+onAuthStateChanged(auth, user=>{
+  if(user){
+    window.location.href = "member.html";
+  }
+});
+</script>
+
+<!-- ===== PLAY WELCOME SOUND (ON FIRST CLICK) ===== -->
+<script>
+let played = false;
+document.addEventListener("click", () => {
+  if(!played){
+    document.getElementById("welcomeSound").play();
+    played = true;
   }
 });
 </script>
