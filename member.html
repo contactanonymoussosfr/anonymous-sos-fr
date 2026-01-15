@@ -1,174 +1,164 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Anonymous SOS FR – Espace membre</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Anonymous SOS FR — Espace Membre</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Segoe UI, Arial, sans-serif;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI, Arial, sans-serif;
+}
 
-    body{
-      background:black;
-      color:#eaffea;
-      height:100vh;
-      overflow:hidden;
-    }
+body{
+  background:black;
+  color:#aaffaa;
+  height:100vh;
+  overflow:hidden;
+}
 
-    /* ===== MATRIX BACKGROUND ===== */
-    canvas{
-      position:fixed;
-      inset:0;
-      z-index:0;
-    }
+/* MATRIX BACKGROUND */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
 
-    /* ===== CONTENT ===== */
-    .container{
-      position:relative;
-      z-index:2;
-      height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
+/* CONTENT */
+.container{
+  position:relative;
+  z-index:2;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-    .card{
-      width:380px;
-      background:#0a0f0aee;
-      border-radius:16px;
-      padding:30px;
-      box-shadow:0 0 35px #00ff66;
-      border:1px solid #00ff66;
-      text-align:center;
-    }
+.card{
+  width:420px;
+  background:rgba(0,0,0,0.85);
+  border-radius:16px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 0 40px #00ff66;
+  border:1px solid #00ff66;
+}
 
-    h1{
-      color:#00ff66;
-      margin-bottom:10px;
-      text-shadow:0 0 10px #00ff66;
-    }
+h1{
+  color:#00ff66;
+  margin-bottom:10px;
+  text-shadow:0 0 12px #00ff66;
+}
 
-    p{
-      font-size:14px;
-      margin-bottom:15px;
-      line-height:1.5;
-    }
+p{
+  font-size:14px;
+  margin-bottom:15px;
+}
 
-    .user{
-      font-weight:bold;
-      color:#9cffb5;
-      margin:15px 0;
-    }
+.info{
+  background:rgba(0,255,100,0.1);
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:15px;
+}
 
-    button{
-      width:100%;
-      padding:12px;
-      border:none;
-      border-radius:8px;
-      font-weight:bold;
-      cursor:pointer;
-      margin-top:10px;
-      font-size:14px;
-    }
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .btn-logout{
-      background:#ff4d4d;
-      color:white;
-    }
+.logout{
+  background:#ff4444;
+  color:white;
+}
 
-    footer{
-      margin-top:20px;
-      font-size:12px;
-      opacity:.7;
-    }
-  </style>
+.logout:hover{
+  background:#ff2222;
+}
+
+footer{
+  margin-top:15px;
+  font-size:12px;
+  opacity:0.6;
+}
+</style>
 </head>
+
 <body>
 
 <canvas id="matrix"></canvas>
 
 <div class="container">
   <div class="card">
-    <h1>Bienvenue</h1>
-    <p>Espace membre sécurisé<br>Anonymous SOS FR</p>
+    <h1>Anonymous SOS FR</h1>
+    <p>Espace membre sécurisé</p>
 
-    <div class="user" id="userEmail">Chargement…</div>
+    <div class="info">
+      ✔ Connexion validée<br>
+      ✔ Accès autorisé
+    </div>
 
-    <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+    <p>
+      Ici seront ajoutés :
+      <br>• salons
+      <br>• messages
+      <br>• radio / live
+      <br>• rôles (admin / membre)
+    </p>
 
-    <footer>© Anonymous SOS FR — Tous droits réservés</footer>
+    <button class="logout" onclick="logout()">Se déconnecter</button>
+
+    <footer>
+      © Anonymous SOS FR — Tous droits réservés
+    </footer>
   </div>
 </div>
 
-<!-- ===== MATRIX SCRIPT ===== -->
+<!-- MATRIX SCRIPT -->
 <script>
-  const canvas = document.getElementById("matrix");
-  const ctx = canvas.getContext("2d");
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-  const letters = "01ANONYMOUSSOSFR";
-  const fontSize = 16;
-  const columns = canvas.width / fontSize;
-  const drops = Array(Math.floor(columns)).fill(1);
+const letters = "01ANONYMOUSSOSFR";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = [];
 
-  function draw(){
-    ctx.fillStyle = "rgba(0,0,0,0.08)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+for(let i=0;i<columns;i++) drops[i]=1;
 
-    ctx.fillStyle = "#00ff66";
-    ctx.font = fontSize + "px monospace";
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff66";
+  ctx.font=fontSize+"px monospace";
 
-    for(let i=0;i<drops.length;i++){
-      const text = letters[Math.floor(Math.random()*letters.length)];
-      ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-      if(drops[i]*fontSize>canvas.height && Math.random()>0.975){
-        drops[i]=0;
-      }
-      drops[i]++;
+  for(let i=0;i<drops.length;i++){
+    const text = letters.charAt(Math.floor(Math.random()*letters.length));
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975){
+      drops[i]=0;
     }
+    drops[i]++;
   }
-  setInterval(draw,33);
-</script>
+}
 
-<!-- ===== FIREBASE AUTH ===== -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+setInterval(draw,33);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-    authDomain: "anonymous-sos-fr.firebaseapp.com",
-    projectId: "anonymous-sos-fr",
-    storageBucket: "anonymous-sos-fr.firebasestorage.app",
-    messagingSenderId: "490705618757",
-    appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-  const userEmail = document.getElementById("userEmail");
-
-  onAuthStateChanged(auth, user => {
-    if(!user){
-      window.location.href = "index.html";
-    } else {
-      userEmail.textContent = "Connecté : " + user.email;
-    }
-  });
-
-  window.logout = () => {
-    signOut(auth).then(()=>{
-      window.location.href = "index.html";
-    });
-  };
+/* LOGOUT */
+function logout(){
+  window.location.href="index.html";
+}
 </script>
 
 </body>
