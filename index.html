@@ -6,86 +6,134 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* RESET */
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
+/* ===== BACKGROUND ANONYMOUS (SÛR À 100%) ===== */
 body {
-  margin: 0;
   height: 100vh;
-  background: 
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)),
-    url("assets/anonymous-bg.jpg") center/cover no-repeat fixed;
+  background:
+    radial-gradient(circle at top, rgba(0,255,100,0.25), transparent 45%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,255,100,0.05) 0,
+      rgba(0,255,100,0.05) 1px,
+      transparent 1px,
+      transparent 6px
+    ),
+    linear-gradient(180deg, #050505, #000);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   color: #eaffea;
+  overflow: hidden;
 }
 
-/* Carte centrale */
+/* ANIMATION LENTE DU FOND */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 20px,
+      rgba(0,255,100,0.04) 21px
+    );
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  from { transform: translateY(-100px); }
+  to   { transform: translateY(100px); }
+}
+
+/* ===== CARTE CENTRALE ===== */
 .card {
-  width: 360px;
-  background: rgba(0,0,0,0.75);
-  border-radius: 14px;
-  padding: 25px;
-  box-shadow: 0 0 35px #00ff66;
+  width: 380px;
+  background: rgba(5, 10, 5, 0.85);
+  border-radius: 16px;
+  padding: 28px;
+  border: 2px solid #00ff66;
+  box-shadow: 0 0 45px #00ff66;
+  z-index: 1;
+}
+
+/* TITRES */
+h1 {
   text-align: center;
-}
-
-.card h1 {
   color: #00ff66;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
 }
 
-.card p {
+.subtitle {
+  text-align: center;
   font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 15px;
+  opacity: 0.85;
+  margin-bottom: 16px;
 }
 
-/* Inputs */
+/* TEXTE */
+ul {
+  font-size: 13px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+/* INPUTS */
 input {
   width: 100%;
   padding: 12px;
   margin: 8px 0;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
   outline: none;
+  background: #eaeaea;
 }
 
-/* Boutons */
+/* BOUTONS */
 button {
   width: 100%;
   padding: 12px;
-  margin-top: 10px;
+  margin-top: 8px;
+  border-radius: 8px;
   border: none;
-  border-radius: 6px;
   cursor: pointer;
-  font-size: 15px;
+  font-weight: bold;
 }
 
-.btn-register {
+.btn-create {
   background: #1e90ff;
   color: white;
 }
 
 .btn-login {
-  background: #00cc66;
+  background: #00ff66;
   color: black;
-  font-weight: bold;
 }
 
+/* STATUS */
 #status {
-  margin-top: 12px;
-  font-size: 14px;
+  margin-top: 10px;
+  font-size: 13px;
   min-height: 18px;
+  text-align: center;
 }
 
+/* FOOTER */
 footer {
-  margin-top: 15px;
+  text-align: center;
+  margin-top: 14px;
   font-size: 11px;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 </style>
 </head>
@@ -94,18 +142,19 @@ footer {
 
 <div class="card">
   <h1>Anonymous SOS FR</h1>
-  <p>
-    Plateforme communautaire indépendante et sécurisée.<br>
-    • Anonymat respecté<br>
-    • Aucune haine, aucune violence<br>
-    • Responsabilité individuelle<br>
-    • Projet non officiel Anonymous
-  </p>
+  <div class="subtitle">Plateforme communautaire indépendante et sécurisée</div>
 
-  <input type="email" id="email" placeholder="Adresse email">
-  <input type="password" id="password" placeholder="Mot de passe">
+  <ul>
+    <li>Anonymat respecté</li>
+    <li>Aucune haine, aucune violence</li>
+    <li>Responsabilité individuelle</li>
+    <li>Projet non officiel Anonymous</li>
+  </ul>
 
-  <button class="btn-register" onclick="register()">Créer un compte</button>
+  <input id="email" type="email" placeholder="Adresse email">
+  <input id="password" type="password" placeholder="Mot de passe">
+
+  <button class="btn-create" onclick="register()">Créer un compte</button>
   <button class="btn-login" onclick="login()">Se connecter</button>
 
   <div id="status"></div>
@@ -113,10 +162,10 @@ footer {
   <footer>© Anonymous SOS FR — Tous droits réservés</footer>
 </div>
 
-<!-- Firebase -->
+<!-- ===== FIREBASE AUTH ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
 from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -132,29 +181,19 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const status = document.getElementById("status");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
 
 window.register = () => {
   status.textContent = "Création du compte...";
-  createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-    .then(() => {
-      status.textContent = "Compte créé avec succès.";
-    })
-    .catch(err => {
-      status.textContent = err.message;
-    });
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => status.textContent = "Compte créé avec succès ✔")
+    .catch(err => status.textContent = err.message);
 };
 
 window.login = () => {
   status.textContent = "Connexion...";
-  signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
-    .then(() => {
-      status.textContent = "Connecté avec succès.";
-    })
-    .catch(() => {
-      status.textContent = "Identifiants invalides.";
-    });
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => status.textContent = "Connexion réussie ✔")
+    .catch(() => status.textContent = "Identifiants invalides");
 };
 </script>
 
