@@ -6,116 +6,144 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
+*{box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+
+html,body{
+  margin:0;
+  height:100%;
+  background:black;
+  overflow:hidden;
+  color:#eaffea;
 }
 
-body {
-  margin: 0;
-  height: 100vh;
+/* ===== BACKGROUND MATRIX ===== */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+
+/* ===== OVERLAY ===== */
+.overlay{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)),
-    url("images/background.jpg") center / cover no-repeat fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #eaffea;
+    radial-gradient(circle at top, rgba(0,255,120,.25), transparent 60%),
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.9));
 }
 
-.card {
-  background: rgba(0,0,0,0.7);
-  border: 2px solid #2cff66;
-  box-shadow: 0 0 30px #2cff66;
-  border-radius: 14px;
-  padding: 30px;
-  width: 360px;
-  text-align: center;
+/* ===== LOGIN BOX ===== */
+.box{
+  width:380px;
+  background:rgba(10,10,10,.85);
+  border-radius:16px;
+  padding:28px;
+  box-shadow:0 0 30px #00ff66;
+  border:1px solid #00ff66;
+  animation:pulse 3s infinite alternate;
 }
 
-h1 {
-  color: #2cff66;
-  margin-bottom: 10px;
+@keyframes pulse{
+  from{box-shadow:0 0 18px #00ff66}
+  to{box-shadow:0 0 40px #00ff66}
 }
 
-p {
-  font-size: 14px;
-  line-height: 1.4;
+h1{
+  margin:0 0 10px;
+  text-align:center;
+  color:#00ff66;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: none;
-  outline: none;
+p{
+  text-align:center;
+  font-size:14px;
+  opacity:.85;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
+ul{
+  font-size:13px;
+  margin:10px 0 18px;
 }
 
-.btn-create {
-  background: #007bff;
-  color: white;
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+  border:none;
+  outline:none;
 }
 
-.btn-login {
-  background: #2cff66;
-  color: black;
+button{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-#status {
-  margin-top: 12px;
-  font-size: 13px;
-  color: #ff6666;
+.btn-create{background:#0d6efd;color:white}
+.btn-login{background:#00c853;color:black}
+
+#status{
+  text-align:center;
+  margin-top:10px;
+  font-size:13px;
+  color:#ff5252;
 }
 
-footer {
-  margin-top: 15px;
-  font-size: 11px;
-  opacity: 0.7;
+footer{
+  text-align:center;
+  margin-top:12px;
+  font-size:11px;
+  opacity:.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h1>Anonymous SOS FR</h1>
-  <p>
-    Plateforme communautaire indépendante et sécurisée.<br>
-    Anonymat respecté • Responsabilité individuelle • Aucun abus toléré
-  </p>
+<canvas id="matrix"></canvas>
 
-  <input type="email" id="email" placeholder="Adresse email">
-  <input type="password" id="password" placeholder="Mot de passe">
+<div class="overlay">
+  <div class="box">
+    <h1>Anonymous SOS FR</h1>
+    <p>Plateforme communautaire indépendante et sécurisée</p>
 
-  <button class="btn-create" onclick="register()">Créer un compte</button>
-  <button class="btn-login" onclick="login()">Se connecter</button>
+    <ul>
+      <li>Anonymat respecté</li>
+      <li>Aucune haine, aucune violence</li>
+      <li>Responsabilité individuelle</li>
+      <li>Projet non officiel Anonymous</li>
+    </ul>
 
-  <div id="status"></div>
+    <input id="email" type="email" placeholder="Adresse email">
+    <input id="password" type="password" placeholder="Mot de passe">
 
-  <footer>© Anonymous SOS FR — Tous droits réservés</footer>
+    <button class="btn-create" onclick="register()">Créer un compte</button>
+    <button class="btn-login" onclick="login()">Se connecter</button>
+
+    <div id="status"></div>
+    <footer>© Anonymous SOS FR — Tous droits réservés</footer>
+  </div>
 </div>
 
+<!-- ===== FIREBASE ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
-from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
   authDomain: "anonymous-sos-fr.firebaseapp.com",
   projectId: "anonymous-sos-fr",
-  storageBucket: "anonymous-sos-fr.appspot.com",
+  storageBucket: "anonymous-sos-fr.firebasestorage.app",
   messagingSenderId: "490705618757",
   appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
 };
@@ -123,35 +151,53 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const status = document.getElementById("status");
+window.register = function(){
+  const email = email.value;
+  const password = password.value;
+  createUserWithEmailAndPassword(auth,email,password)
+    .then(()=>status.textContent="Compte créé ✔")
+    .catch(e=>status.textContent=e.message);
+}
 
-window.register = function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+window.login = function(){
+  const email = email.value;
+  const password = password.value;
+  signInWithEmailAndPassword(auth,email,password)
+    .then(()=>status.textContent="Connecté ✔")
+    .catch(()=>status.textContent="Identifiants invalides");
+}
+</script>
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      status.style.color = "#2cff66";
-      status.textContent = "Compte créé avec succès";
-    })
-    .catch(error => {
-      status.textContent = error.message;
-    });
-};
+<!-- ===== MATRIX EFFECT ===== -->
+<script>
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
-window.login = function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+const chars = "01ANONYMOUS";
+const fontSize = 14;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => {
-      status.style.color = "#2cff66";
-      status.textContent = "Connexion réussie";
-    })
-    .catch(() => {
-      status.textContent = "Identifiants invalides";
-    });
-};
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.15)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff66";
+  ctx.font=fontSize+"px monospace";
+  drops.forEach((y,i)=>{
+    const text = chars[Math.floor(Math.random()*chars.length)];
+    ctx.fillText(text,i*fontSize,y*fontSize);
+    if(y*fontSize > canvas.height && Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  });
+}
+setInterval(draw,50);
+
+addEventListener("resize",()=>{
+  canvas.width=innerWidth;
+  canvas.height=innerHeight;
+});
 </script>
 
 </body>
