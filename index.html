@@ -6,17 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Arial, sans-serif;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Segoe UI, Arial, sans-serif;
 }
 
-/* ===== BACKGROUND ANONYMOUS (SÛR À 100%) ===== */
-body {
-  height: 100vh;
+body{
+  height:100vh;
   background:
     radial-gradient(circle at top, rgba(0,255,100,0.25), transparent 45%),
     repeating-linear-gradient(
@@ -27,120 +25,92 @@ body {
       transparent 6px
     ),
     linear-gradient(180deg, #050505, #000);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #eaffea;
-  overflow: hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#eaffea;
 }
 
-/* ANIMATION LENTE DU FOND */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0,
-      transparent 20px,
-      rgba(0,255,100,0.04) 21px
-    );
-  animation: scan 8s linear infinite;
-  pointer-events: none;
+/* ===== CARTE ===== */
+.card{
+  width:380px;
+  background:rgba(5,10,5,0.85);
+  border-radius:16px;
+  padding:28px;
+  border:2px solid #00ff66;
+  box-shadow:0 0 45px #00ff66;
 }
 
-@keyframes scan {
-  from { transform: translateY(-100px); }
-  to   { transform: translateY(100px); }
+/* ===== TITRES ===== */
+h1{
+  text-align:center;
+  color:#00ff66;
+  margin-bottom:8px;
 }
 
-/* ===== CARTE CENTRALE ===== */
-.card {
-  width: 380px;
-  background: rgba(5, 10, 5, 0.85);
-  border-radius: 16px;
-  padding: 28px;
-  border: 2px solid #00ff66;
-  box-shadow: 0 0 45px #00ff66;
-  z-index: 1;
+.subtitle{
+  text-align:center;
+  font-size:14px;
+  opacity:0.85;
+  margin-bottom:18px;
 }
 
-/* TITRES */
-h1 {
-  text-align: center;
-  color: #00ff66;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
+/* ===== TEXTE ===== */
+ul{
+  font-size:13px;
+  line-height:1.6;
+  margin-bottom:18px;
 }
 
-.subtitle {
-  text-align: center;
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 16px;
+/* ===== FORM ===== */
+input{
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  background:#eaeaea;
 }
 
-/* TEXTE */
-ul {
-  font-size: 13px;
-  margin-bottom: 18px;
-  line-height: 1.6;
+button{
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
 }
 
-/* INPUTS */
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  background: #eaeaea;
+.btn-create{background:#1e90ff;color:white}
+.btn-login{background:#00ff66;color:black}
+.btn-logout{background:#ff4d4d;color:white}
+
+#status{
+  margin-top:10px;
+  font-size:13px;
+  min-height:18px;
+  text-align:center;
 }
 
-/* BOUTONS */
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
+footer{
+  text-align:center;
+  margin-top:14px;
+  font-size:11px;
+  opacity:0.6;
 }
 
-.btn-create {
-  background: #1e90ff;
-  color: white;
-}
-
-.btn-login {
-  background: #00ff66;
-  color: black;
-}
-
-/* STATUS */
-#status {
-  margin-top: 10px;
-  font-size: 13px;
-  min-height: 18px;
-  text-align: center;
-}
-
-/* FOOTER */
-footer {
-  text-align: center;
-  margin-top: 14px;
-  font-size: 11px;
-  opacity: 0.6;
-}
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
 <div class="card">
+
+<!-- ===== ACCUEIL PUBLIC ===== -->
+<div id="public">
   <h1>Anonymous SOS FR</h1>
   <div class="subtitle">Plateforme communautaire indépendante et sécurisée</div>
 
@@ -156,17 +126,38 @@ footer {
 
   <button class="btn-create" onclick="register()">Créer un compte</button>
   <button class="btn-login" onclick="login()">Se connecter</button>
-
-  <div id="status"></div>
-
-  <footer>© Anonymous SOS FR — Tous droits réservés</footer>
 </div>
 
-<!-- ===== FIREBASE AUTH ===== -->
+<!-- ===== PAGE MEMBRE ===== -->
+<div id="member" class="hidden">
+  <h1>Bienvenue</h1>
+  <div class="subtitle" id="userEmail"></div>
+
+  <ul>
+    <li>Accès membre actif</li>
+    <li>Radio : bientôt disponible</li>
+    <li>Fonctionnalités en cours d’ajout</li>
+  </ul>
+
+  <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+</div>
+
+<div id="status"></div>
+
+<footer>© Anonymous SOS FR — Tous droits réservés</footer>
+
+</div>
+
+<!-- ===== FIREBASE ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword }
-from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
@@ -180,21 +171,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+const publicBox = document.getElementById("public");
+const memberBox = document.getElementById("member");
 const status = document.getElementById("status");
+const userEmail = document.getElementById("userEmail");
 
 window.register = () => {
   status.textContent = "Création du compte...";
   createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => status.textContent = "Compte créé avec succès ✔")
     .catch(err => status.textContent = err.message);
 };
 
 window.login = () => {
   status.textContent = "Connexion...";
   signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => status.textContent = "Connexion réussie ✔")
     .catch(() => status.textContent = "Identifiants invalides");
 };
+
+window.logout = () => {
+  signOut(auth);
+};
+
+onAuthStateChanged(auth, user => {
+  if(user){
+    publicBox.classList.add("hidden");
+    memberBox.classList.remove("hidden");
+    userEmail.textContent = user.email;
+    status.textContent = "";
+  }else{
+    publicBox.classList.remove("hidden");
+    memberBox.classList.add("hidden");
+  }
+});
 </script>
 
 </body>
