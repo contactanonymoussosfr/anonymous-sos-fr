@@ -1,69 +1,212 @@
-<script type="module">
-  // Firebase SDKs
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  // Configuration Firebase
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #0f2f1f, #000);
+      color: #e8ffe8;
+    }
+
+    h1, h2 {
+      color: #4cff9a;
+      margin-bottom: 10px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid #2fff95;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 15px rgba(0,255,150,0.15);
+    }
+
+    .auth-box {
+      max-width: 400px;
+      margin: 40px auto;
+      background: rgba(0,0,0,0.7);
+      border: 2px solid #2fff95;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 0 25px rgba(0,255,150,0.25);
+      text-align: center;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .btn-create {
+      background: #1e90ff;
+      color: white;
+    }
+
+    .btn-login {
+      background: #2ecc71;
+      color: black;
+    }
+
+    .btn-logout {
+      background: #ff4d4d;
+      color: white;
+    }
+
+    .status {
+      margin-top: 15px;
+      font-size: 14px;
+      min-height: 18px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Anonymous SOS FR</h1>
+  <p>Plateforme communautaire sécurisée, encadrée et respectueuse.</p>
+</header>
+
+<section>
+  <div class="cards">
+    <div class="card">
+      <h2>Objectif du projet</h2>
+      <ul>
+        <li>Plateforme communautaire française</li>
+        <li>Entraide, information et accompagnement</li>
+        <li>Contenus encadrés et responsables</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Sécurité & confiance</h2>
+      <ul>
+        <li>Annonces vérifiées</li>
+        <li>Modération active</li>
+        <li>Aucune tolérance aux abus</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Radio Anonymous SOS FR</h2>
+      <ul>
+        <li>Radio officielle du projet</li>
+        <li>Informations & consignes</li>
+        <li>Activation prochaine</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Création de sites</h2>
+      <ul>
+        <li>Sites sécurisés et sur mesure</li>
+        <li>Code propre et optimisé</li>
+        <li>Accompagnement possible</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="auth-box">
+  <h2>Connexion / Inscription</h2>
+
+  <input type="email" id="email" placeholder="Adresse email" />
+  <input type="password" id="password" placeholder="Mot de passe" />
+
+  <button class="btn-create" onclick="register()">Créer un compte</button>
+  <button class="btn-login" onclick="login()">Se connecter</button>
+  <button class="btn-logout" onclick="logout()">Se déconnecter</button>
+
+  <div class="status" id="status"></div>
+</section>
+
+<footer>
+  © Anonymous SOS FR — Tous droits réservés
+</footer>
+
+<!-- 🔥 FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
   const firebaseConfig = {
     apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
     authDomain: "anonymous-sos-fr.firebaseapp.com",
     projectId: "anonymous-sos-fr",
-    storageBucket: "anonymous-sos-fr.firebasestorage.app",
+    storageBucket: "anonymous-sos-fr.appspot.com",
     messagingSenderId: "490705618757",
     appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
   };
 
-  // Init Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-
   const status = document.getElementById("status");
 
-  // INSCRIPTION
   window.register = () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        status.innerText = "✅ Compte créé avec succès";
-      })
-      .catch((error) => {
-        status.innerText = "❌ " + error.message;
-      });
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+      .then(() => status.textContent = "✅ Compte créé et connecté")
+      .catch(e => status.textContent = "❌ " + e.message);
   };
 
-  // CONNEXION
   window.login = () => {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        status.innerText = "✅ Connexion réussie";
-      })
-      .catch((error) => {
-        status.innerText = "❌ " + error.message;
-      });
+    signInWithEmailAndPassword(auth, email.value, password.value)
+      .then(() => status.textContent = "✅ Connecté")
+      .catch(e => status.textContent = "❌ Identifiants invalides");
   };
 
-  // DÉCONNEXION
   window.logout = () => {
-    signOut(auth);
+    signOut(auth).then(() => status.textContent = "Déconnecté");
   };
 
-  // ÉTAT UTILISATEUR
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, user => {
     if (user) {
-      status.innerText = "🟢 Connecté : " + user.email;
-    } else {
-      status.innerText = "🔴 Déconnecté";
+      status.textContent = "Connecté : " + user.email;
     }
   });
 </script>
+
+</body>
+</html>
