@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Anonymous SOS FR — Salons Live</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{background:black;color:#aaffaa;height:100vh;overflow:hidden}
+canvas{position:fixed;inset:0;z-index:0}
+
+.overlay{
+  position:relative;
+  z-index:1;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.container{
+  width:460px;
+  background:#0a0f0a;
+  border-radius:16px;
+  border:1px solid #00ff66;
+  box-shadow:0 0 40px #00ff66;
+  display:flex;
+  flex-direction:column;
+  height:640px;
+}
+
+header{
+  padding:14px;
+  border-bottom:1px solid #00ff66;
+  text-align:center;
+}
+
+header h1{
+  color:#00ff66;
+  text-shadow:0 0 12px #00ff66;
+}
+
+header p{
+  font-size:11px;
+  opacity:.8;
+}
+
+#salons{
+  display:flex;
+  gap:6px;
+  padding:8px;
+  border-bottom:1px solid #00ff66;
+}
+
+#salons button{
+  flex:1;
+  padding:8px;
+  border:none;
+  border-radius:6px;
+  background:#003300;
+  color:#aaffaa;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+#salons button.active{
+  background:#00ff66;
+  color:black;
+}
+
+#messages{
+  flex:1;
+  padding:12px;
+  overflow-y:auto;
+  font-size:13px;
+}
+
+.msg{
+  margin-bottom:10px;
+}
+
+.admin{color:#ff5555}
+.membre{color:#00ff66}
+
+form{
+  display:flex;
+  border-top:1px solid #00ff66;
+}
+
+input{
+  flex:1;
+  padding:12px;
+  background:#111;
+  border:none;
+  color:#aaffaa;
+  outline:none;
+}
+
+button.send{
+  padding:12px 18px;
+  border:none;
+  background:#00ff66;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+footer{
+  text-align:center;
+  font-size:11px;
+  opacity:.5;
+  padding:6px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="overlay">
+  <div class="container">
+    <header>
+      <h1>Salons Live</h1>
+      <p id="userInfo"></p>
+    </header>
+
+    <div id="salons">
+      <button data-room="live_general" class="active">🎥 Général</button>
+      <button data-room="live_asmr">🎧 ASMR</button>
+      <button data-room="live_debat">🗣 Débat</button>
+    </div>
+
+    <div id="messages"></div>
+
+    <form id="form">
+      <input id="input" placeholder="Message du live..." autocomplete="off">
+      <button class="send">Envoyer</button>
+    </form>
+
+    <footer>Anonymous SOS FR — Salons Live</footer>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr",
+  appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const messagesDiv = document.getElementById("messages");
+const input = document.getElementById("input");
+const form = document.getElementById("form");
+const userInfo = document.getElementById("userInfo");
+const salonButtons = document.querySelectorAll("#salons button");
+
+let currentUser;
+let role = "membre";
+let currentRoom = "live_general";
+let unsubscribe = null;
+
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    location.href = "index.html";
+    return;
+  }
+
+  currentUser = user;
+
+  if (user.email === "despeschez@gmail.com") {
+    role = "admin";
+    userInfo.innerHTML = ${user.email} — <span class="admin">ADMIN</span>;
+  } else {
+    userInfo.innerHTML = ${user.email} — <span class="membre">MEMBRE</span>;
+  }
+
+  loadMessages();
+});
+
+salonButtons.forEach(btn => {
+  btn.onclick = () => {
+    salonButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    currentRoom = btn.dataset.room;
+    loadMessages();
+  };
+});
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!input.value.trim()) return;
+
+  await addDoc(collection(db, currentRoom), {
+    email: currentUser.email,
+    role: role,
+    message: input.value,
+    createdAt: serverTimestamp()
+  });
+
+  input.value = "";
+});
+
+function loadMessages(){
+  if (unsubscribe) unsubscribe();
+
+  messagesDiv.innerHTML = "";
+  const q = query(collection(db, currentRoom), orderBy("createdAt"));
+
+  unsubscribe = onSnapshot(q, snap => {
+    messagesDiv.innerHTML = "";
+    snap.forEach(doc => {
+      const d = doc.data();
+      const div = document.createElement("div");
+      div.className = "msg " + (d.role === "admin" ? "admin" : "membre");
+      div.innerHTML = <strong>${d.role.toUpperCase()}</strong> — ${d.email}<br>${d.message};
+      messagesDiv.appendChild(div);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  });
+}
+</script>
+
+<script>
+/* MATRIX BACKGROUND */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+const letters="01";
+const font=14;
+const cols=canvas.width/font;
+const drops=Array(Math.floor(cols)).fill(1);
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff66";
+  ctx.font=font+"px monospace";
+  for(let i=0;i<drops.length;i++){
+    const t=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(t,i*font,drops[i]*font);
+    if(drops[i]*font>canvas.height&&Math.random()>0.975)drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(draw,33);
+</script>
+
+</body>
+</html>
