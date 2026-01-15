@@ -83,7 +83,7 @@ L’utilisation du site implique l’acceptation totale des règles.
 
 ## 📞 Contact urgence
 
-Un numéro privé est disponible uniquement pour les urgences graves.  
+Un numéro +32456894335 privé est disponible uniquement pour les urgences graves.  
 Tout abus entraînera un blocage.
 
 ---
