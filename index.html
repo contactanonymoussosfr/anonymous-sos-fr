@@ -6,158 +6,122 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Segoe UI, Arial, sans-serif;
+*{box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+html,body{margin:0;height:100%;overflow:hidden;background:black;color:#eaffea}
+
+/* ===== BACKGROUND MATRIX ===== */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
 }
 
-body{
-  height:100vh;
-  background:
-    radial-gradient(circle at top, rgba(0,255,100,0.25), transparent 45%),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0,255,100,0.05) 0,
-      rgba(0,255,100,0.05) 1px,
-      transparent 1px,
-      transparent 6px
-    ),
-    linear-gradient(180deg, #050505, #000);
+/* ===== OVERLAY ===== */
+.overlay{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
-  color:#eaffea;
+  backdrop-filter:blur(2px);
 }
 
-/* ===== CARTE ===== */
+/* ===== CARD ===== */
 .card{
-  width:380px;
-  background:rgba(5,10,5,0.85);
-  border-radius:16px;
+  background:rgba(10,15,10,.85);
+  border-radius:14px;
   padding:28px;
-  border:2px solid #00ff66;
-  box-shadow:0 0 45px #00ff66;
+  width:340px;
+  text-align:center;
+  box-shadow:0 0 30px #00ff66;
+  border:1px solid #00ff66;
 }
 
-/* ===== TITRES ===== */
 h1{
-  text-align:center;
   color:#00ff66;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
 
-.subtitle{
-  text-align:center;
-  font-size:14px;
-  opacity:0.85;
-  margin-bottom:18px;
-}
+p{font-size:13px;opacity:.9}
 
-/* ===== TEXTE ===== */
 ul{
+  text-align:left;
   font-size:13px;
-  line-height:1.6;
-  margin-bottom:18px;
+  margin:15px 0;
 }
 
-/* ===== FORM ===== */
 input{
   width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:8px;
+  padding:10px;
+  margin:6px 0;
+  border-radius:6px;
   border:none;
-  outline:none;
-  background:#eaeaea;
 }
 
 button{
   width:100%;
-  padding:12px;
-  margin-top:8px;
-  border-radius:8px;
+  padding:10px;
+  margin-top:6px;
   border:none;
-  cursor:pointer;
+  border-radius:6px;
   font-weight:bold;
+  cursor:pointer;
 }
 
-.btn-create{background:#1e90ff;color:white}
-.btn-login{background:#00ff66;color:black}
-.btn-logout{background:#ff4d4d;color:white}
+.btn-create{background:#1976ff;color:white}
+.btn-login{background:#00c853;color:black}
 
 #status{
-  margin-top:10px;
+  margin-top:8px;
   font-size:13px;
   min-height:18px;
-  text-align:center;
 }
 
 footer{
-  text-align:center;
-  margin-top:14px;
+  margin-top:10px;
   font-size:11px;
-  opacity:0.6;
+  opacity:.6;
 }
-
-.hidden{display:none}
 </style>
 </head>
 
 <body>
 
-<div class="card">
+<canvas id="matrix"></canvas>
 
-<!-- ===== ACCUEIL PUBLIC ===== -->
-<div id="public">
-  <h1>Anonymous SOS FR</h1>
-  <div class="subtitle">Plateforme communautaire indépendante et sécurisée</div>
+<div class="overlay">
+  <div class="card">
+    <h1>Anonymous SOS FR</h1>
+    <p>Plateforme communautaire indépendante et sécurisée</p>
 
-  <ul>
-    <li>Anonymat respecté</li>
-    <li>Aucune haine, aucune violence</li>
-    <li>Responsabilité individuelle</li>
-    <li>Projet non officiel Anonymous</li>
-  </ul>
+    <ul>
+      <li>Anonymat respecté</li>
+      <li>Aucune haine, aucune violence</li>
+      <li>Responsabilité individuelle</li>
+      <li>Projet non officiel Anonymous</li>
+    </ul>
 
-  <input id="email" type="email" placeholder="Adresse email">
-  <input id="password" type="password" placeholder="Mot de passe">
+    <input id="email" type="email" placeholder="Adresse email">
+    <input id="password" type="password" placeholder="Mot de passe">
 
-  <button class="btn-create" onclick="register()">Créer un compte</button>
-  <button class="btn-login" onclick="login()">Se connecter</button>
+    <button class="btn-create" onclick="register()">Créer un compte</button>
+    <button class="btn-login" onclick="login()">Se connecter</button>
+
+    <div id="status"></div>
+
+    <footer>© Anonymous SOS FR — Tous droits réservés</footer>
+  </div>
 </div>
 
-<!-- ===== PAGE MEMBRE ===== -->
-<div id="member" class="hidden">
-  <h1>Bienvenue</h1>
-  <div class="subtitle" id="userEmail"></div>
-
-  <ul>
-    <li>Accès membre actif</li>
-    <li>Radio : bientôt disponible</li>
-    <li>Fonctionnalités en cours d’ajout</li>
-  </ul>
-
-  <button class="btn-logout" onclick="logout()">Se déconnecter</button>
-</div>
-
-<div id="status"></div>
-
-<footer>© Anonymous SOS FR — Tous droits réservés</footer>
-
-</div>
+<!-- 🔊 Son de bienvenue (optionnel) -->
+<audio id="welcomeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-start-222.mp3"></audio>
 
 <!-- ===== FIREBASE ===== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
@@ -170,39 +134,51 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-const publicBox = document.getElementById("public");
-const memberBox = document.getElementById("member");
 const status = document.getElementById("status");
-const userEmail = document.getElementById("userEmail");
+const sound = document.getElementById("welcomeSound");
 
 window.register = () => {
-  status.textContent = "Création du compte...";
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .catch(err => status.textContent = err.message);
+  status.textContent="Création du compte...";
+  createUserWithEmailAndPassword(auth,email.value,password.value)
+  .then(()=>{
+    status.textContent="Compte créé avec succès ✔";
+    sound.play();
+  })
+  .catch(e=>status.textContent=e.message);
 };
 
 window.login = () => {
-  status.textContent = "Connexion...";
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .catch(() => status.textContent = "Identifiants invalides");
+  status.textContent="Connexion...";
+  signInWithEmailAndPassword(auth,email.value,password.value)
+  .then(()=>{
+    status.textContent="Connexion réussie ✔";
+    sound.play();
+  })
+  .catch(()=>status.textContent="Identifiants invalides");
 };
+</script>
 
-window.logout = () => {
-  signOut(auth);
-};
+<!-- ===== MATRIX EFFECT ===== -->
+<script>
+const c=document.getElementById("matrix"),ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+const letters="01ANONYMOUSSOSFR";
+const size=14,cols=c.width/size;
+const drops=Array(Math.floor(cols)).fill(1);
 
-onAuthStateChanged(auth, user => {
-  if(user){
-    publicBox.classList.add("hidden");
-    memberBox.classList.remove("hidden");
-    userEmail.textContent = user.email;
-    status.textContent = "";
-  }else{
-    publicBox.classList.remove("hidden");
-    memberBox.classList.add("hidden");
-  }
+setInterval(()=>{
+ctx.fillStyle="rgba(0,0,0,0.1)";
+ctx.fillRect(0,0,c.width,c.height);
+ctx.fillStyle="#00ff66";
+ctx.font=size+"px monospace";
+drops.forEach((y,i)=>{
+const text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*size,y*size);
+drops[i]=y*size>c.height&&Math.random()>0.975?0:y+1;
 });
+},33);
+
+onresize=()=>{c.width=innerWidth;c.height=innerHeight;}
 </script>
 
 </body>
