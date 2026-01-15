@@ -2,80 +2,47 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR — Admin</title>
+<title>Espace Admin – Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{
-  background:black;
-  color:#aaffea;
-  height:100vh;
-  overflow:hidden;
-}
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
-}
-.overlay{
-  position:relative;
-  z-index:2;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
+body{background:black;color:#aaffaa;height:100vh;overflow:hidden}
+canvas{position:fixed;inset:0;z-index:0}
+.overlay{position:relative;z-index:1;height:100vh;display:flex;align-items:center;justify-content:center}
 .card{
-  width:380px;
-  background:#0a0f0e;
+  background:#120000;
+  border-radius:14px;
   padding:30px;
-  border-radius:16px;
-  border:1px solid #ff4444;
-  box-shadow:0 0 40px #ff4444;
+  width:360px;
   text-align:center;
+  border:1px solid red;
+  box-shadow:0 0 30px red;
 }
-h1{
-  color:#ff4444;
-  margin-bottom:10px;
-  text-shadow:0 0 12px #ff4444;
-}
-p{font-size:14px;margin-bottom:8px}
-.role{
-  color:#ff4444;
-  font-weight:bold;
-  margin:10px 0;
-}
+h1{color:red;margin-bottom:10px}
 button{
   width:100%;
   padding:12px;
-  margin-top:15px;
   border:none;
   border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
   background:#ff4444;
   color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
-footer{
-  margin-top:12px;
-  font-size:11px;
-  opacity:.6;
-}
+footer{margin-top:12px;font-size:11px;opacity:.6}
 </style>
 </head>
 
 <body>
-
 <canvas id="matrix"></canvas>
 
 <div class="overlay">
   <div class="card">
     <h1>Espace Admin</h1>
-    <p>Anonymous SOS FR</p>
-    <p>Connecté en tant que :</p>
-    <p id="email">...</p>
-    <div class="role">🔴 ADMINISTRATEUR</div>
+    <p id="email"></p>
+    <p style="color:red;font-weight:bold">🔴 ADMINISTRATEUR</p>
+
     <button onclick="logout()">Se déconnecter</button>
     <footer>© Anonymous SOS FR — Administration sécurisée</footer>
   </div>
@@ -89,8 +56,6 @@ const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
   authDomain: "anonymous-sos-fr.firebaseapp.com",
   projectId: "anonymous-sos-fr",
-  storageBucket: "anonymous-sos-fr.appspot.com",
-  messagingSenderId: "490705618757",
   appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
 };
 
@@ -100,41 +65,4 @@ const auth = getAuth(app);
 const ADMIN_EMAIL = "despeschez@gmail.com";
 
 onAuthStateChanged(auth, user => {
-  if(!user || user.email !== ADMIN_EMAIL){
-    window.location.href = "index.html";
-  } else {
-    document.getElementById("email").textContent = user.email;
-  }
-});
-
-window.logout = () => {
-  signOut(auth).then(()=>{
-    window.location.href="index.html";
-  });
-};
-</script>
-
-<script>
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-const chars="01";
-const drops=Array(Math.floor(canvas.width/20)).fill(0);
-
-function draw(){
-  ctx.fillStyle="rgba(0,0,0,0.08)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#00ff66";
-  ctx.font="16px monospace";
-  drops.forEach((y,i)=>{
-    const text=chars[Math.floor(Math.random()*chars.length)];
-    ctx.fillText(text,i*20,y);
-    drops[i]=y>canvas.height||Math.random()>0.95?0:y+20;
-  });
-}
-setInterval(draw,50);
-</script>
-
-</body>
-</html>
+  if (!user || user
