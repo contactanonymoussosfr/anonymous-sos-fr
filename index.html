@@ -14,14 +14,15 @@
     }
 
     header {
+      background: #111;
       text-align: center;
-      padding: 30px;
+      padding: 30px 20px;
       border-bottom: 3px solid red;
     }
 
     header h1 {
-      margin: 0;
       color: red;
+      margin: 0;
       font-size: 36px;
     }
 
@@ -32,39 +33,18 @@
     }
 
     .stars {
-      font-size: 22px;
+      margin-top: 15px;
       color: gold;
-      margin-top: 10px;
+      font-size: 22px;
     }
 
-    section {
-      max-width: 900px;
-      margin: auto;
-      padding: 25px;
+    .cta {
+      margin-top: 20px;
     }
 
-    h2 {
-      color: red;
-      border-bottom: 1px solid #333;
-      padding-bottom: 5px;
-    }
-
-    ul {
-      padding-left: 20px;
-    }
-
-    li {
-      margin: 8px 0;
-    }
-
-    .center {
-      text-align: center;
-      margin: 30px 0;
-    }
-
-    .btn {
+    .cta a {
       display: inline-block;
-      padding: 14px 30px;
+      padding: 12px 25px;
       background: red;
       color: white;
       text-decoration: none;
@@ -72,99 +52,33 @@
       border-radius: 6px;
     }
 
+    section {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+      border-bottom: 1px solid #333;
+    }
+
+    section h2 {
+      color: red;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
     .radio-box {
       background: #111;
       padding: 20px;
-      border: 1px solid #333;
-      border-radius: 8px;
+      border-radius: 10px;
       text-align: center;
+      margin-top: 15px;
     }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      color: #aaa;
-      border-top: 1px solid #333;
-      margin-top: 40px;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <h1>🔴 Anonymous SOS FR</h1>
-  <p>Plateforme communautaire sécurisée et surveillée</p>
-  <div class="stars">⭐⭐⭐⭐⭐</div>
-
-  <div class="center">
-    <a href="inscription.html" class="btn">👉 S’inscrire / Connexion</a>
-  </div>
-</header>
-
-<section>
-  <h2>🎯 Objectif du projet</h2>
-  <ul>
-    <li>Créer une plateforme communautaire moderne</li>
-    <li>Proposer des lives encadrés et sécurisés</li>
-    <li>Mettre en avant les créateurs</li>
-    <li>Garantir un environnement respectueux</li>
-    <li>Assurer une surveillance permanente</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🎥 Lives</h2>
-  <ul>
-    <li>Nombre de spectateurs illimité</li>
-    <li>Jusqu’à 50 personnes peuvent monter en vocal</li>
-    <li>Chat écrit sans limite</li>
-    <li>Vérification d’identité obligatoire pour lancer un live</li>
-    <li>Message automatique quand un modérateur entre</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🎁 Cadeaux, badges & niveaux</h2>
-  <ul>
-    <li>Les cadeaux rapportent de l’XP</li>
-    <li>Montée en niveaux</li>
-    <li>Badge spécial au niveau 50</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🛡️ Sécurité & confiance</h2>
-  <ul>
-    <li>Annonces vérifiées avant publication</li>
-    <li>Aucune arnaque tolérée</li>
-    <li>Modération active et visible</li>
-    <li>Système d’évaluation par étoiles sur l’accueil</li>
-  </ul>
-</section>
-
-<section>
-  <h2>📻 Radio Anonymous SOS FR</h2>
-
-  <div class="radio-box">
-    <p>
-      Radio officielle du site.<br>
-      Informations, consignes et présentation de la plateforme.
-    </p>
-
-    <!-- 🔊 Remplace radio.mp3 par TON fichier audio -->
-    <audio controls>
-      <source src="radio.mp3" type="audio/mpeg">
-      Ton navigateur ne supporte pas l’audio.
-    </audio>
-  </div>
-</section>
-
-<footer>
-  © Anonymous SOS FR — Créateur du projet<br>
-  Tous droits réservés
-</footer>
-
-</body>
-</html>
+    audio {
+      width: 100%;
