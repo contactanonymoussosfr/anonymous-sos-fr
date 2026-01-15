@@ -156,3 +156,109 @@ footer{
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #0f0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .box {
+      background: rgba(0,0,0,0.85);
+      padding: 30px;
+      border: 1px solid #0f0;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background: #000;
+      border: 1px solid #0f0;
+      color: #0f0;
+    }
+    button:hover {
+      background: #0f0;
+      color: #000;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>Anonymous SOS FR</h1>
+  <p>Connexion / Inscription</p>
+
+  <input type="email" id="email" placeholder="Adresse email">
+  <input type="password" id="password" placeholder="Mot de passe">
+
+  <button onclick="register()">S'inscrire</button>
+  <button onclick="login()">Connexion</button>
+  <button onclick="logout()">Déconnexion</button>
+
+  <p id="status"></p>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  import { 
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+    authDomain: "anonymous-sos-fr.firebaseapp.com",
+    projectId: "anonymous-sos-fr",
+    storageBucket: "anonymous-sos-fr.firebasestorage.app",
+    messagingSenderId: "490705618757",
+    appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const status = document.getElementById("status");
+
+  window.register = function() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => status.innerText = "Compte créé ✅")
+      .catch(e => status.innerText = e.message);
+  };
+
+  window.login = function() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => status.innerText = "Connecté ✅")
+      .catch(e => status.innerText = e.message);
+  };
+
+  window.logout = function() {
+    signOut(auth).then(() => status.innerText = "Déconnecté 👋");
+  };
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      status.innerText = "Connecté : " + user.email;
+    } else
