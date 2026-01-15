@@ -8,167 +8,187 @@
   <style>
     * {
       box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Segoe UI", Arial, sans-serif;
     }
 
     body {
       margin: 0;
       min-height: 100vh;
       background:
-        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
-        url("https://images.unsplash.com/photo-1549924231-f129b911e442");
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
+        url("https://images.unsplash.com/photo-1549923746-c502d488b3ea?auto=format&fit=crop&w=1950&q=80");
       background-size: cover;
       background-position: center;
-      color: #eaffea;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: #e0e0e0;
     }
 
-    .container {
-      max-width: 900px;
-      width: 95%;
-      background: rgba(0, 0, 0, 0.65);
+    header {
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
+
+    header h1 {
+      color: #00ff88;
+      font-size: 42px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px rgba(0,255,136,0.4);
+    }
+
+    header p {
+      max-width: 700px;
+      margin: auto;
+      font-size: 18px;
+      color: #cfcfcf;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 40px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.65);
       border: 1px solid #00ff88;
       border-radius: 12px;
-      padding: 40px;
-      box-shadow: 0 0 25px rgba(0,255,136,0.25);
-    }
-
-    h1 {
-      text-align: center;
-      color: #00ff88;
-      margin-bottom: 10px;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 16px;
-      opacity: 0.9;
-      margin-bottom: 35px;
-    }
-
-    .text-block {
-      margin-bottom: 25px;
-      line-height: 1.6;
-    }
-
-    .text-block h2 {
-      color: #00ff88;
-      margin-bottom: 8px;
-      font-size: 18px;
-    }
-
-    .auth-box {
-      margin-top: 35px;
       padding: 25px;
-      border: 1px solid #00ff88;
-      border-radius: 10px;
-      background: rgba(0,0,0,0.7);
+      box-shadow: 0 0 20px rgba(0,255,136,0.1);
     }
 
-    .auth-box h2 {
+    .card h2 {
+      color: #00ff88;
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+
+    .card ul {
+      padding-left: 18px;
+    }
+
+    .card li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .auth {
+      max-width: 420px;
+      margin: 60px auto;
+      background: rgba(0,0,0,0.75);
+      border: 1px solid #00ff88;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 0 30px rgba(0,255,136,0.2);
+    }
+
+    .auth h2 {
       text-align: center;
+      color: #00ff88;
       margin-bottom: 20px;
     }
 
-    input {
+    .auth input {
       width: 100%;
       padding: 12px;
       margin-bottom: 12px;
       border-radius: 6px;
       border: none;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     .btn {
       width: 100%;
       padding: 12px;
-      font-size: 15px;
-      border: none;
       border-radius: 6px;
+      border: none;
+      font-size: 15px;
       cursor: pointer;
       margin-bottom: 10px;
     }
 
-    .btn-register {
-      background: #1e90ff;
+    .btn-create {
+      background: #007bff;
       color: white;
     }
 
     .btn-login {
-      background: #00ff88;
+      background: #00c853;
       color: black;
       font-weight: bold;
     }
 
-    .footer {
+    footer {
       text-align: center;
-      margin-top: 25px;
-      font-size: 12px;
-      opacity: 0.7;
+      padding: 25px;
+      font-size: 13px;
+      color: #aaa;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-
+  <header>
     <h1>Anonymous SOS FR</h1>
-    <div class="subtitle">
-      Plateforme communautaire inspirée par les valeurs d’anonymat, de responsabilité et d’entraide.
-    </div>
+    <p>
+      Plateforme communautaire française inspirée des valeurs d’anonymat,
+      de responsabilité et d’entraide.  
+      Un espace sécurisé, modéré et respectueux.
+    </p>
+  </header>
 
-    <div class="text-block">
+  <main>
+    <div class="card">
       <h2>Pourquoi ce projet</h2>
-      Anonymous SOS FR est un espace communautaire français destiné à informer,
-      protéger et accompagner les utilisateurs dans un cadre respectueux et responsable.
+      <ul>
+        <li>Informer et protéger les utilisateurs</li>
+        <li>Créer un espace communautaire responsable</li>
+        <li>Favoriser l’entraide et la vigilance</li>
+      </ul>
     </div>
 
-    <div class="text-block">
+    <div class="card">
       <h2>Nos valeurs</h2>
-      L’anonymat est respecté.  
-      Aucune exploitation, aucune haine, aucune violence.  
-      Chaque utilisateur est responsable de ses actions.
+      <ul>
+        <li>Anonymat respecté</li>
+        <li>Aucune haine, aucune violence</li>
+        <li>Responsabilité individuelle</li>
+      </ul>
     </div>
 
-    <div class="text-block">
-      <h2>Sécurité et transparence</h2>
-      Les échanges sont modérés.  
-      Les abus ne sont pas tolérés.  
-      Les données sont limitées au strict nécessaire.
+    <div class="card">
+      <h2>Sécurité & transparence</h2>
+      <ul>
+        <li>Modération active</li>
+        <li>Aucune tolérance aux abus</li>
+        <li>Données limitées au strict nécessaire</li>
+      </ul>
     </div>
 
-    <div class="text-block">
+    <div class="card">
       <h2>Ce que nous ne sommes pas</h2>
-      Nous ne sommes pas un groupe officiel Anonymous.  
-      Nous ne sommes pas une organisation illégale.  
-      Nous ne sommes pas un espace sans règles.
+      <ul>
+        <li>Pas un groupe officiel Anonymous</li>
+        <li>Pas une organisation illégale</li>
+        <li>Pas un espace sans règles</li>
+      </ul>
     </div>
+  </main>
 
-    <div class="text-block">
-      <h2>Radio Anonymous SOS FR</h2>
-      Canal d’information officiel du projet.  
-      Annonces et consignes importantes.  
-      Mise en ligne prochaine.
-    </div>
-
-    <div class="auth-box">
-      <h2>Connexion / Inscription</h2>
-
-      <input type="email" placeholder="Adresse email">
-      <input type="password" placeholder="Mot de passe">
-
-      <button class="btn btn-register">Créer un compte</button>
-      <button class="btn btn-login">Se connecter</button>
-    </div>
-
-    <div class="footer">
-      © Anonymous SOS FR — Tous droits réservés
-    </div>
-
+  <div class="auth">
+    <h2>Connexion / Inscription</h2>
+    <input type="email" placeholder="Adresse email">
+    <input type="password" placeholder="Mot de passe">
+    <button class="btn btn-create">Créer un compte</button>
+    <button class="btn btn-login">Se connecter</button>
   </div>
+
+  <footer>
+    © Anonymous SOS FR — Tous droits réservés
+  </footer>
 
 </body>
 </html>
