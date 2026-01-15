@@ -2,141 +2,58 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR — Espace Membre</title>
+<title>Espace Membre – Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-  background:black;
-  color:#aaffaa;
-  height:100vh;
-  overflow:hidden;
-}
-
-/* MATRIX BACKGROUND */
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
-}
-
-/* CONTENT */
-.container{
-  position:relative;
-  z-index:1;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{background:black;color:#aaffaa;height:100vh;overflow:hidden}
+canvas{position:fixed;inset:0;z-index:0}
+.overlay{position:relative;z-index:1;height:100vh;display:flex;align-items:center;justify-content:center}
 .card{
-  width:420px;
-  background:rgba(0,0,0,0.85);
-  border:2px solid #00ff66;
-  border-radius:16px;
-  padding:28px;
-  box-shadow:0 0 40px #00ff66;
+  background:#0a0f0a;
+  border-radius:14px;
+  padding:30px;
+  width:360px;
   text-align:center;
+  border:1px solid #00ff66;
+  box-shadow:0 0 30px #00ff66;
 }
-
-h1{
-  color:#00ff66;
-  margin-bottom:10px;
-  text-shadow:0 0 12px #00ff66;
-}
-
-p{
-  font-size:14px;
-  margin-bottom:10px;
-}
-
-.role{
-  margin-top:10px;
-  font-weight:bold;
-  color:#ff4444;
-  text-shadow:0 0 10px #ff4444;
-}
-
+h1{color:#00ff66;margin-bottom:10px}
+p{font-size:14px;margin-bottom:12px}
+.role{margin:10px 0;font-weight:bold}
+.admin{color:red}
 button{
   width:100%;
   padding:12px;
-  margin-top:18px;
   border:none;
   border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-  background:#ff5252;
+  background:#ff4444;
   color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-footer{
-  margin-top:15px;
-  font-size:11px;
-  opacity:0.6;
-}
+footer{margin-top:12px;font-size:11px;opacity:.6}
 </style>
 </head>
 
 <body>
-
 <canvas id="matrix"></canvas>
 
-<div class="container">
+<div class="overlay">
   <div class="card">
     <h1>Espace Membre</h1>
+    <p>Bienvenue sur Anonymous SOS FR</p>
 
-    <p>Bienvenue sur <strong>Anonymous SOS FR</strong></p>
     <p>Connecté en tant que :</p>
-    <p><strong id="user-email">chargement…</strong></p>
-
-    <div class="role">🔴 admin</div>
+    <p id="email"></p>
+    <p class="role" id="role"></p>
 
     <button onclick="logout()">Se déconnecter</button>
-
     <footer>© Anonymous SOS FR — Espace sécurisé</footer>
   </div>
 </div>
 
-<!-- MATRIX EFFECT -->
-<script>
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const letters = "01";
-const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = Array.from({length: columns}).fill(1);
-
-function draw(){
-  ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = "#00ff66";
-  ctx.font = fontSize + "px monospace";
-
-  drops.forEach((y,i)=>{
-    const text = letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(text, i*fontSize, y*fontSize);
-    if(y*fontSize > canvas.height && Math.random()>0.975){
-      drops[i]=0;
-    }
-    drops[i]++;
-  });
-}
-setInterval(draw,33);
-</script>
-
-<!-- FIREBASE AUTH + PROTECTION -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
@@ -145,27 +62,53 @@ const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
   authDomain: "anonymous-sos-fr.firebaseapp.com",
   projectId: "anonymous-sos-fr",
-  storageBucket: "anonymous-sos-fr.appspot.com",
-  messagingSenderId: "490705618757",
   appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+const ADMIN_EMAIL = "despeschez@gmail.com";
+
 onAuthStateChanged(auth, user => {
-  if(!user){
+  if (!user) {
     window.location.href = "index.html";
+    return;
+  }
+
+  document.getElementById("email").textContent = user.email;
+
+  if (user.email === ADMIN_EMAIL) {
+    document.getElementById("role").innerHTML = "🔴 ADMIN";
+    document.getElementById("role").classList.add("admin");
   } else {
-    document.getElementById("user-email").textContent = user.email;
+    document.getElementById("role").textContent = "🟢 MEMBRE";
   }
 });
 
 window.logout = () => {
-  signOut(auth).then(()=>{
+  signOut(auth).then(() => {
     window.location.href = "index.html";
   });
 };
+</script>
+
+<script>
+const c=document.getElementById("matrix"),ctx=c.getContext("2d");
+c.width=innerWidth;c.height=innerHeight;
+const letters="01";const font=16;const cols=c.width/font;
+const drops=Array(cols).fill(1);
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,c.width,c.height);
+ctx.fillStyle="#00ff66";ctx.font=font+"px monospace";
+for(let i=0;i<drops.length;i++){
+const text=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(text,i*font,drops[i]*font);
+if(drops[i]*font>c.height&&Math.random()>0.975)drops[i]=0;
+drops[i]++;
+}}
+setInterval(draw,33);
 </script>
 
 </body>
