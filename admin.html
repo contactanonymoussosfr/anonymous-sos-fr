@@ -1,88 +1,68 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Anonymous SOS FR — Admin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Anonymous SOS FR — Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      background: black;
-      color: #aaffaa;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-    }
-
-    .overlay {
-      position: relative;
-      z-index: 2;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .card {
-      width: 380px;
-      background: #0a0f0a;
-      border-radius: 16px;
-      padding: 28px;
-      text-align: center;
-      box-shadow: 0 0 35px #00ff66;
-      border: 1px solid #00ff66;
-    }
-
-    h1 {
-      color: #00ff66;
-      margin-bottom: 10px;
-      text-shadow: 0 0 12px #00ff66;
-    }
-
-    p {
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .role {
-      color: red;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .btn-logout {
-      background: #ff4444;
-      color: white;
-    }
-
-    footer {
-      margin-top: 12px;
-      font-size: 11px;
-      opacity: 0.6;
-    }
-  </style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{
+  background:black;
+  color:#aaffea;
+  height:100vh;
+  overflow:hidden;
+}
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
+.overlay{
+  position:relative;
+  z-index:2;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.card{
+  width:380px;
+  background:#0a0f0e;
+  padding:30px;
+  border-radius:16px;
+  border:1px solid #ff4444;
+  box-shadow:0 0 40px #ff4444;
+  text-align:center;
+}
+h1{
+  color:#ff4444;
+  margin-bottom:10px;
+  text-shadow:0 0 12px #ff4444;
+}
+p{font-size:14px;margin-bottom:8px}
+.role{
+  color:#ff4444;
+  font-weight:bold;
+  margin:10px 0;
+}
+button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  background:#ff4444;
+  color:white;
+}
+footer{
+  margin-top:12px;
+  font-size:11px;
+  opacity:.6;
+}
+</style>
 </head>
 
 <body>
@@ -93,89 +73,67 @@
   <div class="card">
     <h1>Espace Admin</h1>
     <p>Anonymous SOS FR</p>
-
     <p>Connecté en tant que :</p>
-    <p id="email"></p>
-    <p class="role">🔴 ADMINISTRATEUR</p>
-
-    <button class="btn-logout" onclick="logout()">Se déconnecter</button>
-
+    <p id="email">...</p>
+    <div class="role">🔴 ADMINISTRATEUR</div>
+    <button onclick="logout()">Se déconnecter</button>
     <footer>© Anonymous SOS FR — Administration sécurisée</footer>
   </div>
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-    authDomain: "anonymous-sos-fr.firebaseapp.com",
-    projectId: "anonymous-sos-fr",
-    storageBucket: "anonymous-sos-fr.firebasestorage.app",
-    messagingSenderId: "490705618757",
-    appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr",
+  storageBucket: "anonymous-sos-fr.appspot.com",
+  messagingSenderId: "490705618757",
+  appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-  onAuthStateChanged(auth, user => {
-    if (!user) {
-      window.location.href = "index.html";
-      return;
-    }
+const ADMIN_EMAIL = "despeschez@gmail.com";
 
-    // 🔴 ADMIN FIXE (TON COMPTE)
-    if (user.email !== "despeschez@gmail.com") {
-      window.location.href = "member.html";
-      return;
-    }
-
+onAuthStateChanged(auth, user => {
+  if(!user || user.email !== ADMIN_EMAIL){
+    window.location.href = "index.html";
+  } else {
     document.getElementById("email").textContent = user.email;
-  });
+  }
+});
 
-  window.logout = () => {
-    signOut(auth).then(() => {
-      window.location.href = "index.html";
-    });
-  };
+window.logout = () => {
+  signOut(auth).then(()=>{
+    window.location.href="index.html";
+  });
+};
 </script>
 
 <script>
-  // MATRIX BACKGROUND
-  const canvas = document.getElementById("matrix");
-  const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+const chars="01";
+const drops=Array(Math.floor(canvas.width/20)).fill(0);
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-
-  const letters = "01";
-  const fontSize = 14;
-  const columns = canvas.width / fontSize;
-  const drops = [];
-
-  for (let i = 0; i < columns; i++) drops[i] = 1;
-
-  function draw() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = "#00ff66";
-    ctx.font = fontSize + "px monospace";
-
-    for (let i = 0; i < drops.length; i++) {
-      const text = letters.charAt(Math.floor(Math.random() * letters.length));
-      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-        drops[i] = 0;
-      }
-      drops[i]++;
-    }
-  }
-
-  setInterval(draw, 33);
+function draw(){
+  ctx.fillStyle="rgba(0,0,0,0.08)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00ff66";
+  ctx.font="16px monospace";
+  drops.forEach((y,i)=>{
+    const text=chars[Math.floor(Math.random()*chars.length)];
+    ctx.fillText(text,i*20,y);
+    drops[i]=y>canvas.height||Math.random()>0.95?0:y+20;
+  });
+}
+setInterval(draw,50);
 </script>
 
 </body>
