@@ -9,82 +9,85 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #0e0e0e;
-    color: #f1f1f1;
+    background: #0b0b0b;
+    color: #eaeaea;
 }
 
 header {
     text-align: center;
     padding: 40px 20px;
-    background: #111;
     border-bottom: 3px solid red;
 }
 
 header h1 {
-    margin: 0;
     color: red;
     font-size: 36px;
+    margin: 0;
 }
 
 header p {
-    margin-top: 10px;
     color: #ccc;
+    margin-top: 10px;
+}
+
+.stars {
+    color: gold;
+    font-size: 22px;
+    margin-top: 10px;
+}
+
+.buttons {
+    margin-top: 25px;
 }
 
 .btn {
     display: inline-block;
-    margin-top: 20px;
+    margin: 10px;
     padding: 14px 30px;
     background: red;
     color: white;
     text-decoration: none;
-    font-weight: bold;
     border-radius: 6px;
+    font-weight: bold;
 }
 
-.btn:hover {
-    background: darkred;
+.btn.secondary {
+    background: #333;
+    border: 1px solid red;
 }
 
 section {
     max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin: auto;
+    padding: 30px 20px;
+    border-bottom: 1px solid #333;
 }
 
 section h2 {
     color: red;
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
-}
-
-ul {
-    margin-top: 15px;
-}
-
-li {
-    margin: 8px 0;
-}
-
-.radio-box {
-    background: #1a1a1a;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.radio-box p {
-    color: #ccc;
     margin-bottom: 15px;
 }
 
-footer {
-    margin-top: 60px;
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 8px;
+}
+
+.radio-box {
+    background: #151515;
     padding: 20px;
+    border-radius: 8px;
     text-align: center;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #888;
     font-size: 14px;
-    color: #aaa;
-    border-top: 1px solid #333;
 }
 </style>
 </head>
@@ -94,17 +97,34 @@ footer {
 <header>
     <h1>🔴 Anonymous SOS FR</h1>
     <p>Plateforme communautaire sécurisée et surveillée</p>
-    <a class="btn" href="inscription.html">👉 S’inscrire / Connexion</a>
+
+    <div class="stars">★★★★★</div>
+
+    <div class="buttons">
+        <a href="connexion.html" class="btn secondary">🔐 Connexion</a>
+        <a href="inscription.html" class="btn">✍️ S’inscrire</a>
+    </div>
 </header>
 
 <section>
     <h2>🎯 Objectif du projet</h2>
     <ul>
         <li>Créer une plateforme communautaire moderne</li>
-        <li>Lives encadrés et sécurisés</li>
-        <li>Mise en avant des créateurs</li>
-        <li>Environnement respectueux</li>
-        <li>Surveillance permanente</li>
+        <li>Proposer des lives encadrés et sécurisés</li>
+        <li>Mettre en avant les créateurs</li>
+        <li>Garantir un environnement respectueux</li>
+        <li>Assurer une surveillance permanente</li>
+    </ul>
+</section>
+
+<section>
+    <h2>🎥 Lives</h2>
+    <ul>
+        <li>Nombre de spectateurs illimité</li>
+        <li>Jusqu’à 50 personnes peuvent monter en vocal</li>
+        <li>Chat écrit sans limite</li>
+        <li>Vérification obligatoire pour lancer un live</li>
+        <li>Message automatique lorsqu’un modérateur entre</li>
     </ul>
 </section>
 
@@ -128,34 +148,27 @@ footer {
     </ul>
 </section>
 
-<!-- 🔥 NOUVELLE SECTION : CRÉATION DE SITE -->
 <section>
-    <h2>🖥️ Création de votre site web</h2>
+    <h2>💻 Création de votre site web</h2>
     <ul>
-        <li>Nous proposons la création de votre site sur mesure</li>
+        <li>Création de site sur mesure</li>
         <li>Site codé par nous-mêmes, sécurisé et optimisé</li>
         <li>Aucune solution toute faite, tout est personnalisé</li>
         <li>Accompagnement et conseils possibles</li>
     </ul>
-    <p style="margin-top:15px; color:#ccc;">
-        👉 <strong>Contactez le responsable</strong> si vous êtes intéressé par la création de votre site.
-    </p>
+    <p>👉 Contactez le responsable si vous êtes intéressé par la création de votre site.</p>
 </section>
 
 <section>
-<section>
-  <h2>📻 Radio Anonymous SOS FR</h2>
+    <h2>📻 Radio Anonymous SOS FR</h2>
 
-  <p>
-    Radio officielle du site.<br>
-    Informations, consignes et présentation de la plateforme.
-  </p>
+    <div class="radio-box">
+        <p>
+            Radio officielle du site.<br>
+            Informations, consignes et présentation de la plateforme.
+        </p>
 
-  <audio controls preload="none">
-    <source src="radio.mp3" type="audio/mpeg">
-    Votre navigateur ne supporte pas la lecture audio.
-  </audio>
-</section>    
+        <audio controls preload="none">
             <source src="radio.mp3" type="audio/mpeg">
             Ton navigateur ne supporte pas l’audio.
         </audio>
