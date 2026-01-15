@@ -7,17 +7,15 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #0b0b0b;
-      color: #f1f1f1;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #0b0b0b;
+      color: #f1f1f1;
     }
 
     header {
-      background: #111;
-      padding: 30px;
       text-align: center;
+      padding: 30px;
       border-bottom: 3px solid red;
     }
 
@@ -28,25 +26,21 @@
     }
 
     header p {
-      margin: 10px 0;
+      margin-top: 10px;
       font-size: 16px;
-    }
-
-    .stats {
-      margin-top: 15px;
-      font-size: 18px;
+      color: #ccc;
     }
 
     .stars {
-      font-size: 26px;
+      font-size: 22px;
       color: gold;
       margin-top: 10px;
     }
 
     section {
-      padding: 25px;
       max-width: 900px;
       margin: auto;
+      padding: 25px;
     }
 
     h2 {
@@ -56,25 +50,43 @@
     }
 
     ul {
-      list-style: square;
       padding-left: 20px;
-      line-height: 1.8;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    .center {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      background: red;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+    }
+
+    .radio-box {
+      background: #111;
+      padding: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      text-align: center;
     }
 
     footer {
       text-align: center;
       padding: 20px;
-      background: #111;
-      border-top: 1px solid #333;
-      margin-top: 40px;
       font-size: 14px;
       color: #aaa;
-    }
-
-    .disclaimer {
-      font-size: 13px;
-      color: #888;
-      margin-top: 10px;
+      border-top: 1px solid #333;
+      margin-top: 40px;
     }
   </style>
 </head>
@@ -84,29 +96,10 @@
 <header>
   <h1>🔴 Anonymous SOS FR</h1>
   <p>Plateforme communautaire sécurisée et surveillée</p>
+  <div class="stars">⭐⭐⭐⭐⭐</div>
 
-  <div class="stars">
-    ⭐⭐⭐⭐⭐
-  </div>
-<div style="margin-top: 20px;">
-  <a href="inscription.html" style="
-    display:inline-block;
-    padding:12px 25px;
-    background:#e53935;
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    border-radius:6px;
-  ">
-    🔐 Inscription / Connexion
-  </a>
-</div> 
-  <div class="stats">
-    👥 Activité de la communauté aujourd’hui
-  </div>
-
-  <div class="disclaimer">
-    Les indicateurs affichés représentent l’activité globale de la plateforme
+  <div class="center">
+    <a href="inscription.html" class="btn">👉 S’inscrire / Connexion</a>
   </div>
 </header>
 
@@ -125,41 +118,19 @@
   <h2>🎥 Lives</h2>
   <ul>
     <li>Nombre de spectateurs illimité</li>
-    <li>Jusqu’à <strong>50 personnes maximum</strong> peuvent monter en vocal dans un live</li>
-    <li>Le chat écrit est accessible sans limite</li>
+    <li>Jusqu’à 50 personnes peuvent monter en vocal</li>
+    <li>Chat écrit sans limite</li>
     <li>Vérification d’identité obligatoire pour lancer un live</li>
-    <li>Message automatique quand un modérateur entre dans un live</li>
+    <li>Message automatique quand un modérateur entre</li>
   </ul>
 </section>
 
 <section>
   <h2>🎁 Cadeaux, badges & niveaux</h2>
   <ul>
-    <li>Les cadeaux permettent de gagner de l’XP</li>
-    <li>Montée en niveaux et badges visibles</li>
-    <li>Niveau maximum : 50</li>
-    <li>Effet spécial visible à l’entrée dans les lives</li>
-  </ul>
-</section>
-
-<section>
-  <h2>💰 Monétisation</h2>
-  <ul>
-    <li>Seuls les liveurs gagnent de l’argent</li>
-    <li>Les gains proviennent uniquement des cadeaux envoyés</li>
-    <li>Le site prélève automatiquement un pourcentage</li>
-    <li>Promotion payante des vidéos possible</li>
-    <li>Vues réelles, jamais bloquées</li>
-  </ul>
-</section>
-
-<section>
-  <h2>🎬 Salle de films (à venir)</h2>
-  <ul>
-    <li>Films accessibles via URL ou QR Code</li>
-    <li>Films intégrés directement sur le site</li>
-    <li>Présence de publicités</li>
-    <li>Visionnage permettant de gagner XP et badges</li>
+    <li>Les cadeaux rapportent de l’XP</li>
+    <li>Montée en niveaux</li>
+    <li>Badge spécial au niveau 50</li>
   </ul>
 </section>
 
@@ -173,18 +144,27 @@
   </ul>
 </section>
 
+<section>
+  <h2>📻 Radio Anonymous SOS FR</h2>
+
+  <div class="radio-box">
+    <p>
+      Radio officielle du site.<br>
+      Informations, consignes et présentation de la plateforme.
+    </p>
+
+    <!-- 🔊 Remplace radio.mp3 par TON fichier audio -->
+    <audio controls>
+      <source src="radio.mp3" type="audio/mpeg">
+      Ton navigateur ne supporte pas l’audio.
+    </audio>
+  </div>
+</section>
+
 <footer>
-  © Anonymous SOS FR — Créateur du projet :© Anonymous SOS FR — Créateur du projet : MoussosFR
+  © Anonymous SOS FR — Créateur du projet<br>
   Tous droits réservés
 </footer>
 
 </body>
 </html>
-</header>
-<div style="text-align:center; margin:20px;">
-  <a href="inscription.html" style="color:red; font-size:18px; text-decoration:none; border:2px solid red; padding:10px 20px; border-radius:5px;">
-    👉 S’inscrire
-  </a>
-</div>
-<!DOCTYPE html>
-<html>
