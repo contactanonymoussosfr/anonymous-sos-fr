@@ -1,262 +1,174 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle at top, #0c1f14, #000);
-  color: #eaffea;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-header {
-  text-align: center;
-  padding: 50px 20px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+        url("https://images.unsplash.com/photo-1549924231-f129b911e442");
+      background-size: cover;
+      background-position: center;
+      color: #eaffea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-header h1 {
-  font-size: 38px;
-  color: #4cff9a;
-  text-shadow: 0 0 12px rgba(76,255,154,0.7);
-  margin-bottom: 10px;
-}
+    .container {
+      max-width: 900px;
+      width: 95%;
+      background: rgba(0, 0, 0, 0.65);
+      border: 1px solid #00ff88;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 0 25px rgba(0,255,136,0.25);
+    }
 
-header p {
-  color: #b5dcb5;
-  font-size: 16px;
-}
+    h1 {
+      text-align: center;
+      color: #00ff88;
+      margin-bottom: 10px;
+    }
 
-section {
-  max-width: 1200px;
-  margin: 30px auto;
-  padding: 20px;
-}
+    .subtitle {
+      text-align: center;
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 35px;
+    }
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
+    .text-block {
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
 
-.card {
-  background: rgba(0,0,0,0.65);
-  border: 1px solid #2fff95;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 0 18px rgba(0,255,150,0.18);
-}
+    .text-block h2 {
+      color: #00ff88;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
 
-.card h2 {
-  color: #4cff9a;
-  margin-top: 0;
-}
+    .auth-box {
+      margin-top: 35px;
+      padding: 25px;
+      border: 1px solid #00ff88;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.7);
+    }
 
-.card ul {
-  padding-left: 18px;
-}
+    .auth-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-.card li {
-  margin-bottom: 6px;
-}
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 6px;
+      border: none;
+      font-size: 14px;
+    }
 
-.auth-box {
-  max-width: 420px;
-  margin: 50px auto;
-  background: rgba(0,0,0,0.75);
-  border: 2px solid #4cff9a;
-  border-radius: 14px;
-  padding: 30px;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(0,255,150,0.3);
-}
+    .btn {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
 
-.auth-box h2 {
-  margin-bottom: 15px;
-}
+    .btn-register {
+      background: #1e90ff;
+      color: white;
+    }
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border-radius: 6px;
-  border: none;
-  font-size: 15px;
-}
+    .btn-login {
+      background: #00ff88;
+      color: black;
+      font-weight: bold;
+    }
 
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.btn-register {
-  background: #1e90ff;
-  color: #fff;
-}
-
-.btn-login {
-  background: #2ecc71;
-  color: #000;
-}
-
-.btn-logout {
-  background: #ff4d4d;
-  color: #fff;
-}
-
-.status {
-  margin-top: 15px;
-  font-size: 14px;
-  min-height: 18px;
-}
-
-footer {
-  text-align: center;
-  padding: 25px;
-  font-size: 13px;
-  color: #7aa07a;
-}
-</style>
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Anonymous SOS FR</h1>
-  <p>Plateforme communautaire inspirée des valeurs d’anonymat, de responsabilité et d’entraide</p>
-</header>
+  <div class="container">
 
-<section>
-  <div class="cards">
-
-    <div class="card">
-      <h2>Objectif du projet</h2>
-      <ul>
-        <li>Créer un espace communautaire français</li>
-        <li>Favoriser l’entraide et l’information</li>
-        <li>Encadrer les échanges de manière responsable</li>
-      </ul>
+    <h1>Anonymous SOS FR</h1>
+    <div class="subtitle">
+      Plateforme communautaire inspirée par les valeurs d’anonymat, de responsabilité et d’entraide.
     </div>
 
-    <div class="card">
-      <h2>Valeurs Anonymous</h2>
-      <ul>
-        <li>Anonymat respecté</li>
-        <li>Aucune exploitation</li>
-        <li>Responsabilité individuelle</li>
-        <li>Aucune violence ni haine</li>
-      </ul>
+    <div class="text-block">
+      <h2>Pourquoi ce projet</h2>
+      Anonymous SOS FR est un espace communautaire français destiné à informer,
+      protéger et accompagner les utilisateurs dans un cadre respectueux et responsable.
     </div>
 
-    <div class="card">
-      <h2>Anonymat & protection</h2>
-      <ul>
-        <li>Respect de la vie privée</li>
-        <li>Données minimales</li>
-        <li>Transparence sur l’utilisation</li>
-      </ul>
+    <div class="text-block">
+      <h2>Nos valeurs</h2>
+      L’anonymat est respecté.  
+      Aucune exploitation, aucune haine, aucune violence.  
+      Chaque utilisateur est responsable de ses actions.
     </div>
 
-    <div class="card">
+    <div class="text-block">
+      <h2>Sécurité et transparence</h2>
+      Les échanges sont modérés.  
+      Les abus ne sont pas tolérés.  
+      Les données sont limitées au strict nécessaire.
+    </div>
+
+    <div class="text-block">
       <h2>Ce que nous ne sommes pas</h2>
-      <ul>
-        <li>Pas un groupe officiel Anonymous</li>
-        <li>Pas une organisation illégale</li>
-        <li>Pas un espace sans règles</li>
-      </ul>
+      Nous ne sommes pas un groupe officiel Anonymous.  
+      Nous ne sommes pas une organisation illégale.  
+      Nous ne sommes pas un espace sans règles.
     </div>
 
-    <div class="card">
+    <div class="text-block">
       <h2>Radio Anonymous SOS FR</h2>
-      <ul>
-        <li>Canal d’information officiel</li>
-        <li>Consignes et annonces</li>
-        <li>Mise en ligne prochaine</li>
-      </ul>
+      Canal d’information officiel du projet.  
+      Annonces et consignes importantes.  
+      Mise en ligne prochaine.
     </div>
 
-    <div class="card">
-      <h2>Création de sites</h2>
-      <ul>
-        <li>Sites sécurisés</li>
-        <li>Développement sur mesure</li>
-        <li>Contact direct avec le responsable</li>
-      </ul>
+    <div class="auth-box">
+      <h2>Connexion / Inscription</h2>
+
+      <input type="email" placeholder="Adresse email">
+      <input type="password" placeholder="Mot de passe">
+
+      <button class="btn btn-register">Créer un compte</button>
+      <button class="btn btn-login">Se connecter</button>
+    </div>
+
+    <div class="footer">
+      © Anonymous SOS FR — Tous droits réservés
     </div>
 
   </div>
-</section>
-
-<section class="auth-box">
-  <h2>Connexion / Inscription</h2>
-
-  <input type="email" id="email" placeholder="Adresse email">
-  <input type="password" id="password" placeholder="Mot de passe">
-
-  <button class="btn-register" onclick="register()">Créer un compte</button>
-  <button class="btn-login" onclick="login()">Se connecter</button>
-  <button class="btn-logout" onclick="logout()">Se déconnecter</button>
-
-  <div class="status" id="status"></div>
-</section>
-
-<footer>
-  © Anonymous SOS FR — Plateforme communautaire indépendante
-</footer>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr",
-  storageBucket: "anonymous-sos-fr.appspot.com",
-  messagingSenderId: "490705618757",
-  appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const status = document.getElementById("status");
-
-window.register = () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => status.textContent = "✅ Compte créé et connecté")
-    .catch(e => status.textContent = "❌ " + e.message);
-};
-
-window.login = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => status.textContent = "✅ Connecté")
-    .catch(() => status.textContent = "❌ Identifiants invalides");
-};
-
-window.logout = () => {
-  signOut(auth).then(() => status.textContent = "Déconnecté");
-};
-
-onAuthStateChanged(auth, user => {
-  if (user) {
-    status.textContent = "Connecté : " + user.email;
-  }
-});
-</script>
 
 </body>
 </html>
