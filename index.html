@@ -10,40 +10,32 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: #0b0b0b;
-    color: #eaeaea;
+    color: #fff;
 }
 
 header {
     text-align: center;
-    padding: 40px 20px;
+    padding: 30px;
     border-bottom: 3px solid red;
 }
 
 header h1 {
     color: red;
-    font-size: 36px;
     margin: 0;
 }
 
 header p {
     color: #ccc;
-    margin-top: 10px;
-}
-
-.stars {
-    color: gold;
-    font-size: 22px;
-    margin-top: 10px;
 }
 
 .buttons {
-    margin-top: 25px;
+    margin-top: 20px;
 }
 
-.btn {
+.buttons a {
     display: inline-block;
     margin: 10px;
-    padding: 14px 30px;
+    padding: 12px 25px;
     background: red;
     color: white;
     text-decoration: none;
@@ -51,43 +43,37 @@ header p {
     font-weight: bold;
 }
 
-.btn.secondary {
-    background: #333;
-    border: 1px solid red;
-}
-
 section {
     max-width: 900px;
-    margin: auto;
-    padding: 30px 20px;
+    margin: 40px auto;
+    padding: 20px;
     border-bottom: 1px solid #333;
 }
 
-section h2 {
+h2 {
     color: red;
-    margin-bottom: 15px;
 }
 
 ul {
-    padding-left: 20px;
+    margin-top: 15px;
 }
 
 li {
-    margin-bottom: 8px;
+    margin: 8px 0;
 }
 
 .radio-box {
-    background: #151515;
+    background: #111;
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     text-align: center;
 }
 
 footer {
     text-align: center;
     padding: 20px;
-    color: #888;
     font-size: 14px;
+    color: #aaa;
 }
 </style>
 </head>
@@ -98,35 +84,11 @@ footer {
     <h1>🔴 Anonymous SOS FR</h1>
     <p>Plateforme communautaire sécurisée et surveillée</p>
 
-    <div class="stars">★★★★★</div>
-
     <div class="buttons">
-        <a href="connexion.html" class="btn secondary">🔐 Connexion</a>
-        <a href="inscription.html" class="btn">✍️ S’inscrire</a>
+        <a href="inscription.html">📝 S’inscrire</a>
+        <a href="connexion.html">🔐 Connexion</a>
     </div>
 </header>
-
-<section>
-    <h2>🎯 Objectif du projet</h2>
-    <ul>
-        <li>Créer une plateforme communautaire moderne</li>
-        <li>Proposer des lives encadrés et sécurisés</li>
-        <li>Mettre en avant les créateurs</li>
-        <li>Garantir un environnement respectueux</li>
-        <li>Assurer une surveillance permanente</li>
-    </ul>
-</section>
-
-<section>
-    <h2>🎥 Lives</h2>
-    <ul>
-        <li>Nombre de spectateurs illimité</li>
-        <li>Jusqu’à 50 personnes peuvent monter en vocal</li>
-        <li>Chat écrit sans limite</li>
-        <li>Vérification obligatoire pour lancer un live</li>
-        <li>Message automatique lorsqu’un modérateur entre</li>
-    </ul>
-</section>
 
 <section>
     <h2>🎬 Salle de films (à venir)</h2>
@@ -151,24 +113,22 @@ footer {
 <section>
     <h2>💻 Création de votre site web</h2>
     <ul>
-        <li>Création de site sur mesure</li>
+        <li>Création de votre site sur mesure</li>
         <li>Site codé par nous-mêmes, sécurisé et optimisé</li>
         <li>Aucune solution toute faite, tout est personnalisé</li>
         <li>Accompagnement et conseils possibles</li>
     </ul>
-    <p>👉 Contactez le responsable si vous êtes intéressé par la création de votre site.</p>
+    <p>👉 Contactez le responsable si vous êtes intéressé.</p>
 </section>
 
 <section>
     <h2>📻 Radio Anonymous SOS FR</h2>
-
     <div class="radio-box">
-        <p>
-            Radio officielle du site.<br>
-            Informations, consignes et présentation de la plateforme.
-        </p>
+        <p><strong>Radio officielle du site</strong></p>
+        <p>Informations, consignes et présentation de la plateforme</p>
 
-        <audio controls preload="none">
+        <!-- REMPLACE radio.mp3 PAR TON FICHIER -->
+        <audio controls>
             <source src="radio.mp3" type="audio/mpeg">
             Ton navigateur ne supporte pas l’audio.
         </audio>
@@ -176,8 +136,8 @@ footer {
 </section>
 
 <footer>
-    © Anonymous SOS FR — Créateur du projet<br>
-    Tous droits réservés
+    © Anonymous SOS FR — Créateur du projet  
+    <br>Tous droits réservés
 </footer>
 
 </body>
