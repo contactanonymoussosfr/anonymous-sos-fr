@@ -6,118 +6,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Segoe UI, Arial, sans-serif;
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
-/* ===== FOND D'ÉCRAN ===== */
-body{
-  min-height:100vh;
+body {
+  margin: 0;
+  height: 100vh;
   background:
     linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)),
-    url("fond-anonymous.jpg") center/cover no-repeat fixed;
-  color:#eaffea;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    url("images/background.jpg") center / cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #eaffea;
 }
 
-/* ===== CARTE CENTRALE ===== */
-.card{
-  width:100%;
-  max-width:520px;
-  background:rgba(0,0,0,0.70);
-  border:2px solid #00ff88;
-  box-shadow:0 0 40px #00ff88;
-  border-radius:18px;
-  padding:35px;
+.card {
+  background: rgba(0,0,0,0.7);
+  border: 2px solid #2cff66;
+  box-shadow: 0 0 30px #2cff66;
+  border-radius: 14px;
+  padding: 30px;
+  width: 360px;
+  text-align: center;
 }
 
-/* ===== TEXTE ===== */
-h1{
-  text-align:center;
-  color:#00ff88;
-  margin-bottom:10px;
-  letter-spacing:1px;
+h1 {
+  color: #2cff66;
+  margin-bottom: 10px;
 }
 
-.subtitle{
-  text-align:center;
-  font-size:14px;
-  opacity:0.85;
-  margin-bottom:25px;
+p {
+  font-size: 14px;
+  line-height: 1.4;
 }
 
-.values{
-  font-size:14px;
-  line-height:1.6;
-  margin-bottom:25px;
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  outline: none;
 }
 
-.values span{
-  color:#00ff88;
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
 
-/* ===== FORMULAIRE ===== */
-input{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border:none;
-  border-radius:8px;
-  background:#111;
-  color:#00ff88;
-  outline:none;
+.btn-create {
+  background: #007bff;
+  color: white;
 }
 
-button{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border:none;
-  border-radius:8px;
-  font-weight:bold;
-  cursor:pointer;
+.btn-login {
+  background: #2cff66;
+  color: black;
 }
 
-.register{
-  background:#1e90ff;
-  color:white;
+#status {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #ff6666;
 }
 
-.login{
-  background:#00ff88;
-  color:black;
-}
-
-.logout{
-  background:#ff4d4d;
-  color:white;
-}
-
-button:hover{
-  opacity:0.9;
-}
-
-.hidden{
-  display:none;
-}
-
-#status{
-  margin-top:15px;
-  text-align:center;
-  font-size:13px;
-}
-
-/* ===== FOOTER ===== */
-footer{
-  margin-top:25px;
-  text-align:center;
-  font-size:12px;
-  opacity:0.6;
+footer {
+  margin-top: 15px;
+  font-size: 11px;
+  opacity: 0.7;
 }
 </style>
 </head>
@@ -125,57 +89,27 @@ footer{
 <body>
 
 <div class="card">
-
-<!-- ===== PARTIE PUBLIQUE ===== -->
-<div id="public">
   <h1>Anonymous SOS FR</h1>
-  <div class="subtitle">
-    Plateforme communautaire indépendante et sécurisée
-  </div>
+  <p>
+    Plateforme communautaire indépendante et sécurisée.<br>
+    Anonymat respecté • Responsabilité individuelle • Aucun abus toléré
+  </p>
 
-  <div class="values">
-    <span>•</span> Anonymat respecté<br>
-    <span>•</span> Responsabilité individuelle<br>
-    <span>•</span> Aucun contenu haineux ou illégal<br>
-    <span>•</span> Projet indépendant, non officiel
-  </div>
+  <input type="email" id="email" placeholder="Adresse email">
+  <input type="password" id="password" placeholder="Mot de passe">
 
-  <input id="email" type="email" placeholder="Adresse email">
-  <input id="password" type="password" placeholder="Mot de passe (6 caractères min)">
+  <button class="btn-create" onclick="register()">Créer un compte</button>
+  <button class="btn-login" onclick="login()">Se connecter</button>
 
-  <button class="register" onclick="register()">Créer un compte</button>
-  <button class="login" onclick="login()">Se connecter</button>
+  <div id="status"></div>
+
+  <footer>© Anonymous SOS FR — Tous droits réservés</footer>
 </div>
 
-<!-- ===== PARTIE CONNECTÉE ===== -->
-<div id="private" class="hidden">
-  <h1>Bienvenue</h1>
-  <div class="subtitle" id="userEmail"></div>
-
-  <div class="values">
-    Vous êtes connecté à l’espace sécurisé Anonymous SOS FR.<br><br>
-    Les fonctionnalités seront ajoutées progressivement.
-  </div>
-
-  <button class="logout" onclick="logout()">Se déconnecter</button>
-</div>
-
-<div id="status"></div>
-
-<footer>© Anonymous SOS FR — Tous droits réservés</footer>
-
-</div>
-
-<!-- ===== FIREBASE AUTH ===== -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
@@ -190,37 +124,34 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const status = document.getElementById("status");
-const publicBox = document.getElementById("public");
-const privateBox = document.getElementById("private");
-const userEmail = document.getElementById("userEmail");
 
-window.register = () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(()=> status.textContent="Compte créé et connecté")
-    .catch(e=> status.textContent=e.message);
+window.register = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      status.style.color = "#2cff66";
+      status.textContent = "Compte créé avec succès";
+    })
+    .catch(error => {
+      status.textContent = error.message;
+    });
 };
 
-window.login = () => {
-  signInWithEmailAndPassword(auth, email.value, password.value)
-    .then(()=> status.textContent="Connexion réussie")
-    .catch(()=> status.textContent="Identifiants invalides");
-};
+window.login = function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-window.logout = () => {
-  signOut(auth);
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+      status.style.color = "#2cff66";
+      status.textContent = "Connexion réussie";
+    })
+    .catch(() => {
+      status.textContent = "Identifiants invalides";
+    });
 };
-
-onAuthStateChanged(auth, user => {
-  if(user){
-    publicBox.classList.add("hidden");
-    privateBox.classList.remove("hidden");
-    userEmail.textContent = user.email;
-    status.textContent="";
-  }else{
-    publicBox.classList.remove("hidden");
-    privateBox.classList.add("hidden");
-  }
-});
 </script>
 
 </body>
