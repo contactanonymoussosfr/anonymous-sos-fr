@@ -6,105 +6,60 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
-}
-
 body{
+  margin:0;
   background:black;
-  color:#aaffea;
+  color:#aaffaa;
   height:100vh;
   overflow:hidden;
+  font-family:Arial, Helvetica, sans-serif;
 }
-
-/* MATRIX */
 canvas{
   position:fixed;
   inset:0;
   z-index:0;
 }
-
-/* CENTER */
 .overlay{
   position:relative;
-  z-index:1;
+  z-index:2;
   height:100vh;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
 }
-
 .card{
   width:360px;
-  background:rgba(0,0,0,0.75);
-  border:2px solid #00ff66;
+  background:#001a00;
+  padding:25px;
   border-radius:16px;
-  padding:24px;
-  box-shadow:0 0 30px #00ff66;
   text-align:center;
+  box-shadow:0 0 40px #00ff66;
+  border:1px solid #00ff66;
 }
-
 h1{
   color:#00ff66;
-  margin-bottom:10px;
-  text-shadow:0 0 12px #00ff66;
+  text-shadow:0 0 15px #00ff66;
 }
-
-p{
-  font-size:13px;
-  margin-bottom:12px;
-  line-height:1.5;
-}
-
-ul{
-  text-align:left;
-  font-size:13px;
-  margin-bottom:12px;
-}
-
 input{
   width:100%;
   padding:10px;
   margin:6px 0;
-  border-radius:6px;
   border:none;
-  background:#eee;
+  border-radius:6px;
 }
-
 button{
   width:100%;
   padding:10px;
   margin-top:8px;
   border:none;
   border-radius:6px;
-  cursor:pointer;
   font-weight:bold;
+  cursor:pointer;
 }
-
-.btn-create{
-  background:#1976ff;
-  color:white;
-}
-
-.btn-login{
-  background:#00c853;
-  color:black;
-}
-
-#status{
-  margin-top:10px;
-  font-size:13px;
-  min-height:18px;
-}
-
-footer{
-  margin-top:12px;
-  font-size:11px;
-  opacity:0.6;
-}
+.create{background:#1976ff;color:white;}
+.login{background:#00c853;color:black;}
+#status{margin-top:10px;font-size:13px;}
+footer{opacity:.6;font-size:11px;margin-top:10px;}
 </style>
 </head>
 
@@ -113,29 +68,44 @@ footer{
 <canvas id="matrix"></canvas>
 
 <div class="overlay">
-  <div class="card">
-    <h1>Anonymous SOS FR</h1>
+<div class="card">
+<h1>Anonymous SOS FR</h1>
+<p>Plateforme communautaire indépendante et sécurisée</p>
 
-    <p>Plateforme communautaire indépendante et sécurisée</p>
+<input id="email" type="email" placeholder="Adresse email">
+<input id="password" type="password" placeholder="Mot de passe">
 
-    <ul>
-      <li>Anonymat respecté</li>
-      <li>Aucune haine, aucune violence</li>
-      <li>Responsabilité individuelle</li>
-      <li>Projet non officiel Anonymous</li>
-    </ul>
+<button class="create" onclick="register()">Créer un compte</button>
+<button class="login" onclick="login()">Se connecter</button>
 
-    <input id="email" type="email" placeholder="Adresse email">
-    <input id="password" type="password" placeholder="Mot de passe">
+<div id="status"></div>
 
-    <button class="btn-create" onclick="register()">Créer un compte</button>
-    <button class="btn-login" onclick="login()">Se connecter</button>
-
-    <div id="status"></div>
-
-    <footer>© Anonymous SOS FR — Tous droits réservés</footer>
-  </div>
+<footer>© Anonymous SOS FR</footer>
 </div>
+</div>
+
+<script>
+// MATRIX
+const c=document.getElementById("matrix");
+const ctx=c.getContext("2d");
+c.width=window.innerWidth;c.height=window.innerHeight;
+const letters="01";
+const font=16;
+const cols=c.width/font;
+const drops=Array(Math.floor(cols)).fill(1);
+function draw(){
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,c.width,c.height);
+ctx.fillStyle="#00ff66";
+ctx.font=font+"px monospace";
+for(let i=0;i<drops.length;i++){
+const t=letters[Math.floor(Math.random()*letters.length)];
+ctx.fillText(t,i*font,drops[i]*font);
+if(drops[i]*font>c.height&&Math.random()>0.975)drops[i]=0;
+drops[i]++;
+}}
+setInterval(draw,33);
+</script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
@@ -155,60 +125,22 @@ const auth = getAuth(app);
 const status = document.getElementById("status");
 
 window.register = () => {
-  status.textContent = "Création du compte...";
-  createUserWithEmailAndPassword(
-    auth,
-    email.value,
-    password.value
-  ).then(()=>{
-    status.textContent = "Compte créé ✓";
-  }).catch(err=>{
-    status.textContent = err.message;
-  });
+  createUserWithEmailAndPassword(auth,email.value,password.value)
+  .then(()=>status.textContent="Compte créé ✓")
+  .catch(e=>status.textContent=e.message);
 };
 
 window.login = () => {
-  status.textContent = "Connexion...";
-  signInWithEmailAndPassword(
-    auth,
-    email.value,
-    password.value
-  ).then(()=>{
-    status.textContent = "Connexion réussie ✓";
-    setTimeout(()=>location.href="member.html",800);
-  }).catch(()=>{
-    status.textContent = "Identifiants invalides";
-  });
+  signInWithEmailAndPassword(auth,email.value,password.value)
+  .then(cred=>{
+    if(cred.user.email === "despeschez@gmail.com"){
+      location.href="admin.html";
+    }else{
+      location.href="member.html";
+    }
+  })
+  .catch(()=>status.textContent="Identifiants invalides");
 };
-</script>
-
-<script>
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const letters = "01";
-const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = [];
-
-for(let i=0;i<columns;i++) drops[i]=1;
-
-function draw(){
-  ctx.fillStyle="rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#00ff66";
-  ctx.font=fontSize+"px monospace";
-
-  for(let i=0;i<drops.length;i++){
-    const text=letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975) drops[i]=0;
-    drops[i]++;
-  }
-}
-setInterval(draw,33);
 </script>
 
 </body>
