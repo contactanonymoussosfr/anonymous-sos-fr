@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Anonymous SOS FR</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -15,98 +15,57 @@
       margin: 0;
       min-height: 100vh;
       background:
-        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.9)),
-        url("https://images.unsplash.com/photo-1549923746-c502d488b3ea?auto=format&fit=crop&w=1950&q=80");
-      background-size: cover;
-      background-position: center;
-      color: #e0e0e0;
+        linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+        url("anonymous-bg.jpg") center / cover no-repeat fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #eaffea;
     }
 
-    header {
-      text-align: center;
-      padding: 80px 20px 40px;
-    }
-
-    header h1 {
-      color: #00ff88;
-      font-size: 42px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 15px rgba(0,255,136,0.4);
-    }
-
-    header p {
-      max-width: 700px;
-      margin: auto;
-      font-size: 18px;
-      color: #cfcfcf;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 40px 20px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 25px;
-    }
-
-    .card {
-      background: rgba(0,0,0,0.65);
-      border: 1px solid #00ff88;
-      border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 0 20px rgba(0,255,136,0.1);
-    }
-
-    .card h2 {
-      color: #00ff88;
-      margin-top: 0;
-      margin-bottom: 15px;
-      font-size: 20px;
-    }
-
-    .card ul {
-      padding-left: 18px;
-    }
-
-    .card li {
-      margin-bottom: 8px;
-      line-height: 1.5;
-    }
-
-    .auth {
+    .container {
+      width: 100%;
       max-width: 420px;
-      margin: 60px auto;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.65);
       border: 1px solid #00ff88;
       border-radius: 14px;
       padding: 30px;
-      box-shadow: 0 0 30px rgba(0,255,136,0.2);
+      box-shadow: 0 0 25px rgba(0,255,136,0.35);
+      backdrop-filter: blur(6px);
     }
 
-    .auth h2 {
+    h1 {
       text-align: center;
       color: #00ff88;
-      margin-bottom: 20px;
+      margin-bottom: 6px;
     }
 
-    .auth input {
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 25px;
+    }
+
+    input {
       width: 100%;
       padding: 12px;
       margin-bottom: 12px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: none;
-      font-size: 15px;
+      outline: none;
+      font-size: 14px;
     }
 
-    .btn {
+    button {
       width: 100%;
       padding: 12px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: none;
       font-size: 15px;
       cursor: pointer;
-      margin-bottom: 10px;
+      font-weight: bold;
+      margin-top: 8px;
     }
 
     .btn-create {
@@ -117,78 +76,98 @@
     .btn-login {
       background: #00c853;
       color: black;
-      font-weight: bold;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 14px;
+      min-height: 18px;
     }
 
     footer {
       text-align: center;
-      padding: 25px;
-      font-size: 13px;
-      color: #aaa;
+      margin-top: 20px;
+      font-size: 12px;
+      opacity: 0.6;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
+  <div class="container">
     <h1>Anonymous SOS FR</h1>
-    <p>
-      Plateforme communautaire française inspirée des valeurs d’anonymat,
-      de responsabilité et d’entraide.  
-      Un espace sécurisé, modéré et respectueux.
-    </p>
-  </header>
-
-  <main>
-    <div class="card">
-      <h2>Pourquoi ce projet</h2>
-      <ul>
-        <li>Informer et protéger les utilisateurs</li>
-        <li>Créer un espace communautaire responsable</li>
-        <li>Favoriser l’entraide et la vigilance</li>
-      </ul>
+    <div class="subtitle">
+      Plateforme communautaire sécurisée et responsable
     </div>
 
-    <div class="card">
-      <h2>Nos valeurs</h2>
-      <ul>
-        <li>Anonymat respecté</li>
-        <li>Aucune haine, aucune violence</li>
-        <li>Responsabilité individuelle</li>
-      </ul>
-    </div>
+    <input type="email" id="email" placeholder="Adresse e-mail">
+    <input type="password" id="password" placeholder="Mot de passe">
 
-    <div class="card">
-      <h2>Sécurité & transparence</h2>
-      <ul>
-        <li>Modération active</li>
-        <li>Aucune tolérance aux abus</li>
-        <li>Données limitées au strict nécessaire</li>
-      </ul>
-    </div>
+    <button class="btn-create" onclick="register()">Créer un compte</button>
+    <button class="btn-login" onclick="login()">Se connecter</button>
 
-    <div class="card">
-      <h2>Ce que nous ne sommes pas</h2>
-      <ul>
-        <li>Pas un groupe officiel Anonymous</li>
-        <li>Pas une organisation illégale</li>
-        <li>Pas un espace sans règles</li>
-      </ul>
-    </div>
-  </main>
+    <div class="status" id="status"></div>
 
-  <div class="auth">
-    <h2>Connexion / Inscription</h2>
-    <input type="email" placeholder="Adresse email">
-    <input type="password" placeholder="Mot de passe">
-    <button class="btn btn-create">Créer un compte</button>
-    <button class="btn btn-login">Se connecter</button>
+    <footer>© Anonymous SOS FR</footer>
   </div>
 
-  <footer>
-    © Anonymous SOS FR — Tous droits réservés
-  </footer>
+  <!-- FIREBASE -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
+      authDomain: "anonymous-sos-fr.firebaseapp.com",
+      projectId: "anonymous-sos-fr",
+      storageBucket: "anonymous-sos-fr.firebasestorage.app",
+      messagingSenderId: "490705618757",
+      appId: "1:490705618757:web:fbebdbcb4b4d6d81b2a02c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const status = document.getElementById("status");
+
+    window.register = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          status.innerHTML = "Compte créé avec succès ✅";
+        })
+        .catch(err => {
+          status.innerHTML = "Erreur : " + err.message;
+        });
+    };
+
+    window.login = function () {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          status.innerHTML = "Connexion réussie ✅";
+        })
+        .catch(err => {
+          status.innerHTML = "Identifiants invalides ❌";
+        });
+    };
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        status.innerHTML = "Connecté : " + user.email;
+      }
+    });
+  </script>
 
 </body>
 </html>
