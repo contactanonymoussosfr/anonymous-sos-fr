@@ -1,115 +1,103 @@
-<!DOCTYPE html>
+,<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Gagner des pièces</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{
-  background:#000;
-  color:#00ff66;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-.box{
-  border:2px solid #00ff66;
-  padding:30px;
-  max-width:400px;
-  text-align:center;
-}
-button{
-  margin-top:20px;
-  padding:15px;
-  width:100%;
-  background:#00ff66;
-  border:none;
-  font-weight:bold;
-  cursor:pointer;
-}
-button:disabled{
-  background:#333;
-  cursor:not-allowed;
-}
-.timer{
-  margin-top:15px;
-  font-size:14px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Pubs rémunérées – Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #000;
+      color: #0f0;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 40px auto;
+      background: rgba(0,0,0,0.85);
+      border: 2px solid #0f0;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 25px #0f0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    p {
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .ads {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .ad {
+      border: 1px solid #0f0;
+      border-radius: 8px;
+      padding: 15px;
+      background: rgba(0,0,0,0.9);
+      text-align: center;
+    }
+
+    .ad h3 {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
+    .ad p {
+      font-size: 13px;
+    }
+
+    .ad button {
+      margin-top: 10px;
+      padding: 8px;
+      width: 100%;
+      background: #0f0;
+      color: #000;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .ad button:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 12px;
+      margin-top: 20px;
+      opacity: 0.6;
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="box">
-  <h2>📺 Regarder une pub</h2>
-  <p>Regarde une pub pour gagner <b>10 pièces</b>.</p>
+<canvas id="matrix"></canvas>
 
-  <button id="watchBtn" onclick="watchAd()">▶️ Regarder la pub</button>
-  <div class="timer" id="timer"></div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getFirestore, doc, updateDoc, increment, addDoc, collection, serverTimestamp } 
-from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-/* 🔧 METS TA CONFIG FIREBASE */
-const firebaseConfig = {
-  apiKey: "TA_CLE_API",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let currentUser = null;
-const btn = document.getElementById("watchBtn");
-const timerEl = document.getElementById("timer");
-
-onAuthStateChanged(auth, user => {
-  if(!user){
-    window.location.href="connexion.html";
-    return;
-  }
-  currentUser = user;
-});
-
-window.watchAd = async function(){
-  btn.disabled = true;
-  let time = 10;
-  timerEl.innerText = "Pub en cours : " + time + "s";
-
-  const interval = setInterval(()=>{
-    time--;
-    timerEl.innerText = "Pub en cours : " + time + "s";
-    if(time <= 0){
-      clearInterval(interval);
-      reward();
-    }
-  },1000);
-}
-
-async function reward(){
-  const uid = currentUser.uid;
-
-  await updateDoc(doc(db,"users",uid),{
-    coins: increment(10)
-  });
-
-  await addDoc(collection(db,"ads_logs"),{
-    uid: uid,
-    reward: 10,
-    createdAt: serverTimestamp()
-  });
-
-  timerEl.innerText = "✅ +10 pièces gagnées";
-  btn.disabled = false;
-}
-</script>
-
-</body>
-</html>
+<div class="container">
+  <h1>💰 Pubs rémunérées</h1>
+  <p>Regarde une publicité
