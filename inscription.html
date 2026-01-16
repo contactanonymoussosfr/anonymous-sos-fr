@@ -1,91 +1,14 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Inscription – Anonymous SOS FR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      margin: 0;
-      background: #000;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #fff;
-    }
-
-    .box {
-      border: 2px solid red;
-      padding: 30px;
-      border-radius: 10px;
-      text-align: center;
-      background: #111;
-      width: 300px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: red;
-      color: white;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: darkred;
-    }
-
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-  </style>
+  <title>Inscription</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-
-  <div class="box">
-    <h1>Choisis ton ID</h1>
-
-    <input type="text" id="userId" placeholder="Anonymous42">
-    <button onclick="enter()">Entrer</button>
-
-    <div class="error" id="error"></div>
-  </div>
-
-  <script>
-    function enter() {
-      const id = document.getElementById("userId").value.trim();
-
-      if (id.length < 3) {
-        document.getElementById("error").innerText =
-          "ID trop court (min 3 caractères)";
-        return;
-      }
-
-      // Sauvegarde locale
-      localStorage.setItem("anonymous_id", id);
-
-      // Redirection
-      window.location.href = "member.html";
-    }
-  </script>
-
+<div class="container">
+  <h2>Inscription</h2>
+  <p>Simulation simple (pas de backend)</p>
+  <a href="connexion.html">Aller à la connexion</a>
+</div>
 </body>
 </html>
