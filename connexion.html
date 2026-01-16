@@ -1,59 +1,17 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Connexion anonyme</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#000;
-  font-family:Arial;
-  color:#fff;
-}
-.box{
-  background:#111;
-  padding:30px;
-  border-radius:10px;
-  border:2px solid red;
-  text-align:center;
-  width:300px;
-}
-input{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-}
-button{
-  width:100%;
-  padding:10px;
-  background:red;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-.error{
-  color:red;
-  margin-top:10px;
-}
-</style>
+  <title>Connexion</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-
-<div class="box">
-  <h2>Choisis ton ID</h2>
-  <input type="text" id="username" placeholder="Ton identifiant">
-  <button id="go">Entrer</button>
-  <div class="error" id="error"></div>
+<div class="container">
+  <h2>Connexion</h2>
+  <input id="user" placeholder="Nom d'utilisateur">
+  <br><br>
+  <button onclick="login(document.getElementById('user').value)">Se connecter</button>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0
+<script src="js/main.js"></script>
+</body>
+</html>
