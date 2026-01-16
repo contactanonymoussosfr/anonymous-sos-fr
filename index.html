@@ -4,112 +4,121 @@
 <meta charset="UTF-8">
 <title>Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
 
 <style>
-/* ===== ACCUEIL SPÉCIAL ===== */
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-  background: radial-gradient(circle at top, #111, #000);
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(
+        rgba(0,0,0,0.75),
+        rgba(0,0,0,0.75)
+    ),
+    url("https://i.imgur.com/7QZ6FQp.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
 
-.lightning {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  animation: flash 6s infinite;
+.container {
+    background: rgba(0,0,0,0.6);
+    padding: 40px 30px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    border-radius: 12px;
 }
 
-@keyframes flash {
-  0%, 95%, 100% { background: transparent; }
-  96% { background: rgba(255,255,255,0.15); }
-  97% { background: transparent; }
-  98% { background: rgba(255,255,255,0.25); }
-  99% { background: transparent; }
+h1 {
+    margin-bottom: 10px;
+    letter-spacing: 2px;
 }
 
-.home {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
+.subtitle {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 25px;
 }
 
-.home h1 {
-  font-size: 26px;
-  letter-spacing: 2px;
-  margin-bottom: 15px;
-}
-
-.home p {
-  font-size: 14px;
-  opacity: 0.85;
-  margin-bottom: 20px;
-}
-
-.instructions {
-  border: 1px solid #333;
-  padding: 15px;
-  margin-bottom: 20px;
-  font-size: 14px;
-  background: rgba(0,0,0,0.6);
+.message {
+    font-size: 13px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+    opacity: 0.9;
 }
 
 .radio {
-  margin: 20px 0;
+    margin-bottom: 25px;
 }
 
 .radio audio {
-  width: 100%;
-  max-width: 300px;
+    width: 100%;
 }
 
-.start-buttons a {
-  display: block;
-  margin-top: 10px;
-  padding: 10px;
-  background: darkred;
-  color: white;
-  text-decoration: none;
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.login {
+    background: #ffffff;
+    color: black;
+}
+
+.register {
+    background: #e50914;
+    color: white;
+}
+
+.footer {
+    margin-top: 20px;
+    font-size: 11px;
+    opacity: 0.6;
 }
 </style>
 </head>
 
 <body>
 
-<div class="lightning"></div>
+<div class="container">
+    <h1>ANONYMOUS SOS FR</h1>
+    <div class="subtitle">Plateforme communautaire anonyme</div>
 
-<div class="home">
-  <h1>ANONYMOUS SOS FR</h1>
+    <div class="message">
+        Nous sommes Anonymous.<br>
+        Il n’y a pas de pardon chez nous.<br>
+        Bienvenue sur le réseau.
+    </div>
 
-  <p>Plateforme communautaire anonyme</p>
+    <div class="radio">
+        <audio controls>
+            <source src="" type="audio/mpeg">
+            Radio indisponible
+        </audio>
+    </div>
 
-  <div class="instructions">
-    <strong>INSTRUCTION</strong><br><br>
-    • Connectez-vous pour accéder au contenu<br>
-    • À l’inscription, un ID vous sera demandé<br>
-    • Respect et anonymat obligatoires
-  </div>
+    <a href="connexion.html">
+        <button class="login">Connexion</button>
+    </a>
 
-  <div class="radio">
-    <p style="font-size:13px;opacity:0.8;">Radio libre</p>
-    <audio controls>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-      Votre navigateur ne supporte pas l’audio.
-    </audio>
-  </div>
+    <a href="inscription.html">
+        <button class="register">Inscription</button>
+    </a>
 
-  <div class="start-buttons">
-    <a href="connexion.html">Connexion</a>
-    <a href="inscription.html">Inscription</a>
-  </div>
+    <div class="footer">
+        Respect et anonymat obligatoires
+    </div>
 </div>
 
-<script src="app.js"></script>
 </body>
 </html>
