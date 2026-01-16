@@ -2,156 +2,102 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Connexion — Anonymous SOS FR</title>
+<title>Inscription</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0b0b0b;
-    color: #eaeaea;
+body{
+  background:#000;
+  color:#fff;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
-header {
-    text-align: center;
-    padding: 30px 20px;
-    border-bottom: 3px solid red;
+.box{
+  background:#111;
+  padding:30px;
+  border-radius:10px;
+  width:320px;
 }
-
-header h1 {
-    color: red;
-    margin: 0;
-    font-size: 32px;
+input,button{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
 }
-
-header p {
-    margin-top: 10px;
-    color: #ccc;
-    font-size: 14px;
+button{
+  background:red;
+  color:white;
+  border:none;
+  cursor:pointer;
 }
-
-.container {
-    max-width: 420px;
-    margin: 60px auto;
-    background: #141414;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 20px rgba(255,0,0,0.25);
-}
-
-.container h2 {
-    text-align: center;
-    color: red;
-    margin-bottom: 10px;
-}
-
-.container p {
-    text-align: center;
-    font-size: 13px;
-    color: #aaa;
-    margin-bottom: 25px;
-}
-
-label {
-    display: block;
-    margin-bottom: 5px;
-    margin-top: 15px;
-    font-size: 14px;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    background: #222;
-    color: white;
-    font-size: 14px;
-}
-
-button {
-    width: 100%;
-    margin-top: 25px;
-    padding: 14px;
-    background: red;
-    border: none;
-    border-radius: 6px;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #cc0000;
-}
-
-.notice {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 12px;
-    color: #888;
-}
-
-.links {
-    margin-top: 25px;
-    text-align: center;
-}
-
-.links a {
-    display: block;
-    color: red;
-    text-decoration: none;
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    font-size: 13px;
-    color: #777;
+#msg{
+  margin-top:10px;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>🔐 Connexion</h1>
-    <p>Anonymous SOS FR — Accès sécurisé</p>
-</header>
+<div class="box">
+  <h2>Inscription</h2>
 
-<div class="container">
-    <h2>Connexion au compte</h2>
-    <p>Entrez vos identifiants pour accéder à la plateforme</p>
+  <form id="registerForm">
+    <input type="email" id="email" placeholder="Adresse email" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <button type="submit">Créer le compte</button>
+  </form>
 
-    <form>
-        <label>Pseudo ou adresse e-mail</label>
-        <input type="text" placeholder="Pseudo ou email" required>
-
-        <label>Mot de passe</label>
-        <input type="password" placeholder="Mot de passe" required>
-
-        <button type="submit">Se connecter</button>
-    </form>
-
-    <div class="notice">
-        ⚠️ Connexion visuelle uniquement pour le moment.<br>
-        Le système sera activé ultérieurement.
-    </div>
-
-    <div class="links">
-        <a href="inscription.html">✍️ Créer un compte</a>
-        <a href="index.html">⬅ Retour à l’accueil</a>
-    </div>
+  <div id="msg"></div>
 </div>
 
-<footer>
-    © Anonymous SOS FR — Tous droits réservés
-</footer>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "TA_VRAIE_CLE_API",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+function generatePublicId(){
+  return "ASFR-" + Math.random().toString(36).substring(2,8).toUpperCase();
+}
+
+document.getElementById("registerForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  const email = email.value;
+  const password = password.value;
+
+  try{
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    const publicId = generatePublicId();
+
+    await setDoc(doc(db,"users",cred.user.uid),{
+      publicId: publicId,
+      email: email,
+      createdAt: serverTimestamp()
+    });
+
+    msg.innerHTML = `
+      Compte créé avec succès.<br><br>
+      Ton ID : <b>${publicId}</b><br>
+      Note-le soigneusement.
+    `;
+
+  }catch(err){
+    msg.innerText = err.message;
+  }
+});
+</script>
 
 </body>
 </html>
