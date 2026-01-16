@@ -15,13 +15,33 @@ body {
 
 /* HEADER */
 header {
-  padding: 20px 40px;
-  border-bottom: 1px solid rgba(255,0,0,0.3);
+  border-bottom: 1px solid rgba(255,0,0,0.4);
+}
+.header-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 header h1 {
   margin: 0;
   letter-spacing: 2px;
   font-size: 20px;
+}
+nav a {
+  margin-left: 10px;
+  padding: 8px 14px;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 5px;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+nav a.primary {
+  background: #c4161c;
+  border: none;
 }
 
 /* HERO */
@@ -30,7 +50,7 @@ header h1 {
   padding: 80px 20px 60px;
 }
 .hero h2 {
-  font-size: 38px;
+  font-size: 36px;
   max-width: 800px;
   margin: auto;
 }
@@ -54,7 +74,7 @@ header h1 {
 
 /* CARDS */
 .card {
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.75);
   border: 1px solid rgba(255,0,0,0.6);
   border-radius: 12px;
   padding: 25px;
@@ -70,22 +90,45 @@ header h1 {
   opacity: 0.9;
 }
 
-/* BUTTONS */
+/* BUTTON */
 button {
   margin-top: 15px;
-  padding: 12px 18px;
+  padding: 10px 16px;
   background: #c4161c;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/* CONTACT PANEL */
+.contact-panel {
+  display: none;
+  margin-top: 15px;
+  border-top: 1px solid rgba(255,0,0,0.4);
+  padding-top: 10px;
+}
+.contact-row {
+  padding: 6px 0;
+  font-size: 14px;
+}
+.contact-row a {
+  color: #ff4d4d;
+  text-decoration: none;
+}
+
+/* NOTE */
+.note {
+  text-align: center;
+  padding: 40px 20px;
+  border-top: 1px solid rgba(255,0,0,0.3);
   font-size: 14px;
 }
 
 /* FOOTER */
 footer {
   text-align: center;
-  padding: 30px;
+  padding: 25px;
   font-size: 12px;
   opacity: 0.6;
 }
@@ -95,14 +138,21 @@ footer {
 <body>
 
 <header>
-  <h1>ANONYMOUS SOS FR</h1>
+  <div class="header-container">
+    <h1>ANONYMOUS SOS FR</h1>
+    <nav>
+      <a href="#">Connexion</a>
+      <a href="#" class="primary">Créer un compte</a>
+      <a href="#">Déconnexion</a>
+    </nav>
+  </div>
 </header>
 
 <section class="hero">
-  <h2>Une plateforme communautaire indépendante</h2>
+  <h2>Plateforme communautaire indépendante</h2>
   <p>
     Anonymat, entraide, opportunités et services numériques.<br>
-    Rejoignez un réseau libre et structuré.
+    Rejoignez un réseau structuré et libre.
   </p>
 </section>
 
@@ -110,64 +160,81 @@ footer {
   <div class="grid">
 
     <div class="card">
-      <h3>Anonymat</h3>
+      <h3>Principes</h3>
       <p>
-        Aucune identité publique requise.<br>
-        Vous contrôlez ce que vous partagez.<br>
-        Respect et anonymat obligatoires.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>Principes Anonymous</h3>
-      <p>
-        Nous sommes Anonymous.<br>
+        Respect, anonymat et entraide.<br>
         Nous sommes la communauté.<br>
-        Tout se passe ici.
+        Tout se construit ensemble.
       </p>
     </div>
 
     <div class="card">
-      <h3>Création de sites</h3>
+      <h3>Création de sites web</h3>
       <p>
-        Nous pouvons créer votre site web de A à Z.<br>
-        Vitrine, projet, plateforme, service.
+        Nous créons votre site web de A à Z.<br>
+        Site vitrine, projet personnel, plateforme ou service.<br>
+        Accompagnement sérieux et solutions sur mesure.
       </p>
-      <button>Contacter le service client</button>
+
+      <button onclick="toggleContact()">Nous contacter / Nous rejoindre</button>
+
+      <div id="contact-panel" class="contact-panel">
+        <div class="contact-row">
+          TikTok : 
+          <a href="https://tiktok.com/@anonymous_sos_fr" target="_blank">
+            @anonymous_sos_fr
+          </a>
+        </div>
+        <div class="contact-row">
+          TikTok : popysa5
+        </div>
+        <div class="contact-row">
+          WhatsApp : +32 456 89 43 35 (uniquement WhatsApp)
+        </div>
+        <div class="contact-row">
+          Email recrutement :
+          <a href="mailto:DESPRESCHEZ@GMAIL.COM">
+            DESPRESCHEZ@GMAIL.COM
+          </a>
+        </div>
+        <div class="contact-row">
+          YouTube : mr despres
+        </div>
+        <div class="contact-row">
+          Profession : Développeur
+        </div>
+      </div>
     </div>
 
     <div class="card">
-      <h3>Opportunités & revenus</h3>
+      <h3>Opportunités</h3>
       <p>
+        Participez à des propositions.<br>
         Regardez des publicités et gagnez de l’argent.<br>
-        Participez à des propositions communautaires.<br>
         D’autres solutions arrivent.
       </p>
-    </div>
-
-    <div class="card">
-      <h3>Communauté</h3>
-      <p>
-        Échanges, entraide, propositions diverses.<br>
-        Un espace ouvert aux idées et projets.
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>Accès</h3>
-      <p>
-        Plateforme en évolution.<br>
-        Inscription bientôt disponible.
-      </p>
-      <button>Rejoindre</button>
     </div>
 
   </div>
 </section>
 
+<div class="note">
+  <strong>Recrutement en continu.</strong><br>
+  Nous recrutons tous les jours.<br>
+  Ici, gagner de l’argent.<br>
+  <em>Ne perdez pas votre temps.</em>
+</div>
+
 <footer>
-  Accueil temporaire — Anonymous SOS FR
+  Anonymous SOS FR — Accueil
 </footer>
+
+<script>
+function toggleContact() {
+  const panel = document.getElementById("contact-panel");
+  panel.style.display = panel.style.display === "block" ? "none" : "block";
+}
+</script>
 
 </body>
 </html>
