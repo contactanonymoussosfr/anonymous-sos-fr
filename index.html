@@ -1,235 +1,53 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-/* ===== RESET & BASE ===== */
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: system-ui, Arial, sans-serif;
-  background: #0f0f0f;
-  color: #eaeaea;
-}
-
-/* ===== LAYOUT ===== */
-header {
-  background: #151515;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-header h1 {
-  font-size: 18px;
-  margin: 0;
-}
-
-nav button {
-  background: #222;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  margin-left: 6px;
-  cursor: pointer;
-}
-
-nav button:hover {
-  background: darkred;
-}
-
-main {
-  padding: 20px;
-}
-
-/* ===== SECTIONS ===== */
-section {
-  display: none;
-}
-section.active {
-  display: block;
-}
-
-/* ===== COMPONENTS ===== */
-.card {
-  background: #181818;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 6px;
-}
-
-input, textarea, select, button.action {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #222;
-  color: #fff;
-  border: 1px solid #333;
-}
-
-button.action {
-  background: darkred;
-  border: none;
-  cursor: pointer;
-}
-
-.list li {
-  padding: 8px;
-  border-bottom: 1px solid #333;
-}
-
-/* ===== LIVE ===== */
-.live-box {
-  background: black;
-  height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #777;
-  margin-bottom: 10px;
-}
-
-/* ===== FOOTER ===== */
-footer {
-  text-align: center;
-  padding: 10px;
-  font-size: 12px;
-  color: #666;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Feed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body onload="requireAuth()">
 
 <header>
-  <h1>Anonymous SOS FR</h1>
   <nav>
-    <button onclick="go('home')">Accueil</button>
-    <button onclick="go('login')" id="loginBtn">Connexion</button>
-    <button onclick="go('dashboard')" id="dashBtn" style="display:none">Dashboard</button>
-    <button onclick="logout()" id="logoutBtn" style="display:none">Déconnexion</button>
+    <a href="index.html">Feed</a>
+    <a href="lives.html">Lives</a>
+    <a href="member.html">Profil</a>
+    <a href="#" onclick="logout()">Quitter</a>
   </nav>
 </header>
 
-<main>
+<!-- ===== VIDÉO 1 ===== -->
+<div class="video">
+  <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay muted loop></video>
 
-<!-- ACCUEIL -->
-<section id="home" class="active">
-  <div class="card">
-    <h2>Plateforme centrale</h2>
-    <p>Chat, salons, lives, communauté.</p>
-  </div>
-</section>
-
-<!-- LOGIN -->
-<section id="login">
-  <div class="card">
-    <h2>Connexion</h2>
-    <input id="username" placeholder="Identifiant">
-    <button class="action" onclick="login()">Entrer</button>
-  </div>
-</section>
-
-<!-- DASHBOARD -->
-<section id="dashboard">
-
-  <div class="card">
-    <h2>Espace membre</h2>
-    <p id="welcome"></p>
+  <div class="info">
+    <p><strong>@user1</strong></p>
+    <p>Première vidéo</p>
   </div>
 
-  <!-- CHAT -->
-  <div class="card">
-    <h3>Chat global</h3>
-    <ul class="list" id="chatBox"></ul>
-    <input id="chatInput" placeholder="Message">
-    <button class="action" onclick="sendMessage()">Envoyer</button>
+  <div class="actions">
+    <button onclick="like(this)" data-count="0">❤️ 0</button>
+    <button>💬</button>
+  </div>
+</div>
+
+<!-- ===== VIDÉO 2 ===== -->
+<div class="video">
+  <video src="https://www.w3schools.com/html/movie.mp4" autoplay muted loop></video>
+
+  <div class="info">
+    <p><strong>@user2</strong></p>
+    <p>Deuxième vidéo</p>
   </div>
 
-  <!-- SALONS -->
-  <div class="card">
-    <h3>Salons</h3>
-    <ul class="list">
-      <li>Salon libre</li>
-      <li>Salon aide</li>
-      <li>Salon privé</li>
-    </ul>
+  <div class="actions">
+    <button onclick="like(this)" data-count="0">❤️ 0</button>
+    <button>💬</button>
   </div>
+</div>
 
-  <!-- LIVE -->
-  <div class="card">
-    <h3>Live</h3>
-    <div class="live-box">Zone Live (WebRTC / Stream)</div>
-    <button class="action">Lancer le live</button>
-  </div>
-
-  <!-- ADMIN -->
-  <div class="card">
-    <h3>Admin / Modération</h3>
-    <p>Bans, reports, contrôle (placeholder)</p>
-  </div>
-
-</section>
-
-</main>
-
-<footer>
-  Anonymous SOS FR — Base frontend stable
-</footer>
-
-<script>
-/* ===== STATE ===== */
-let user = localStorage.getItem("user");
-
-/* ===== NAV ===== */
-function go(id) {
-  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-/* ===== AUTH ===== */
-function login() {
-  const u = document.getElementById("username").value;
-  if (!u) return;
-  localStorage.setItem("user", u);
-  init();
-}
-
-function logout() {
-  localStorage.removeItem("user");
-  location.reload();
-}
-
-/* ===== CHAT (LOCAL) ===== */
-function sendMessage() {
-  const input = document.getElementById("chatInput");
-  if (!input.value) return;
-  const li = document.createElement("li");
-  li.textContent = user + " : " + input.value;
-  document.getElementById("chatBox").appendChild(li);
-  input.value = "";
-}
-
-/* ===== INIT ===== */
-function init() {
-  user = localStorage.getItem("user");
-  if (user) {
-    document.getElementById("loginBtn").style.display = "none";
-    document.getElementById("dashBtn").style.display = "inline-block";
-    document.getElementById("logoutBtn").style.display = "inline-block";
-    document.getElementById("welcome").textContent = "Bienvenue " + user;
-    go("dashboard");
-  } else {
-    go("home");
-  }
-}
-
-init();
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
