@@ -6,131 +6,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #400000, #0a0000);
-    color: #fff;
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, #5a1a1a, #0b0b0b);
+  color:#fff;
 }
 
-/* HEADER */
-header {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    padding: 15px;
-    background: rgba(0,0,0,0.4);
-    border-bottom: 1px solid red;
+/* ===== HEADER ===== */
+header{
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  padding:15px;
+  background:#111;
+  border-bottom:1px solid #a00000;
 }
 
-header button {
-    padding: 10px 16px;
-    border-radius: 20px;
-    border: 1px solid #555;
-    background: #222;
-    color: white;
-    cursor: pointer;
+header button{
+  padding:10px 18px;
+  border-radius:8px;
+  border:1px solid #444;
+  background:#222;
+  color:#fff;
+  cursor:pointer;
+  font-size:14px;
 }
 
-header button.red {
-    background: red;
-    border-color: red;
+header button.primary{
+  background:#c00000;
+  border-color:#ff2a2a;
 }
 
-header button:hover {
-    opacity: 0.85;
+header button:hover{
+  opacity:0.85;
 }
 
-/* TITRE */
-.hero {
-    text-align: center;
-    padding: 60px 20px 30px;
+/* ===== CONTENU ===== */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+  text-align:center;
 }
 
-.hero h1 {
-    color: red;
-    font-size: 36px;
+h1{
+  color:#ff2a2a;
+  font-size:40px;
+  margin-bottom:10px;
 }
 
-.hero p {
-    opacity: 0.9;
+.subtitle{
+  font-size:18px;
+  opacity:0.9;
+  margin-bottom:40px;
+  line-height:1.6;
 }
 
-/* CARTES */
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-    padding: 30px;
+/* ===== CARTES ===== */
+.cards{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
+  gap:25px;
+  margin-top:40px;
 }
 
-.card {
-    background: rgba(0,0,0,0.6);
-    border: 1px solid red;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 0 15px rgba(255,0,0,0.2);
+.card{
+  background:#151515;
+  border:1px solid #b00000;
+  border-radius:15px;
+  padding:25px;
+  box-shadow:0 0 20px rgba(255,0,0,0.15);
 }
 
-.card h3 {
-    color: red;
+.card h3{
+  color:#ff2a2a;
+  margin-bottom:15px;
 }
 
-.card button {
-    margin-top: 15px;
-    padding: 10px 14px;
-    border-radius: 12px;
-    border: none;
-    background: red;
-    color: white;
-    cursor: pointer;
+.card p{
+  line-height:1.6;
 }
 
-/* MODAL */
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+.card button{
+  margin-top:15px;
+  padding:10px 15px;
+  border:none;
+  border-radius:8px;
+  background:#c00000;
+  color:#fff;
+  cursor:pointer;
 }
 
-.modal-content {
-    background: #111;
-    padding: 25px;
-    border-radius: 15px;
-    width: 320px;
-    border: 1px solid red;
+/* ===== LIGNE INFO ===== */
+.middle-line{
+  margin:50px auto;
+  padding:15px;
+  max-width:700px;
+  border-top:1px solid #600;
+  border-bottom:1px solid #600;
+  font-size:16px;
 }
 
-.modal-content h2 {
-    color: red;
-}
-
-.modal-content input {
-    width: 100%;
-    margin: 8px 0;
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-}
-
-.modal-content button {
-    width: 100%;
-    margin-top: 10px;
-    padding: 10px;
-    background: red;
-    border: none;
-    color: white;
-    border-radius: 10px;
-}
-
-.close {
-    text-align: right;
-    cursor: pointer;
-    color: #aaa;
+/* ===== FOOTER ===== */
+footer{
+  margin-top:60px;
+  padding:25px;
+  text-align:center;
+  font-size:14px;
+  opacity:0.7;
+  border-top:1px solid #400;
 }
 </style>
 </head>
@@ -138,113 +123,121 @@ header button:hover {
 <body>
 
 <header>
-    <button onclick="openLogin()">Connexion</button>
-    <button class="red" onclick="openRegister()">Créer un compte</button>
-    <button onclick="logout()">Déconnexion</button>
+  <button onclick="login()">Connexion</button>
+  <button class="primary" onclick="register()">Créer un compte</button>
+  <button onclick="logout()">Déconnexion</button>
 </header>
 
-<section class="hero">
-    <h1>Plateforme communautaire indépendante</h1>
-    <p>N’hésitez pas à nous rejoindre. Vous êtes chez vous.</p>
-</section>
+<div class="container">
+  <h1>Plateforme communautaire indépendante</h1>
 
-<section class="cards">
+  <div class="subtitle">
+    <strong>
+      Vous êtes sur le site officiel d’Anonymous SOS FR
+      <span style="
+        display:inline-block;
+        margin-left:6px;
+        background:#1da1f2;
+        color:white;
+        font-size:12px;
+        padding:2px 6px;
+        border-radius:12px;
+        vertical-align:middle;">
+        ✔ Badge bleu
+      </span>
+    </strong>
+    <br><br>
+    Bienvenue chez Anonymous SOS FR.<br>
+    N’oublions pas. Nous ne pardonnons pas.<br><br>
+    Vous êtes chez vous.<br>
+    N’hésitez pas à inviter du monde et à partager autour de vous.
+  </div>
+
+  <div class="cards">
+
     <div class="card">
-        <h3>Anonymat</h3>
-        <p>Aucune identité publique requise.<br>Vous contrôlez vos données.</p>
+      <h3>Anonymat</h3>
+      <p>
+        Aucune identité publique n’est requise.<br>
+        Vous contrôlez entièrement ce que vous partagez.<br>
+        Votre identité, vos échanges et votre présence restent protégés.
+      </p>
     </div>
 
     <div class="card">
-        <h3>Création de sites web</h3>
-        <p>Sites, plateformes, services de A à Z.</p>
-        <button onclick="openContact()">Nous contacter</button>
+      <h3>Création de sites web</h3>
+      <p>
+        Nous créons votre site web de A à Z.<br><br>
+        Site vitrine, projet personnel, plateforme communautaire ou service en ligne.<br>
+        Accompagnement sérieux et solutions sur mesure.
+      </p>
+      <button onclick="contact()">Nous contacter / Nous rejoindre</button>
     </div>
 
     <div class="card">
-        <h3>Opportunités</h3>
-        <p>Publicités, propositions, cadeaux quotidiens.<br>
-        Regardez des pubs (vidéo complète) pour gagner de l’argent.</p>
+      <h3>Opportunités</h3>
+      <p>
+        Regardez des publicités et des vidéos jusqu’à la fin.<br><br>
+        Chaque vidéo visionnée entièrement vous permet de gagner de l’argent.<br>
+        Cadeaux, propositions et opportunités disponibles tous les jours.
+      </p>
     </div>
-</section>
 
-<!-- LOGIN -->
-<div class="modal" id="loginModal">
-    <div class="modal-content">
-        <div class="close" onclick="closeModals()">✖</div>
-        <h2>Connexion</h2>
-        <input type="text" id="loginId" placeholder="Identifiant">
-        <input type="password" id="loginPass" placeholder="Mot de passe">
-        <button onclick="login()">Se connecter</button>
-    </div>
+  </div>
+
+  <div class="middle-line">
+    <strong>Recrutement en continu — Anonymous SOS FR</strong><br><br>
+    Nous recrutons tous les jours.<br>
+    Ici, vous pouvez gagner de l’argent.<br>
+    Ne perdez pas votre temps.
+  </div>
+
+  <p>
+    N’hésitez pas à nous suivre et à nous rejoindre sur tous nos réseaux officiels.<br>
+    Pour toute question ou collaboration, utilisez le bouton
+    <strong>« Nous contacter / Nous rejoindre »</strong>.<br><br>
+    Bonne visite sur le site.<br>
+    Chaque jour, des opportunités et des cadeaux sont à gagner.
+  </p>
 </div>
 
-<!-- REGISTER -->
-<div class="modal" id="registerModal">
-    <div class="modal-content">
-        <div class="close" onclick="closeModals()">✖</div>
-        <h2>Créer un compte</h2>
-        <input type="email" id="regMail" placeholder="Email">
-        <input type="text" id="regId" placeholder="Identifiant public">
-        <input type="password" id="regPass" placeholder="Mot de passe">
-        <button onclick="register()">Créer</button>
-    </div>
-</div>
+<footer>
+  Anonymous SOS FR — Site officiel
+</footer>
 
 <script>
-function openLogin() {
-    document.getElementById("loginModal").style.display = "flex";
+let connected = false;
+
+function login(){
+  alert("Connexion réussie (simulation)");
+  connected = true;
 }
 
-function openRegister() {
-    document.getElementById("registerModal").style.display = "flex";
+function register(){
+  alert("Création de compte (simulation : email, mot de passe, ID)");
+  connected = true;
 }
 
-function closeModals() {
-    document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
+function logout(){
+  if(!connected){
+    alert("Vous n’êtes pas connecté");
+  } else {
+    alert("Déconnexion réussie");
+    connected = false;
+  }
 }
 
-function register() {
-    const id = document.getElementById("regId").value;
-    const pass = document.getElementById("regPass").value;
-
-    if (!id || !pass) {
-        alert("Champs manquants");
-        return;
-    }
-
-    localStorage.setItem("userId", id);
-    localStorage.setItem("userPass", pass);
-    alert("Compte créé");
-    closeModals();
-}
-
-function login() {
-    const id = document.getElementById("loginId").value;
-    const pass = document.getElementById("loginPass").value;
-
-    if (
-        id === localStorage.getItem("userId") &&
-        pass === localStorage.getItem("userPass")
-    ) {
-        alert("Connecté en tant que " + id);
-        closeModals();
-    } else {
-        alert("Identifiants incorrects");
-    }
-}
-
-function logout() {
-    alert("Déconnecté");
-}
-
-function openContact() {
-    alert(
-        "TikTok : @anonymous_sos_fr\n" +
-        "WhatsApp : +32456894335\n" +
-        "Email : despreschez@gmail.com\n" +
-        "YouTube : mr despres\n\n" +
-        "Recrutement en continu."
-    );
+function contact(){
+  alert(
+    "Rejoignez-nous :\n\n" +
+    "TikTok : https://tiktok.com/@anonymous_sos_fr\n" +
+    "TikTok : popysa5\n" +
+    "WhatsApp uniquement : +32456894335\n" +
+    "Email : DESPRESCHEZ@GMAIL.COM\n" +
+    "YouTube : mr despres\n\n" +
+    "Profession : Développeur\n" +
+    "Recrutement en continu."
+  );
 }
 </script>
 
