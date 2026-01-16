@@ -1,95 +1,22 @@
+
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-<meta charset="UTF-8" />
-<title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<style>
-body {
-  background: black;
-  color: white;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.box {
-  border: 2px solid red;
-  border-radius: 12px;
-  padding: 30px;
-  width: 320px;
-  text-align: center;
-  background: #111;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  margin-top: 15px;
-}
-
-button {
-  width: 100%;
-  margin-top: 15px;
-  padding: 12px;
-  background: darkred;
-  color: white;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#error {
-  margin-top: 10px;
-  color: red;
-}
-</style>
+  <title>Accueil</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
+<header>
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="connexion.html">Connexion</a>
+    <a href="inscription.html">Inscription</a>
+  </nav>
+</header>
 
-<div class="box">
-  <h2>Choisis ton ID</h2>
-
-  <input
-    id="userId"
-    type="text"
-    placeholder="Anonymous42"
-    autocomplete="off"
-  />
-
-  <button onclick="enter()">Entrer</button>
-
-  <div id="error"></div>
+<div class="container">
+  <h1>Bienvenue</h1>
+  <p>Plateforme principale</p>
 </div>
-
-<script>
-  // Si déjà inscrit → redirection auto
-  const savedId = localStorage.getItem("anonymous_id");
-  if (savedId) {
-    window.location.href = "member.html";
-  }
-
-  function enter() {
-    const input = document.getElementById("userId");
-    const id = input.value.trim();
-    const error = document.getElementById("error");
-
-    error.innerText = "";
-
-    if (!id || id.length < 3) {
-      error.innerText = "ID trop court (min 3 caractères)";
-      return;
-    }
-
-    localStorage.setItem("anonymous_id", id);
-    window.location.href = "member.html";
-  }
-</script>
-
 </body>
 </html>
