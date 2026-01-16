@@ -2,115 +2,58 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR — Chat</title>
+<title>Chat Vocal – Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
-}
-
 body{
+  margin:0;
   background:black;
-  color:#aaffaa;
-  height:100vh;
+  color:#00ff66;
+  font-family:Arial, Helvetica, sans-serif;
   overflow:hidden;
 }
-
-/* MATRIX */
 canvas{
   position:fixed;
   inset:0;
   z-index:0;
 }
-
-/* LAYOUT */
 .overlay{
   position:relative;
-  z-index:1;
+  z-index:2;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
 }
-
-.chat-box{
-  width:420px;
-  height:600px;
-  background:#0a0f0a;
-  border-radius:16px;
-  display:flex;
-  flex-direction:column;
-  box-shadow:0 0 40px #00ff66;
+.card{
+  width:380px;
+  background:#001a0f;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 0 30px #00ff66;
   border:1px solid #00ff66;
-}
-
-header{
-  padding:14px;
   text-align:center;
-  border-bottom:1px solid #00ff66;
 }
-
-header h1{
-  color:#00ff66;
-  text-shadow:0 0 12px #00ff66;
-  font-size:20px;
-}
-
-header p{
-  font-size:11px;
-  opacity:.8;
-}
-
-#messages{
-  flex:1;
-  padding:12px;
-  overflow-y:auto;
-  font-size:13px;
-}
-
-.message{
+h1{
   margin-bottom:10px;
+  text-shadow:0 0 10px #00ff66;
 }
-
-.admin{
-  color:#ff5555;
-}
-
-.membre{
-  color:#00ff66;
-}
-
-form{
-  display:flex;
-  border-top:1px solid #00ff66;
-}
-
-input{
-  flex:1;
-  padding:12px;
-  border:none;
-  outline:none;
-  background:#111;
-  color:#aaffaa;
-}
-
 button{
-  padding:12px 18px;
+  width:100%;
+  padding:12px;
+  margin-top:10px;
   border:none;
-  background:#00ff66;
+  border-radius:6px;
   font-weight:bold;
   cursor:pointer;
 }
-
+.btn-start{background:#00c853;color:black;}
+.btn-stop{background:#ff4444;color:white;}
 footer{
-  text-align:center;
+  margin-top:12px;
   font-size:11px;
-  opacity:.5;
-  padding:6px;
+  opacity:.6;
 }
 </style>
 </head>
@@ -120,27 +63,24 @@ footer{
 <canvas id="matrix"></canvas>
 
 <div class="overlay">
-  <div class="chat-box">
-    <header>
-      <h1>Chat Anonymous SOS FR</h1>
-      <p id="userInfo"></p>
-    </header>
+  <div class="card">
+    <h1>🎤 Chat Vocal</h1>
+    <p>Anonymous SOS FR</p>
 
-    <div id="messages"></div>
+    <button class="btn-start" onclick="startVoice()">🎧 Activer le micro</button>
+    <button class="btn-stop" onclick="stopVoice()">⛔ Couper le micro</button>
 
-    <form id="chatForm">
-      <input id="messageInput" placeholder="Écrire un message..." autocomplete="off">
-      <button>Envoyer</button>
-    </form>
-
-    <footer>Chat communautaire sécurisé</footer>
+    <footer>Chat vocal communautaire sécurisé</footer>
   </div>
 </div>
 
 <script type="module">
+/* ================= FIREBASE ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
@@ -155,68 +95,63 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const messagesDiv = document.getElementById("messages");
-const form = document.getElementById("chatForm");
-const input = document.getElementById("messageInput");
-const userInfo = document.getElementById("userInfo");
+let localStream;
+let peers = {};
+let myId;
 
-let currentUser;
-let role = "membre";
-
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    window.location.href = "index.html";
-    return;
-  }
-
-  currentUser = user;
-
-  if (user.email === "despeschez@gmail.com") {
-    role = "admin";
-    userInfo.innerHTML = ${user.email} — <span class="admin">ADMIN</span>;
-  } else {
-    userInfo.innerHTML = ${user.email} — <span class="membre">MEMBRE</span>;
-  }
-
-  loadMessages();
+/* ================= AUTH ================= */
+signInAnonymously(auth).then(res=>{
+  myId = res.user.uid;
 });
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  if (!input.value.trim()) return;
+/* ================= VOICE ================= */
+async function startVoice(){
+  localStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  const callRef = collection(db, "voice");
 
-  await addDoc(collection(db, "chat"), {
-    email: currentUser.email,
-    role: role,
-    message: input.value,
-    createdAt: serverTimestamp()
-  });
+  await addDoc(callRef, { user: myId });
 
-  input.value = "";
-});
+  onSnapshot(callRef, snapshot=>{
+    snapshot.docChanges().forEach(change=>{
+      const data = change.doc.data();
+      const id = change.doc.id;
 
-function loadMessages(){
-  const q = query(collection(db, "chat"), orderBy("createdAt"));
-  onSnapshot(q, (snapshot) => {
-    messagesDiv.innerHTML = "";
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const div = document.createElement("div");
-      div.className = "message " + (data.role === "admin" ? "admin" : "membre");
-      div.innerHTML = <strong>${data.role.toUpperCase()}</strong> — ${data.email}<br>${data.message};
-      messagesDiv.appendChild(div);
+      if(data.user !== myId && !peers[id]){
+        createPeer(id);
+      }
     });
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 }
-</script>
 
-<script>
-/* MATRIX */
+function stopVoice(){
+  localStream?.getTracks().forEach(t=>t.stop());
+  Object.values(peers).forEach(p=>p.close());
+  peers = {};
+}
+
+/* ================= WEBRTC ================= */
+function createPeer(id){
+  const pc = new RTCPeerConnection({
+    iceServers:[{urls:"stun:stun.l.google.com:19302"}]
+  });
+
+  localStream.getTracks().forEach(track=>pc.addTrack(track, localStream));
+
+  pc.ontrack = e=>{
+    const audio = document.createElement("audio");
+    audio.srcObject = e.streams[0];
+    audio.autoplay = true;
+    document.body.appendChild(audio);
+  };
+
+  peers[id] = pc;
+}
+
+/* ================= MATRIX EFFECT ================= */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
-canvas.width = innerWidth;
-canvas.height = innerHeight;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 const letters = "01";
 const fontSize = 14;
 const columns = canvas.width / fontSize;
@@ -228,9 +163,9 @@ function draw(){
   ctx.fillStyle="#00ff66";
   ctx.font=fontSize+"px monospace";
   for(let i=0;i<drops.length;i++){
-    const text=letters[Math.floor(Math.random()*letters.length)];
+    const text = letters[Math.floor(Math.random()*letters.length)];
     ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975)drops[i]=0;
+    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
     drops[i]++;
   }
 }
