@@ -1,26 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <title>Espace membre</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Profil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body onload="requireAuth()">
+
 <header>
   <nav>
-    <a href="chat.html">Chat</a>
-    <a href="salons.html">Salons</a>
+    <a href="index.html">Feed</a>
     <a href="lives.html">Lives</a>
-    <a href="gifts.html">Gifts</a>
-    <a href="ads.html">Ads</a>
-    <a href="admin.html">Admin</a>
-    <a href="#" onclick="logout()">Déconnexion</a>
+    <a href="member.html">Profil</a>
+    <a href="#" onclick="logout()">Quitter</a>
   </nav>
 </header>
 
 <div class="container">
-  <h1>Espace membre</h1>
+  <h2 class="page-title">Mon profil</h2>
+
+  <p id="profileUser"></p>
+
+  <div style="margin-top:20px;">
+    <h3>Mes informations</h3>
+    <ul style="font-size:14px;opacity:0.9;">
+      <li>Pseudo</li>
+      <li>Vidéos publiées (à venir)</li>
+      <li>Likes reçus (à venir)</li>
+      <li>Abonnés (à venir)</li>
+    </ul>
+  </div>
 </div>
 
-<script src="js/auth.js"></script>
+<script src="app.js"></script>
+<script>
+  // Affichage du pseudo
+  document.getElementById("profileUser").textContent =
+    "Connecté en tant que : " + currentUser();
+</script>
+
 </body>
 </html>
