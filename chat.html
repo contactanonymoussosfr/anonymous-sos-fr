@@ -2,84 +2,85 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Chat – Anonymous SOS FR</title>
+<title>Chat — Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{background:black;color:#aaffaa;height:100vh;overflow:hidden}
+body{
+  background:black;
+  color:#00ff66;
+  height:100vh;
+  overflow:hidden;
+}
 
-/* MATRIX */
-canvas{position:fixed;inset:0;z-index:0}
+/* MATRIX BACKGROUND */
+canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+}
 
 /* LAYOUT */
-.app{
+#container{
   position:relative;
-  z-index:2;
-  display:grid;
-  grid-template-columns:240px 1fr;
+  z-index:1;
+  display:flex;
   height:100vh;
 }
 
-/* SIDEBAR */
-.sidebar{
+/* CONNECTÉS */
+#users{
+  width:220px;
   border-right:2px solid #00ff66;
   padding:10px;
 }
-.sidebar h3{
-  color:#00ff66;
+#users h3{
   margin-bottom:10px;
 }
 .user{
   font-size:13px;
-  margin-bottom:6px;
+  margin-bottom:4px;
 }
-.admin{color:#ff4444}
 
 /* CHAT */
-.chat{
+#chat{
+  flex:1;
   display:flex;
   flex-direction:column;
 }
-.messages{
+
+#messages{
   flex:1;
   padding:15px;
   overflow-y:auto;
 }
+
 .msg{
-  margin-bottom:8px;
+  margin-bottom:6px;
   font-size:14px;
 }
-.msg span{
-  font-weight:bold;
-}
-.admin-tag{color:#ff4444}
-.member-tag{color:#00ff66}
 
-/* INPUT */
-.input-zone{
+#inputBar{
   display:flex;
   border-top:2px solid #00ff66;
 }
-input{
+
+#message{
   flex:1;
   padding:12px;
-  background:#111;
+  background:black;
   border:none;
-  color:#aaffaa;
+  color:#00ff66;
+  outline:none;
 }
+
 button{
-  padding:12px 20px;
+  padding:12px 18px;
   background:#00ff66;
   border:none;
   cursor:pointer;
   font-weight:bold;
-}
-footer{
-  text-align:center;
-  font-size:11px;
-  opacity:.6;
-  padding:4px;
 }
 </style>
 </head>
@@ -88,128 +89,124 @@ footer{
 
 <canvas id="matrix"></canvas>
 
-<div class="app">
-  <div class="sidebar">
+<div id="container">
+  <div id="users">
     <h3>Connectés</h3>
-    <div id="users"></div>
+    <div id="userList"></div>
   </div>
 
-  <div class="chat">
-    <div class="messages" id="messages"></div>
+  <div id="chat">
+    <div id="messages"></div>
 
-    <div class="input-zone">
-      <input id="messageInput" placeholder="Écrire un message…">
+    <div id="inputBar">
+      <input id="message" placeholder="Écrire un message..." autocomplete="off">
       <button onclick="sendMessage()">Envoyer</button>
     </div>
-
-    <footer>Chat communautaire sécurisé – Anonymous SOS FR</footer>
   </div>
 </div>
 
 <script type="module">
-/* ================= FIREBASE ================= */
+/* FIREBASE */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, setDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, setDoc, doc } 
+from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+/* CONFIG */
 const firebaseConfig = {
   apiKey: "TA_CLE_API",
   authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr",
+  projectId: "anonymous-sos-fr"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getFirestore();
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-let currentUser;
-let anonId;
+/* ELEMENTS */
+const messagesDiv = document.getElementById("messages");
+const userList = document.getElementById("userList");
+const input = document.getElementById("message");
 
-/* ================= AUTH ================= */
+let myId = null;
+
+/* AUTH CHECK */
 onAuthStateChanged(auth, user => {
-  if(!user){
-    window.location.href="connexion.html";
+  if (!user) {
+    window.location.href = "connexion.html";
     return;
   }
-  currentUser = user;
-  anonId = "Anon-" + user.uid.substring(0,5).toUpperCase();
 
-  setDoc(doc(db,"users",user.uid),{
-    anonId: anonId,
-    role: user.email === "despeschez@gmail.com" ? "admin" : "member",
-    online:true,
-    last:serverTimestamp()
+  myId = "User-" + user.uid.substring(0,6);
+
+  // présence
+  setDoc(doc(db,"online",user.uid),{
+    user: myId,
+    online: true
+  });
+
+  // messages temps réel
+  const q = query(collection(db,"messages"), orderBy("createdAt"));
+  onSnapshot(q, snap => {
+    messagesDiv.innerHTML="";
+    snap.forEach(d=>{
+      const m = d.data();
+      const div = document.createElement("div");
+      div.className="msg";
+      div.textContent = m.user+" : "+m.text;
+      messagesDiv.appendChild(div);
+    });
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  });
+
+  // connectés temps réel
+  onSnapshot(collection(db,"online"), snap=>{
+    userList.innerHTML="";
+    snap.forEach(d=>{
+      const u=document.createElement("div");
+      u.className="user";
+      u.textContent=d.data().user;
+      userList.appendChild(u);
+    });
   });
 });
 
-/* ================= SEND ================= */
-window.sendMessage = async () => {
-  const input = document.getElementById("messageInput");
+/* SEND MESSAGE */
+window.sendMessage = async function(){
   if(input.value.trim()==="") return;
 
   await addDoc(collection(db,"messages"),{
-    anonId: anonId,
-    role: currentUser.email === "despeschez@gmail.com" ? "admin" : "member",
+    user: myId,
     text: input.value,
-    created: serverTimestamp()
+    createdAt: serverTimestamp()
   });
 
   input.value="";
 };
 
-/* ================= RECEIVE ================= */
-const q = query(collection(db,"messages"), orderBy("created"));
-onSnapshot(q,snap=>{
-  const box = document.getElementById("messages");
-  box.innerHTML="";
-  snap.forEach(d=>{
-    const m=d.data();
-    const div=document.createElement("div");
-    div.className="msg";
-    div.innerHTML=`
-      <span class="${m.role==="admin"?"admin-tag":"member-tag"}">
-        ${m.anonId}
-      </span> : ${m.text}
-    `;
-    box.appendChild(div);
-  });
-  box.scrollTop=box.scrollHeight;
-});
-
-/* ================= USERS ================= */
-onSnapshot(collection(db,"users"),snap=>{
-  const u=document.getElementById("users");
-  u.innerHTML="";
-  snap.forEach(d=>{
-    const x=d.data();
-    const div=document.createElement("div");
-    div.className="user "+(x.role==="admin"?"admin":"");
-    div.textContent = x.anonId + (x.role==="admin"?" (ADMIN)":"");
-    u.appendChild(div);
-  });
-});
-
-/* ================= MATRIX ================= */
-const c=document.getElementById("matrix");
-const ctx=c.getContext("2d");
-c.width=window.innerWidth;
-c.height=window.innerHeight;
+/* MATRIX EFFECT */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 const letters="01";
 const font=14;
-const cols=c.width/font;
+const cols=canvas.width/font;
 const drops=Array(cols).fill(1);
-setInterval(()=>{
+
+function draw(){
   ctx.fillStyle="rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle="#00ff66";
   ctx.font=font+"px monospace";
-  drops.forEach((y,i)=>{
-    const t=letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(t,i*font,y*font);
-    if(y*font>c.height&&Math.random()>0.95)drops[i]=0;
+  for(let i=0;i<drops.length;i++){
+    const text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*font,drops[i]*font);
+    if(drops[i]*font>canvas.height && Math.random()>0.975) drops[i]=0;
     drops[i]++;
-  });
-},33);
+  }
+}
+setInterval(draw,35);
 </script>
 
 </body>
