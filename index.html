@@ -1,50 +1,112 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Feed</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* ===== ACCUEIL SPÉCIAL ===== */
+body {
+  background: radial-gradient(circle at top, #111, #000);
+}
+
+.lightning {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  animation: flash 6s infinite;
+}
+
+@keyframes flash {
+  0%, 95%, 100% { background: transparent; }
+  96% { background: rgba(255,255,255,0.15); }
+  97% { background: transparent; }
+  98% { background: rgba(255,255,255,0.25); }
+  99% { background: transparent; }
+}
+
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.home h1 {
+  font-size: 26px;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.home p {
+  font-size: 14px;
+  opacity: 0.85;
+  margin-bottom: 20px;
+}
+
+.instructions {
+  border: 1px solid #333;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  background: rgba(0,0,0,0.6);
+}
+
+.radio {
+  margin: 20px 0;
+}
+
+.radio audio {
+  width: 100%;
+  max-width: 300px;
+}
+
+.start-buttons a {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background: darkred;
+  color: white;
+  text-decoration: none;
+}
+</style>
 </head>
 
-<body onload="requireAuth()">
+<body>
 
-<header>
-  <nav>
-    <a href="index.html">Feed</a>
-    <a href="lives.html">Lives</a>
-    <a href="member.html">Profil</a>
-    <a href="#" onclick="logout()">Quitter</a>
-  </nav>
-</header>
+<div class="lightning"></div>
 
-<!-- ===== VIDÉO 1 ===== -->
-<div class="video">
-  <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoplay muted loop></video>
+<div class="home">
+  <h1>ANONYMOUS SOS FR</h1>
 
-  <div class="info">
-    <p><strong>@user1</strong></p>
-    <p>Première vidéo</p>
+  <p>Plateforme communautaire anonyme</p>
+
+  <div class="instructions">
+    <strong>INSTRUCTION</strong><br><br>
+    • Connectez-vous pour accéder au contenu<br>
+    • À l’inscription, un ID vous sera demandé<br>
+    • Respect et anonymat obligatoires
   </div>
 
-  <div class="actions">
-    <button onclick="like(this)" data-count="0">❤️ 0</button>
-    <button>💬</button>
-  </div>
-</div>
-
-<!-- ===== VIDÉO 2 ===== -->
-<div class="video">
-  <video src="https://www.w3schools.com/html/movie.mp4" autoplay muted loop></video>
-
-  <div class="info">
-    <p><strong>@user2</strong></p>
-    <p>Deuxième vidéo</p>
+  <div class="radio">
+    <p style="font-size:13px;opacity:0.8;">Radio libre</p>
+    <audio controls>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+      Votre navigateur ne supporte pas l’audio.
+    </audio>
   </div>
 
-  <div class="actions">
-    <button onclick="like(this)" data-count="0">❤️ 0</button>
-    <button>💬</button>
+  <div class="start-buttons">
+    <a href="connexion.html">Connexion</a>
+    <a href="inscription.html">Inscription</a>
   </div>
 </div>
 
