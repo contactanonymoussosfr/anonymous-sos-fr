@@ -1,17 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+  <meta charset="UTF-8">
   <title>Connexion</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+<header>
+  <nav>
+    <a href="index.html">Feed</a>
+    <a href="connexion.html">Connexion</a>
+  </nav>
+</header>
+
 <div class="container">
-  <h2>Connexion</h2>
-  <input id="user" placeholder="Nom d'utilisateur">
-  <br><br>
-  <button onclick="login(document.getElementById('user').value)">Se connecter</button>
+  <h2 class="page-title">Connexion</h2>
+
+  <input
+    type="text"
+    id="user"
+    placeholder="Pseudo"
+    autocomplete="off"
+  >
+
+  <button onclick="login()">Entrer</button>
+
+  <p style="margin-top:10px;font-size:14px;">
+    Pas encore inscrit ?
+    <a href="inscription.html" style="color:#d40000;">Créer un compte</a>
+  </p>
 </div>
 
-<script src="js/main.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
