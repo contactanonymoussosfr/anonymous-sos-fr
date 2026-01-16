@@ -1,240 +1,229 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <title>Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(135deg, #0b0b0b, #1a0000);
-  color: #f2f2f2;
-}
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #2b0000, #0a0a0a);
+      color: #ffffff;
+    }
 
-/* HEADER */
-header {
-  border-bottom: 1px solid rgba(255,0,0,0.4);
-}
-.header-container {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-header h1 {
-  margin: 0;
-  letter-spacing: 2px;
-  font-size: 20px;
-}
-nav a {
-  margin-left: 10px;
-  padding: 8px 14px;
-  text-decoration: none;
-  font-size: 14px;
-  border-radius: 5px;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.3);
-}
-nav a.primary {
-  background: #c4161c;
-  border: none;
-}
+    /* ===== HEADER ===== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      border-bottom: 1px solid #550000;
+    }
 
-/* HERO */
-.hero {
-  text-align: center;
-  padding: 80px 20px 60px;
-}
-.hero h2 {
-  font-size: 36px;
-  max-width: 800px;
-  margin: auto;
-}
-.hero p {
-  margin-top: 20px;
-  font-size: 16px;
-  opacity: 0.9;
-}
+    header h2 {
+      margin: 0;
+      color: #ffffff;
+      font-size: 20px;
+    }
 
-/* SECTIONS */
-.section {
-  padding: 60px 20px;
-}
-.grid {
-  max-width: 1100px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
-}
+    .top-buttons {
+      display: flex;
+      gap: 10px;
+    }
 
-/* CARDS */
-.card {
-  background: rgba(0,0,0,0.75);
-  border: 1px solid rgba(255,0,0,0.6);
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 0 25px rgba(255,0,0,0.15);
-}
-.card h3 {
-  margin-top: 0;
-  color: #ff3b3b;
-}
-.card p {
-  font-size: 14px;
-  line-height: 1.6;
-  opacity: 0.9;
-}
+    .top-buttons button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background: #1a1a1a;
+      color: white;
+      cursor: pointer;
+    }
 
-/* BUTTON */
-button {
-  margin-top: 15px;
-  padding: 10px 16px;
-  background: #c4161c;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+    .top-buttons button.primary {
+      background: red;
+      border: none;
+    }
 
-/* CONTACT PANEL */
-.contact-panel {
-  display: none;
-  margin-top: 15px;
-  border-top: 1px solid rgba(255,0,0,0.4);
-  padding-top: 10px;
-}
-.contact-row {
-  padding: 6px 0;
-  font-size: 14px;
-}
-.contact-row a {
-  color: #ff4d4d;
-  text-decoration: none;
-}
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center;
+      padding: 80px 20px 40px;
+    }
 
-/* NOTE */
-.note {
-  text-align: center;
-  padding: 40px 20px;
-  border-top: 1px solid rgba(255,0,0,0.3);
-  font-size: 14px;
-}
+    .main-title {
+      color: red;
+      font-size: 42px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
 
-/* FOOTER */
-footer {
-  text-align: center;
-  padding: 25px;
-  font-size: 12px;
-  opacity: 0.6;
-}
-</style>
+    .subtitle {
+      color: #ffb3b3;
+      font-size: 18px;
+      margin-bottom: 40px;
+    }
+
+    /* ===== CARDS ===== */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #660000;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 0 15px rgba(255,0,0,0.15);
+    }
+
+    .card h3 {
+      color: red;
+      margin-top: 0;
+    }
+
+    .card p {
+      color: #ddd;
+      line-height: 1.5;
+    }
+
+    .card button {
+      margin-top: 15px;
+      padding: 10px 18px;
+      background: red;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* ===== INFO MESSAGE ===== */
+    .info-message {
+      text-align: center;
+      margin: 60px auto;
+      max-width: 750px;
+      color: #ddd;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #550000;
+      color: #888;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <div class="header-container">
-    <h1>ANONYMOUS SOS FR</h1>
-    <nav>
-      <a href="#">Connexion</a>
-      <a href="#" class="primary">Créer un compte</a>
-      <a href="#">Déconnexion</a>
-    </nav>
-  </div>
-</header>
+  <!-- ===== HEADER ===== -->
+  <header>
+    <h2>Anonymous SOS FR</h2>
+    <div class="top-buttons">
+      <button onclick="goConnexion()">Connexion</button>
+      <button class="primary" onclick="goInscription()">Créer un compte</button>
+      <button onclick="logout()">Déconnexion</button>
+    </div>
+  </header>
 
-<section class="hero">
-  <h2>Plateforme communautaire indépendante</h2>
-  <p>
-    Anonymat, entraide, opportunités et services numériques.<br>
-    Rejoignez un réseau structuré et libre.
-  </p>
-</section>
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="main-title">Plateforme communautaire indépendante</div>
+    <div class="subtitle">N’hésitez pas à nous rejoindre.</div>
+  </section>
 
-<section class="section">
-  <div class="grid">
+  <!-- ===== CARDS ===== -->
+  <section class="cards">
 
     <div class="card">
-      <h3>Principes</h3>
+      <h3>Anonymat</h3>
       <p>
-        Respect, anonymat et entraide.<br>
-        Nous sommes la communauté.<br>
-        Tout se construit ensemble.
+        Aucune identité publique requise.  
+        Vous contrôlez ce que vous partagez.  
+        Respect, entraide et liberté.
       </p>
     </div>
 
     <div class="card">
       <h3>Création de sites web</h3>
       <p>
-        Nous créons votre site web de A à Z.<br>
-        Site vitrine, projet personnel, plateforme ou service.<br>
+        Nous créons votre site web de A à Z.  
+        Site vitrine, projet personnel, plateforme ou service.  
         Accompagnement sérieux et solutions sur mesure.
       </p>
-
-      <button onclick="toggleContact()">Nous contacter / Nous rejoindre</button>
-
-      <div id="contact-panel" class="contact-panel">
-        <div class="contact-row">
-          TikTok : 
-          <a href="https://tiktok.com/@anonymous_sos_fr" target="_blank">
-            @anonymous_sos_fr
-          </a>
-        </div>
-        <div class="contact-row">
-          TikTok : popysa5
-        </div>
-        <div class="contact-row">
-          WhatsApp : +32 456 89 43 35 (uniquement WhatsApp)
-        </div>
-        <div class="contact-row">
-          Email recrutement :
-          <a href="mailto:DESPRESCHEZ@GMAIL.COM">
-            DESPRESCHEZ@GMAIL.COM
-          </a>
-        </div>
-        <div class="contact-row">
-          YouTube : mr despres
-        </div>
-        <div class="contact-row">
-          Profession : Développeur
-        </div>
-      </div>
+      <button onclick="openContact()">Nous contacter / Nous rejoindre</button>
     </div>
 
     <div class="card">
       <h3>Opportunités</h3>
       <p>
-        Participez à des propositions.<br>
-        Regardez des publicités et gagnez de l’argent.<br>
+        Participez à des propositions.  
+        Regardez des publicités et gagnez de l’argent.  
         D’autres solutions arrivent.
       </p>
     </div>
 
+  </section>
+
+  <!-- ===== INFO MESSAGE ===== -->
+  <div class="info-message">
+    <p>
+      N’hésitez pas à nous suivre et à nous rejoindre sur tous nos réseaux.
+    </p>
+    <p>
+      Pour toute question, collaboration ou demande, cliquez sur le bouton
+      <strong>« Nous contacter / Nous rejoindre »</strong>.
+    </p>
+    <p>
+      Bonne visite sur le site.<br>
+      Chaque jour, des opportunités et des cadeaux sont à gagner.
+    </p>
   </div>
-</section>
 
-<div class="note">
-  <strong>Recrutement en continu.</strong><br>
-  Nous recrutons tous les jours.<br>
-  Ici, gagner de l’argent.<br>
-  <em>Ne perdez pas votre temps.</em>
-</div>
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    Recrutement en continu — Nous recrutons tous les jours.  
+    Ici, gagner de l’argent. Ne perdez pas votre temps.  
+    <br><br>
+    Anonymous SOS FR — Accueil
+  </footer>
 
-<footer>
-  Anonymous SOS FR — Accueil
-</footer>
+  <!-- ===== JS ===== -->
+  <script>
+    function goConnexion() {
+      window.location.href = "connexion.html";
+    }
 
-<script>
-function toggleContact() {
-  const panel = document.getElementById("contact-panel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
-}
-</script>
+    function goInscription() {
+      window.location.href = "inscription.html";
+    }
+
+    function logout() {
+      localStorage.clear();
+      alert("Vous êtes déconnecté.");
+      window.location.href = "index.html";
+    }
+
+    function openContact() {
+      alert(
+        "Rejoignez-nous sur TikTok : tiktok.com/@anonymous_sos_fr\n\n" +
+        "WhatsApp : +32 456 894 335\n\n" +
+        "Email : despreschez@gmail.com\n\n" +
+        "Recrutement en continu."
+      );
+    }
+  </script>
 
 </body>
 </html>
