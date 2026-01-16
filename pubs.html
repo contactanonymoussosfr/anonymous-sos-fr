@@ -1,3 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Anonymous SOS FR | Vidéos sponsorisées rémunérées</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #5a0000, #120000);
+      color: #fff;
+    }
+
+    header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #ff2a2a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.4);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+      color: #ff4444;
+    }
+
+    header .status {
+      font-size: 13px;
+      color: #ccc;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 28px;
+      color: #ff3333;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #ddd;
+      margin-bottom: 30px;
+    }
+
+    .rules {
+      border: 1px solid #ff2a2a;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 30px;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .rules div {
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .videos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .video-card {
+      border: 1px solid #ff2a2a;
+      border-radius: 12px;
+      padding: 15px;
+      background: rgba(0,0,0,0.35);
+    }
+
+    .video-card h3 {
+      margin-top: 0;
+      color: #ff5555;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: #000;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      background: #444;
+      color: #aaa;
+    }
+
+    button.enabled {
+      background: #ff3333;
+      color: #fff;
+    }
+
+    .balance {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 16px;
+      color: #ffcc66;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 15px;
+      text-align: center;
+      font-size: 12px;
+      color: #bbb;
+      border-top: 1px solid #ff2a2a;
+      background: rgba(0,0,0,0.4);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 🔐 PROTECTION CONNEXION -->
 <script>
   const user = JSON.parse(localStorage.getItem("user"));
   if (!user || !user.connected) {
@@ -5,182 +135,90 @@
     window.location.href = "connexion.html";
   }
 </script>
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR — Vidéos rémunérées</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #5a0000, #120000);
-    color: #fff;
-}
-
-header {
-    padding: 20px;
-    border-bottom: 1px solid #ff2a2a;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header .user {
-    font-size: 14px;
-    color: #ffb3b3;
-}
-
-.container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-}
-
-.title {
-    font-size: 28px;
-    color: #ff2a2a;
-    text-align: center;
-    text-shadow: 0 0 15px #ff2a2a;
-}
-
-.subtitle {
-    text-align: center;
-    margin-top: 10px;
-    color: #ddd;
-}
-
-.info-box {
-    margin: 30px 0;
-    padding: 15px;
-    border: 1px solid #ff2a2a;
-    border-radius: 10px;
-    background: rgba(0,0,0,0.4);
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-}
-
-.card {
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid #ff2a2a;
-    background: rgba(0,0,0,0.45);
-}
-
-.card h3 {
-    color: #ff2a2a;
-    margin-top: 0;
-}
-
-.video-box {
-    margin-top: 15px;
-}
-
-video {
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid #ff2a2a;
-}
-
-button {
-    margin-top: 15px;
-    width: 100%;
-    padding: 10px;
-    background: #ff2a2a;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-}
-
-button:disabled {
-    background: #555;
-    cursor: not-allowed;
-}
-
-.balance {
-    margin-top: 30px;
-    text-align: center;
-    font-size: 18px;
-}
-
-footer {
-    margin-top: 60px;
-    text-align: center;
-    font-size: 13px;
-    color: #aaa;
-}
-</style>
-</head>
-
-<body>
 
 <header>
-    <div class="logo">Anonymous SOS FR</div>
-    <div class="user" id="userInfo">ID : non connecté</div>
+  <h1>Anonymous SOS FR</h1>
+  <div class="status">🔒 Accès sécurisé</div>
 </header>
 
 <div class="container">
 
-    <div class="title">Vidéos sponsorisées rémunérées</div>
-    <div class="subtitle">
-        Regardez les vidéos *jusqu’au bout* pour être crédité.<br>
-        Toute interruption annule la récompense.
+  <div class="title">Vidéos sponsorisées rémunérées</div>
+  <div class="subtitle">
+    Regardez les vidéos jusqu’au bout pour être crédité.<br>
+    Toute interruption annule la récompense.
+  </div>
+
+  <div class="rules">
+    <div>✔ Une vidéo complète = récompense</div>
+    <div>❌ Pause / avance = aucune récompense</div>
+    <div>🔒 Seul votre ID est visible</div>
+  </div>
+
+  <div class="videos">
+
+    <!-- VIDÉO 1 -->
+    <div class="video-card">
+      <h3>Vidéo sponsorisée #1</h3>
+      <p>Durée : ~30 secondes<br>Gain : 0,05 €</p>
+
+      <video id="video1" controls controlsList="nodownload noplaybackrate"></video>
+
+      <button id="btn1">Valider la récompense</button>
     </div>
 
-    <div class="info-box">
-        ✔️ Une vidéo complète = récompense<br>
-        ❌ Pause / avance = aucune récompense<br>
-        🔒 Seul votre ID est visible
+    <!-- VIDÉO 2 -->
+    <div class="video-card">
+      <h3>Vidéo sponsorisée #2</h3>
+      <p>Durée : ~45 secondes<br>Gain : 0,10 €</p>
+
+      <video id="video2" controls controlsList="nodownload noplaybackrate"></video>
+
+      <button id="btn2">Valider la récompense</button>
     </div>
 
-    <div class="cards">
+  </div>
 
-        <div class="card">
-            <h3>Vidéo sponsorisée #1</h3>
-            <p>Durée : ~30 secondes<br>Gain : 0.05 €</p>
-
-            <div class="video-box">
-                <video id="video1" controls>
-                    <source src="video-demo.mp4" type="video/mp4">
-                </video>
-            </div>
-
-            <button id="btn1" disabled>Valider la récompense</button>
-        </div>
-
-        <div class="card">
-            <h3>Vidéo sponsorisée #2</h3>
-            <p>Durée : ~45 secondes<br>Gain : 0.10 €</p>
-
-            <div class="video-box">
-                <video id="video2" controls>
-                    <source src="video-demo.mp4" type="video/mp4">
-                </video>
-            </div>
-
-            <button id="btn2" disabled>Valider la récompense</button>
-        </div>
-
-    </div>
-
-    <div class="balance">
-        💰 Solde actuel : <span id="balance">0.00</span> €
-    </div>
+  <div class="balance">
+    💰 Solde actuel : <span id="balance">0.00</span> €
+  </div>
 
 </div>
 
 <footer>
-    Vous êtes sur le site officiel des Anonymous SOS FR ✔️<br>
-    Nous sommes Anonymous. Nous sommes légion. Nous n’oublions pas. Nous ne pardonnons pas.
+  ✔ Vous êtes sur le site officiel des Anonymous SOS FR 🔵<br>
+  Nous sommes Anonymous. Nous sommes légion.<br>
+  Nous ne pardonnons pas. Nous n’oublions pas.
 </footer>
 
 <script>
-// ---- USER ----
-let userId = localStorage.getItem("user
+  let balance = 0;
+
+  function setupVideo(videoId, buttonId, reward) {
+    const video = document.getElementById(videoId);
+    const button = document.getElementById(buttonId);
+    let watched = false;
+
+    video.addEventListener("ended", () => {
+      watched = true;
+      button.classList.add("enabled");
+    });
+
+    button.addEventListener("click", () => {
+      if (!watched) {
+        alert("Vous devez regarder la vidéo jusqu’au bout.");
+        return;
+      }
+      balance += reward;
+      document.getElementById("balance").textContent = balance.toFixed(2);
+      button.disabled = true;
+      button.textContent = "Récompense créditée";
+    });
+  }
+
+  setupVideo("video1", "btn1", 0.05);
+  setupVideo("video2", "btn2", 0.10);
+</script>
+
+</body>
+</html>
