@@ -1,14 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+  <meta charset="UTF-8">
   <title>Inscription</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
+<header>
+  <nav>
+    <a href="index.html">Feed</a>
+    <a href="connexion.html">Connexion</a>
+  </nav>
+</header>
+
 <div class="container">
-  <h2>Inscription</h2>
-  <p>Simulation simple (pas de backend)</p>
-  <a href="connexion.html">Aller à la connexion</a>
+  <h2 class="page-title">Inscription</h2>
+
+  <p style="font-size:14px;opacity:0.8;">
+    Inscription simple (version locale).
+    Choisis un pseudo pour commencer.
+  </p>
+
+  <input
+    type="text"
+    id="user"
+    placeholder="Pseudo"
+    autocomplete="off"
+  >
+
+  <button onclick="login()">Créer le compte</button>
+
+  <p style="margin-top:10px;font-size:14px;">
+    Déjà un compte ?
+    <a href="connexion.html" style="color:#d40000;">Se connecter</a>
+  </p>
 </div>
+
+<script src="app.js"></script>
 </body>
 </html>
