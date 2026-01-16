@@ -38,8 +38,21 @@ header button.primary{
   border-color:#ff2a2a;
 }
 
-header button:hover{
+header button:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
+header button:hover:not(:disabled){
   opacity:0.85;
+}
+
+/* ===== STATUT ===== */
+#status{
+  text-align:center;
+  margin-top:10px;
+  font-size:14px;
+  opacity:0.9;
 }
 
 /* ===== CONTENU ===== */
@@ -128,6 +141,8 @@ footer{
   <button onclick="logout()">Déconnexion</button>
 </header>
 
+<div id="status"></div>
+
 <div class="container">
   <h1>Plateforme communautaire indépendante</h1>
 
@@ -160,7 +175,7 @@ footer{
       <p>
         Aucune identité publique n’est requise.<br>
         Vous contrôlez entièrement ce que vous partagez.<br>
-        Votre identité, vos échanges et votre présence restent protégés.
+        Votre identité et vos échanges restent protégés.
       </p>
     </div>
 
@@ -168,7 +183,7 @@ footer{
       <h3>Création de sites web</h3>
       <p>
         Nous créons votre site web de A à Z.<br><br>
-        Site vitrine, projet personnel, plateforme communautaire ou service en ligne.<br>
+        Site vitrine, projet personnel, plateforme ou service en ligne.<br>
         Accompagnement sérieux et solutions sur mesure.
       </p>
       <button onclick="contact()">Nous contacter / Nous rejoindre</button>
@@ -206,36 +221,60 @@ footer{
 </footer>
 
 <script>
-let connected = false;
+let connectedUser = localStorage.getItem("connectedUser");
+updateStatus();
 
 function login(){
-  alert("Connexion réussie (simulation)");
-  connected = true;
+  const pseudo = prompt("Entrez votre ID (pseudo)");
+  if(!pseudo) return;
+
+  localStorage.setItem("connectedUser", pseudo);
+  connectedUser = pseudo;
+  updateStatus();
+  alert("Connecté en tant que " + pseudo);
 }
 
 function register(){
-  alert("Création de compte (simulation : email, mot de passe, ID)");
-  connected = true;
+  const pseudo = prompt("Choisissez votre ID (pseudo)");
+  if(!pseudo) return;
+
+  localStorage.setItem("connectedUser", pseudo);
+  connectedUser = pseudo;
+  updateStatus();
+  alert("Compte créé. Connecté en tant que " + pseudo);
 }
 
 function logout(){
-  if(!connected){
-    alert("Vous n’êtes pas connecté");
+  localStorage.removeItem("connectedUser");
+  connectedUser = null;
+  updateStatus();
+  alert("Déconnecté");
+}
+
+function updateStatus(){
+  const status = document.getElementById("status");
+  const buttons = document.querySelectorAll("header button");
+
+  if(connectedUser){
+    status.innerHTML = "✅ Connecté en tant que <strong>" + connectedUser + "</strong>";
+    buttons[0].disabled = true;
+    buttons[1].disabled = true;
+    buttons[2].disabled = false;
   } else {
-    alert("Déconnexion réussie");
-    connected = false;
+    status.innerHTML = "❌ Non connecté";
+    buttons[0].disabled = false;
+    buttons[1].disabled = false;
+    buttons[2].disabled = true;
   }
 }
 
 function contact(){
   alert(
-    "Rejoignez-nous :\n\n" +
     "TikTok : https://tiktok.com/@anonymous_sos_fr\n" +
     "TikTok : popysa5\n" +
     "WhatsApp uniquement : +32456894335\n" +
     "Email : DESPRESCHEZ@GMAIL.COM\n" +
     "YouTube : mr despres\n\n" +
-    "Profession : Développeur\n" +
     "Recrutement en continu."
   );
 }
