@@ -2,82 +2,34 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Créer un compte</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inscription</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body {
-  margin: 0;
-  min-height: 100vh;
-  background: #f0f2f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
+  background:#0a0a0a;
+  color:white;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
-
 .box {
-  background: #fff;
-  padding: 25px;
-  width: 100%;
-  max-width: 360px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background:#111;
+  padding:30px;
+  border-radius:12px;
+  border:1px solid red;
 }
-
-.instructions h3 {
-  margin: 0;
-  font-size: 20px;
+input, button {
+  width:100%;
+  margin-top:10px;
+  padding:10px;
 }
-
-.instructions p {
-  font-size: 14px;
-  color: #606770;
-}
-
-.instructions ul {
-  padding-left: 18px;
-  font-size: 13px;
-  color: #606770;
-}
-
-.instructions li {
-  margin-bottom: 6px;
-}
-
-.instructions .small {
-  font-size: 11px;
-  color: #777;
-}
-
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccd0d5;
-  font-size: 14px;
-}
-
 button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  background: #1877f2;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-a {
-  display: block;
-  text-align: center;
-  margin-top: 15px;
-  font-size: 13px;
-  color: #1877f2;
-  text-decoration: none;
+  background:red;
+  border:none;
+  color:white;
 }
 </style>
 </head>
@@ -85,39 +37,26 @@ a {
 <body>
 
 <div class="box">
-
-  <!-- INSTRUCTIONS STYLE FACEBOOK -->
-  <div class="instructions">
-    <h3>Créer un compte</h3>
-    <p>C’est simple et rapide.</p>
-
-    <p>
-      En créant un compte, vous pouvez accéder à la plateforme et participer aux échanges.
-    </p>
-
-    <ul>
-      <li>Une adresse e-mail est nécessaire pour sécuriser votre compte</li>
-      <li>Choisissez un identifiant pour interagir avec la communauté</li>
-      <li>Vos informations restent privées</li>
-    </ul>
-
-    <p class="small">
-      En cliquant sur <strong>Créer un compte</strong>, vous acceptez les règles d’utilisation de la plateforme.
-    </p>
-  </div>
-
-  <!-- FORMULAIRE -->
-  <form>
-    <input type="email" placeholder="Adresse e-mail" required>
-    <input type="password" placeholder="Mot de passe" required>
-    <input type="text" placeholder="Identifiant" required>
-
-    <button type="submit">Créer un compte</button>
-  </form>
-
-  <a href="index.html">Retour à l’accueil</a>
-
+  <h2>Créer un compte</h2>
+  <input id="email" placeholder="Email">
+  <input id="id" placeholder="ID (pseudo)">
+  <input id="password" type="password" placeholder="Mot de passe">
+  <button onclick="register()">Créer</button>
 </div>
+
+<script>
+function register() {
+  const user = {
+    email: email.value,
+    id: id.value,
+    password: password.value
+  };
+
+  localStorage.setItem("user_" + user.email, JSON.stringify(user));
+  alert("Compte créé");
+  location.href = "connexion.html";
+}
+</script>
 
 </body>
 </html>
