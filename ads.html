@@ -1,103 +1,93 @@
-,<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Pubs rémunérées – Anonymous SOS FR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import {
+  getFirestore, collection, getDocs,
+  doc, updateDoc, increment,
+  addDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #0f0;
-      overflow: hidden;
+/* 🔧 TA CONFIG FIREBASE */
+const firebaseConfig = {
+  apiKey: "TA_CLE_API",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+const adsList = document.getElementById("adsList");
+let currentUser = null;
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "connexion.html";
+    return;
+  }
+
+  currentUser = user;
+  loadAds();
+});
+
+async function loadAds() {
+  adsList.innerHTML = "";
+  const snap = await getDocs(collection(db, "ads"));
+
+  snap.forEach(docSnap => {
+    const ad = docSnap.data();
+    if (!ad.active) return;
+
+    const div = document.createElement("div");
+    div.className = "ad";
+
+    div.innerHTML = `
+      <h3>${ad.title}</h3>
+      <p>${ad.description}</p>
+      <p><strong>Gain :</strong> ${ad.reward} crédits</p>
+      <button>▶️ Regarder</button>
+      <div class="timer"></div>
+    `;
+
+    const btn = div.querySelector("button");
+    const timerEl = div.querySelector(".timer");
+
+    btn.onclick = () => watchAd(ad, docSnap.id, btn, timerEl);
+    adsList.appendChild(div);
+  });
+}
+
+function watchAd(ad, adId, btn, timerEl) {
+  btn.disabled = true;
+  let time = 60;
+  timerEl.innerText = "⏱️ Pub en cours : 60s";
+
+  const interval = setInterval(async () => {
+    time--;
+    timerEl.innerText = "⏱️ Pub en cours : " + time + "s";
+
+    if (time <= 0) {
+      clearInterval(interval);
+      await rewardUser(ad, adId);
+      timerEl.innerText = "✅ Crédits ajoutés";
+      btn.innerText = "✔ Déjà vue";
     }
+  }, 1000);
+}
 
-    canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 0;
-    }
+async function rewardUser(ad, adId) {
+  const uid = currentUser.uid;
 
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 40px auto;
-      background: rgba(0,0,0,0.85);
-      border: 2px solid #0f0;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 0 25px #0f0;
-    }
+  await updateDoc(doc(db, "users", uid), {
+    credits: increment(ad.reward)
+  });
 
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    p {
-      text-align: center;
-      font-size: 14px;
-      opacity: 0.9;
-    }
-
-    .ads {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 15px;
-      margin-top: 25px;
-    }
-
-    .ad {
-      border: 1px solid #0f0;
-      border-radius: 8px;
-      padding: 15px;
-      background: rgba(0,0,0,0.9);
-      text-align: center;
-    }
-
-    .ad h3 {
-      margin: 5px 0;
-      font-size: 16px;
-    }
-
-    .ad p {
-      font-size: 13px;
-    }
-
-    .ad button {
-      margin-top: 10px;
-      padding: 8px;
-      width: 100%;
-      background: #0f0;
-      color: #000;
-      border: none;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .ad button:disabled {
-      background: #555;
-      cursor: not-allowed;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 12px;
-      margin-top: 20px;
-      opacity: 0.6;
-    }
-  </style>
-</head>
-
-<body>
-
-<canvas id="matrix"></canvas>
-
-<div class="container">
-  <h1>💰 Pubs rémunérées</h1>
-  <p>Regarde une publicité
+  await addDoc(collection(db, "ads_history"), {
+    uid: uid,
+    adId: adId,
+    reward: ad.reward,
+    createdAt: serverTimestamp()
+  });
+}
+</script>
