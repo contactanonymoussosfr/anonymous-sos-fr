@@ -1,39 +1,60 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Connexion</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Connexion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  background:#0a0a0a;
+  color:white;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box {
+  background:#111;
+  padding:30px;
+  border-radius:12px;
+  border:1px solid red;
+}
+input, button {
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+}
+button {
+  background:red;
+  border:none;
+  color:white;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <nav>
-    <a href="index.html">Feed</a>
-    <a href="connexion.html">Connexion</a>
-  </nav>
-</header>
-
-<div class="container">
-  <h2 class="page-title">Connexion</h2>
-
-  <input
-    type="text"
-    id="user"
-    placeholder="Pseudo"
-    autocomplete="off"
-  >
-
-  <button onclick="login()">Entrer</button>
-
-  <p style="margin-top:10px;font-size:14px;">
-    Pas encore inscrit ?
-    <a href="inscription.html" style="color:#d40000;">Créer un compte</a>
-  </p>
+<div class="box">
+  <h2>Connexion</h2>
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Mot de passe">
+  <button onclick="login()">Connexion</button>
 </div>
 
-<script src="app.js"></script>
+<script>
+function login() {
+  const data = localStorage.getItem("user_" + email.value);
+  if (!data) return alert("Compte introuvable");
+
+  const user = JSON.parse(data);
+  if (user.password !== password.value) return alert("Mot de passe incorrect");
+
+  localStorage.setItem("connectedUser", user.id);
+  location.href = "forum.html";
+}
+</script>
+
 </body>
 </html>
