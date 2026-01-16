@@ -6,136 +6,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-* {
-  box-sizing: border-box;
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #18191a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-body {
-  margin: 0;
-  background: #0f0f0f url("https://i.imgur.com/7QZ6FQp.jpg") center/cover fixed;
-  color: #fff;
-}
-
-/* HEADER */
-header {
-  position: fixed;
-  top: 0;
+.card {
+  background: #ffffff;
   width: 100%;
-  height: 60px;
-  background: rgba(0,0,0,0.9);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 1px solid #222;
-  z-index: 100;
-}
-
-.logo {
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-header a {
-  color: #fff;
-  text-decoration: none;
-  margin-left: 15px;
-  font-size: 14px;
-}
-
-/* FEED */
-.feed {
-  max-width: 480px;
-  margin: 90px auto 40px;
-}
-
-.post {
-  background: rgba(0,0,0,0.9);
-  border: 1px solid #222;
-  border-radius: 6px;
-  margin-bottom: 20px;
-}
-
-.post-header {
-  padding: 10px;
-  font-weight: bold;
-  border-bottom: 1px solid #222;
-}
-
-.post-content {
-  padding: 15px;
-  font-size: 14px;
-}
-
-.post-footer {
-  padding: 10px;
-  font-size: 12px;
-  opacity: 0.6;
-}
-
-/* RADIO */
-.radio-box {
-  background: rgba(0,0,0,0.9);
-  border: 1px solid #222;
-  border-radius: 6px;
-  padding: 15px;
-  margin-bottom: 20px;
+  max-width: 380px;
+  padding: 25px;
+  border-radius: 8px;
   text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
 
-.radio-box h3 {
-  margin: 0 0 10px;
+.card h1 {
+  margin: 0;
+  font-size: 22px;
+  color: #050505;
+}
+
+.subtitle {
   font-size: 14px;
-  font-weight: normal;
-  opacity: 0.8;
+  color: #606770;
+  margin: 8px 0 20px;
+}
+
+.radio {
+  margin-bottom: 20px;
 }
 
 audio {
   width: 100%;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.login {
+  background: #e4e6eb;
+  color: #050505;
+}
+
+.register {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+.footer {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #606770;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">ANONYMOUS</div>
-  <div>
-    <a href="connexion.html">Connexion</a>
-    <a href="inscription.html">Inscription</a>
+<div class="card">
+  <h1>Anonymous SOS FR</h1>
+  <div class="subtitle">
+    Créez un compte pour accéder à la plateforme communautaire.
   </div>
-</header>
 
-<div class="feed">
-
-  <!-- RADIO -->
-  <div class="radio-box">
-    <h3>🔊 Radio libre</h3>
+  <div class="radio">
     <audio controls>
       <source src="URL_DE_TA_RADIO_ICI" type="audio/mpeg">
       Votre navigateur ne supporte pas la radio.
     </audio>
   </div>
 
-  <!-- POSTS -->
-  <div class="post">
-    <div class="post-header">@system</div>
-    <div class="post-content">
-      Bienvenue sur la plateforme.  
-      Créez un compte pour participer.
-    </div>
-    <div class="post-footer">aujourd’hui</div>
-  </div>
+  <a href="connexion.html">
+    <button class="login">Connexion</button>
+  </a>
 
-  <div class="post">
-    <div class="post-header">@anonymous</div>
-    <div class="post-content">
-      Respect, anonymat et échanges libres.
-    </div>
-    <div class="post-footer">il y a quelques minutes</div>
-  </div>
+  <a href="inscription.html">
+    <button class="register">Créer un compte</button>
+  </a>
 
+  <div class="footer">
+    Vos informations restent privées.
+  </div>
 </div>
 
 </body>
