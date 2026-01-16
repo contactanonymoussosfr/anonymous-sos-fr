@@ -1,3 +1,10 @@
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user || !user.connected) {
+    alert("Vous devez être connecté pour accéder aux vidéos sponsorisées.");
+    window.location.href = "connexion.html";
+  }
+</script>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
