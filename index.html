@@ -2,108 +2,99 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:radial-gradient(circle at top,#5a0000,#120000);
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #650000, #120000);
   color:#fff;
-  text-align:center;
 }
 
+/* HEADER */
 header{
   display:flex;
   justify-content:center;
-  gap:10px;
+  gap:12px;
   padding:15px;
-  border-bottom:1px solid #aa0000;
+  border-bottom:1px solid #ff000055;
 }
 
 button{
-  background:#300;
+  background:#2a0000;
   color:#fff;
-  border:1px solid #aa0000;
-  padding:10px 16px;
-  border-radius:8px;
+  border:1px solid #ff0000;
+  padding:10px 18px;
+  border-radius:10px;
   cursor:pointer;
 }
 
-button.primary{background:#d00000}
-button:disabled{opacity:.5;cursor:not-allowed}
-
-#status{
-  margin-top:10px;
-  color:#ffb3b3;
+button.main{
+  background:#ff0000;
 }
 
-.top-message{
-  margin:35px 15px;
-  font-size:26px;
-  font-weight:bold;
-  color:#ff2a2a;
+button:hover{
+  opacity:0.85;
+}
+
+/* MESSAGE OFFICIEL */
+.main-message{
+  text-align:center;
+  padding:40px 20px 20px;
+}
+
+.main-message h1{
+  color:#ff0000;
+  font-size:32px;
 }
 
 .badge{
-  display:inline-block;
-  margin-left:8px;
-  background:#1da1f2;
-  color:#fff;
-  font-size:14px;
-  padding:4px 8px;
-  border-radius:14px;
+  color:#00aaff;
+  font-size:18px;
 }
 
+/* STATUS */
+#statusConnexion{
+  text-align:center;
+  margin-bottom:20px;
+  font-weight:bold;
+}
+
+/* CARTES */
 .cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
   gap:20px;
-  max-width:900px;
-  margin:40px auto;
-  padding:0 20px;
+  padding:40px 20px;
 }
 
 .card{
-  border:1px solid #aa0000;
+  width:260px;
+  background:#140000;
+  border:1px solid #ff0000;
   border-radius:14px;
-  padding:18px;
-  background:rgba(0,0,0,0.4);
-}
-
-.card h3{color:#ff2a2a}
-
-footer{
-  margin-top:50px;
-  padding:25px 15px;
-  border-top:1px solid #aa0000;
-  font-size:14px;
-  color:#ffcccc;
-}
-
-/* MODALES */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.8);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-.modal-content{
-  background:#200;
-  border:1px solid #aa0000;
-  border-radius:12px;
   padding:20px;
-  width:300px;
+  box-shadow:0 0 15px #ff000033;
 }
 
-.modal-content input{
-  width:100%;
-  padding:10px;
-  margin:8px 0;
+.card h3{
+  color:#ff0000;
+  margin-top:0;
+}
+
+.card p{
+  font-size:14px;
+}
+
+/* FOOTER MESSAGES */
+.footer{
+  text-align:center;
+  padding:30px 20px;
+  font-size:14px;
+  opacity:0.9;
 }
 </style>
 </head>
@@ -111,117 +102,138 @@ footer{
 <body>
 
 <header>
-  <button onclick="openLogin()">Connexion</button>
-  <button class="primary" onclick="openRegister()">Créer un compte</button>
+  <button onclick="login()">Connexion</button>
+  <button class="main" onclick="createAccount()">Créer un compte</button>
   <button onclick="logout()">Déconnexion</button>
 </header>
 
-<div id="status">❌ Non connecté</div>
+<div id="statusConnexion"></div>
 
-<div class="top-message">
-  Vous êtes sur le site des Anonymous SOS FR
-  <span class="badge">Badge bleu</span>
+<div class="main-message">
+  <h1>
+    Bienvenue sur le site officiel des Anonymous SOS FR 
+    <span class="badge">✔ Badge bleu</span>
+  </h1>
+  <p>
+    Nous sommes Anonymous. Nous sommes légion.<br>
+    Nous n’oublions pas. Nous ne pardonnons pas.<br>
+    Vous êtes chez vous, n’hésitez pas à inviter du monde.
+  </p>
 </div>
 
 <div class="cards">
+
   <div class="card">
     <h3>Anonymat</h3>
-    <p>Aucune identité publique.<br>Seul votre ID est visible.</p>
+    <p>
+      Aucune identité publique requise.<br>
+      Seul votre ID est visible.
+    </p>
   </div>
 
   <div class="card">
     <h3>Création de sites web</h3>
-    <p>Création de sites web de A à Z.<br>Accompagnement sérieux.</p>
+    <p>
+      Création de sites web de A à Z.<br>
+      Accompagnement sérieux.
+    </p>
+    <p>
+      TikTok : @anonymous_sos_fr<br>
+      TikTok : popysa5<br>
+      YouTube : mr despres<br>
+      Email : DESPRESCHEZ@gmail.com<br>
+      WhatsApp : +32 456 89 43 35
+    </p>
   </div>
 
   <div class="card">
     <h3>Opportunités</h3>
-    <p>Regardez des vidéos complètes.<br>Gagnez de l’argent.</p>
+    <p>
+      Regardez des vidéos complètes.<br>
+      Les publicités vues en entier<br>
+      vous font gagner de l’argent.
+    </p>
   </div>
+
 </div>
 
-<footer>
-  Bienvenue sur le site des Anonymous SOS FR.<br>
-  Nous sommes Anonymous. Nous sommes légion.<br>
-  Nous n’oublions pas. Nous ne pardonnons pas.<br>
-  Vous êtes chez vous, n’hésitez pas à inviter du monde.<br><br>
-
-  📱 TikTok : @anonymous_sos_fr<br>
-  📱 TikTok : popysa5<br>
-  🎥 YouTube : mr despres<br>
-  📧 Email : DESPRESCHEZ@gmail.com<br>
-  💬 WhatsApp : +32 456 89 43 35<br><br>
-
-  Recrutement en continu — Nous recrutons tous les jours.<br>
-  Ne perdez pas votre temps.
-</footer>
-
-<!-- CONNEXION -->
-<div class="modal" id="loginModal">
-  <div class="modal-content">
-    <h3>Connexion</h3>
-    <input id="loginEmail" placeholder="Email">
-    <input id="loginPass" type="password" placeholder="Mot de passe">
-    <button class="primary" onclick="login()">Connexion</button>
-    <button onclick="closeModals()">Annuler</button>
-  </div>
+<div class="footer">
+  <p>
+    Recrutement en continu — Anonymous SOS FR<br>
+    Nous recrutons tous les jours.<br>
+    Ne perdez pas votre temps.
+  </p>
 </div>
 
-<!-- INSCRIPTION -->
-<div class="modal" id="registerModal">
-  <div class="modal-content">
-    <h3>Créer un compte</h3>
-    <input id="regEmail" placeholder="Email">
-    <input id="regPass" type="password" placeholder="Mot de passe">
-    <input id="regId" placeholder="ID">
-    <button class="primary" onclick="register()">Créer</button>
-    <button onclick="closeModals()">Annuler</button>
-  </div>
-</div>
-
+<!-- ======================
+     SYSTEME DE COMPTE
+====================== -->
 <script>
-let users = JSON.parse(localStorage.getItem("users")) || {};
-let current = localStorage.getItem("current");
+function getUser(){
+  return JSON.parse(localStorage.getItem("anonymousUser"));
+}
 
-function openLogin(){closeModals();loginModal.style.display="flex";}
-function openRegister(){closeModals();registerModal.style.display="flex";}
-function closeModals(){document.querySelectorAll(".modal").forEach(m=>m.style.display="none");}
+function setUser(user){
+  localStorage.setItem("anonymousUser", JSON.stringify(user));
+}
 
-function register(){
-  const email=regEmail.value.trim();
-  const pass=regPass.value;
-  const id=regId.value.trim();
-  if(!email||!pass||!id)return alert("Tous les champs sont obligatoires");
-  users[email]={email,pass,id};
-  localStorage.setItem("users",JSON.stringify(users));
-  localStorage.setItem("current",email);
-  updateStatus();
-  closeModals();
+function createAccount(){
+  const email = prompt("Adresse email :");
+  if(!email) return;
+
+  const password = prompt("Mot de passe :");
+  if(!password) return;
+
+  const id = prompt("Choisissez votre ID (pseudo visible) :");
+  if(!id) return;
+
+  setUser({email,password,id,connected:true});
+  alert("Compte créé. Bienvenue " + id);
+  location.reload();
 }
 
 function login(){
-  const email=loginEmail.value.trim();
-  const pass=loginPass.value;
-  if(!users[email]||users[email].pass!==pass)return alert("Identifiants incorrects");
-  localStorage.setItem("current",email);
-  updateStatus();
-  closeModals();
+  const user = getUser();
+  if(!user){
+    alert("Aucun compte trouvé. Créez un compte.");
+    return;
+  }
+
+  const email = prompt("Email :");
+  const password = prompt("Mot de passe :");
+
+  if(email === user.email && password === user.password){
+    user.connected = true;
+    setUser(user);
+    alert("Connexion réussie. Bienvenue " + user.id);
+    location.reload();
+  } else {
+    alert("Identifiants incorrects");
+  }
 }
 
 function logout(){
-  localStorage.removeItem("current");
-  updateStatus();
+  const user = getUser();
+  if(user){
+    user.connected = false;
+    setUser(user);
+  }
+  alert("Déconnecté");
+  location.reload();
 }
 
 function updateStatus(){
-  const email=localStorage.getItem("current");
-  if(email&&users[email]){
-    status.innerHTML="✅ Connecté — ID : <b>"+users[email].id+"</b>";
-  }else{
-    status.innerHTML="❌ Non connecté";
+  const s = document.getElementById("statusConnexion");
+  const u = getUser();
+
+  if(u && u.connected){
+    s.innerHTML = "🟢 Connecté en tant que <b>" + u.id + "</b>";
+  } else {
+    s.innerHTML = "❌ Non connecté — créez un compte ou connectez-vous";
   }
 }
-updateStatus();
+
+document.addEventListener("DOMContentLoaded", updateStatus);
 </script>
 
 </body>
