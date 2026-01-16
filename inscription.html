@@ -1,44 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Inscription</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Inscription - Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(
+        rgba(0,0,0,0.8),
+        rgba(0,0,0,0.8)
+    ),
+    url("https://i.imgur.com/7QZ6FQp.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.box {
+    background: rgba(0,0,0,0.6);
+    padding: 35px;
+    width: 100%;
+    max-width: 360px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #e50914;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+a {
+    display: block;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #aaa;
+    text-decoration: none;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <nav>
-    <a href="index.html">Feed</a>
-    <a href="connexion.html">Connexion</a>
-  </nav>
-</header>
+<div class="box">
+    <h2>Inscription</h2>
 
-<div class="container">
-  <h2 class="page-title">Inscription</h2>
+    <form>
+        <input type="email" placeholder="Adresse email" required>
+        <input type="password" placeholder="Mot de passe" required>
+        <input type="text" placeholder="Identifiant (ID)" required>
 
-  <p style="font-size:14px;opacity:0.8;">
-    Inscription simple (version locale).
-    Choisis un pseudo pour commencer.
-  </p>
+        <button type="submit">Créer mon accès</button>
+    </form>
 
-  <input
-    type="text"
-    id="user"
-    placeholder="Pseudo"
-    autocomplete="off"
-  >
-
-  <button onclick="login()">Créer le compte</button>
-
-  <p style="margin-top:10px;font-size:14px;">
-    Déjà un compte ?
-    <a href="connexion.html" style="color:#d40000;">Se connecter</a>
-  </p>
+    <a href="index.html">Retour à l’accueil</a>
 </div>
 
-<script src="app.js"></script>
 </body>
 </html>
