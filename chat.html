@@ -2,15 +2,16 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Chat Vocal – Anonymous SOS FR</title>
+<title>Chat – Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{
   margin:0;
   background:black;
   color:#00ff66;
-  font-family:Arial, Helvetica, sans-serif;
+  height:100vh;
   overflow:hidden;
 }
 canvas{
@@ -18,42 +19,84 @@ canvas{
   inset:0;
   z-index:0;
 }
-.overlay{
+
+/* LAYOUT */
+.app{
   position:relative;
   z-index:2;
-  height:100vh;
   display:flex;
-  justify-content:center;
-  align-items:center;
+  height:100vh;
 }
-.card{
-  width:380px;
+
+/* SIDEBAR */
+.sidebar{
+  width:260px;
   background:#001a0f;
-  border-radius:14px;
-  padding:20px;
-  box-shadow:0 0 30px #00ff66;
-  border:1px solid #00ff66;
+  border-right:1px solid #00ff66;
+  padding:10px;
+  overflow-y:auto;
+}
+.sidebar h2{
+  font-size:16px;
+  margin-bottom:10px;
   text-align:center;
 }
-h1{
-  margin-bottom:10px;
-  text-shadow:0 0 10px #00ff66;
+.user{
+  padding:6px;
+  border-bottom:1px solid #003d22;
+  font-size:13px;
 }
-button{
-  width:100%;
-  padding:12px;
-  margin-top:10px;
+.admin{color:#ff4444;font-weight:bold}
+.modo{color:#ffaa00;font-weight:bold}
+.member{color:#00ff66}
+
+/* CHAT */
+.chat{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+.messages{
+  flex:1;
+  padding:15px;
+  overflow-y:auto;
+}
+.msg{
+  margin-bottom:8px;
+  font-size:14px;
+}
+.msg span{
+  opacity:.7;
+  font-size:11px;
+}
+
+/* INPUT */
+.input{
+  display:flex;
+  padding:10px;
+  border-top:1px solid #00ff66;
+  background:#001a0f;
+}
+input{
+  flex:1;
+  padding:10px;
   border:none;
   border-radius:6px;
+}
+button{
+  margin-left:10px;
+  padding:10px 18px;
+  border:none;
+  border-radius:6px;
+  background:#00ff66;
   font-weight:bold;
   cursor:pointer;
 }
-.btn-start{background:#00c853;color:black;}
-.btn-stop{background:#ff4444;color:white;}
 footer{
-  margin-top:12px;
   font-size:11px;
-  opacity:.6;
+  opacity:.5;
+  text-align:center;
+  padding:5px;
 }
 </style>
 </head>
@@ -62,24 +105,43 @@ footer{
 
 <canvas id="matrix"></canvas>
 
-<div class="overlay">
-  <div class="card">
-    <h1>🎤 Chat Vocal</h1>
-    <p>Anonymous SOS FR</p>
+<div class="app">
 
-    <button class="btn-start" onclick="startVoice()">🎧 Activer le micro</button>
-    <button class="btn-stop" onclick="stopVoice()">⛔ Couper le micro</button>
-
-    <footer>Chat vocal communautaire sécurisé</footer>
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Connectés</h2>
+    <div id="users"></div>
   </div>
+
+  <!-- CHAT -->
+  <div class="chat">
+    <div class="messages" id="messages"></div>
+
+    <div class="input">
+      <input id="message" placeholder="Écrire un message…" autocomplete="off">
+      <button onclick="sendMessage()">Envoyer</button>
+    </div>
+
+    <footer>Chat communautaire sécurisé – Anonymous SOS FR</footer>
+  </div>
+
 </div>
 
 <script type="module">
 /* ================= FIREBASE ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 import {
-  getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  serverTimestamp,
+  setDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -95,81 +157,91 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-let localStream;
-let peers = {};
-let myId;
+/* ================= USER ================= */
+let currentUser;
+let role = "member"; // admin | modo | member
 
-/* ================= AUTH ================= */
-signInAnonymously(auth).then(res=>{
-  myId = res.user.uid;
+onAuthStateChanged(auth, user=>{
+  if(!user) location.href="index.html";
+  currentUser = user;
+
+  // 🔴 ADMIN MANUEL (ton compte)
+  if(user.email === "despeschez@gmail.com"){
+    role = "admin";
+  }
+
+  setDoc(doc(db,"users",user.uid),{
+    email:user.email,
+    role:role,
+    online:true,
+    time:serverTimestamp()
+  });
 });
 
-/* ================= VOICE ================= */
-async function startVoice(){
-  localStream = await navigator.mediaDevices.getUserMedia({audio:true});
-  const callRef = collection(db, "voice");
-
-  await addDoc(callRef, { user: myId });
-
-  onSnapshot(callRef, snapshot=>{
-    snapshot.docChanges().forEach(change=>{
-      const data = change.doc.data();
-      const id = change.doc.id;
-
-      if(data.user !== myId && !peers[id]){
-        createPeer(id);
-      }
-    });
+/* ================= USERS LIST ================= */
+onSnapshot(collection(db,"users"), snap=>{
+  const box = document.getElementById("users");
+  box.innerHTML="";
+  snap.forEach(d=>{
+    const u=d.data();
+    const div=document.createElement("div");
+    div.className="user "+u.role;
+    div.textContent=u.email+" ("+u.role+")";
+    box.appendChild(div);
   });
-}
+});
 
-function stopVoice(){
-  localStream?.getTracks().forEach(t=>t.stop());
-  Object.values(peers).forEach(p=>p.close());
-  peers = {};
-}
+/* ================= CHAT ================= */
+function sendMessage(){
+  const input=document.getElementById("message");
+  if(!input.value.trim())return;
 
-/* ================= WEBRTC ================= */
-function createPeer(id){
-  const pc = new RTCPeerConnection({
-    iceServers:[{urls:"stun:stun.l.google.com:19302"}]
+  addDoc(collection(db,"messages"),{
+    text:input.value,
+    user:currentUser.email,
+    role:role,
+    time:serverTimestamp()
   });
 
-  localStream.getTracks().forEach(track=>pc.addTrack(track, localStream));
-
-  pc.ontrack = e=>{
-    const audio = document.createElement("audio");
-    audio.srcObject = e.streams[0];
-    audio.autoplay = true;
-    document.body.appendChild(audio);
-  };
-
-  peers[id] = pc;
+  input.value="";
 }
 
-/* ================= MATRIX EFFECT ================= */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const letters = "01";
-const fontSize = 14;
-const columns = canvas.width / fontSize;
-const drops = Array(Math.floor(columns)).fill(1);
+onSnapshot(collection(db,"messages"), snap=>{
+  const box=document.getElementById("messages");
+  box.innerHTML="";
+  snap.docs.sort((a,b)=>a.data().time?.seconds-b.data().time?.seconds);
+  snap.forEach(d=>{
+    const m=d.data();
+    const div=document.createElement("div");
+    div.className="msg";
+    div.innerHTML=<b class="${m.role}">${m.user}</b> : ${m.text}<br><span>${m.role}</span>;
+    box.appendChild(div);
+  });
+  box.scrollTop=box.scrollHeight;
+});
 
-function draw(){
+/* ================= MATRIX ================= */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+const letters="01";
+const font=14;
+const cols=canvas.width/font;
+const drops=Array(Math.floor(cols)).fill(1);
+
+setInterval(()=>{
   ctx.fillStyle="rgba(0,0,0,0.05)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle="#00ff66";
-  ctx.font=fontSize+"px monospace";
+  ctx.font=font+"px monospace";
   for(let i=0;i<drops.length;i++){
-    const text = letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-    if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
+    const t=letters[Math.floor(Math.random()*2)];
+    ctx.fillText(t,i*font,drops[i]*font);
+    if(drops[i]*font>canvas.height&&Math.random()>0.975)drops[i]=0;
     drops[i]++;
   }
-}
-setInterval(draw,33);
+},33);
 </script>
 
 </body>
