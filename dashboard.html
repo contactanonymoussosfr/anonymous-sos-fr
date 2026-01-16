@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Anonymous SOS FR — Espace membre</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #650000, #120000);
+  color:#fff;
+}
+
+header{
+  padding:20px;
+  border-bottom:1px solid #ff000055;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+header .id{
+  color:#ffb3b3;
+  font-size:14px;
+}
+
+button{
+  background:#ff0000;
+  border:none;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.container{
+  max-width:900px;
+  margin:40px auto;
+  padding:20px;
+  text-align:center;
+}
+
+h1{
+  color:#ff2a2a;
+  margin-bottom:10px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  margin-top:40px;
+}
+
+.card{
+  background:#140000;
+  border:1px solid #ff0000;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 0 15px #ff000033;
+}
+
+.card h3{
+  color:#ff2a2a;
+}
+
+.card p{
+  font-size:14px;
+}
+
+.card a{
+  display:inline-block;
+  margin-top:15px;
+  text-decoration:none;
+  color:#fff;
+  background:#ff0000;
+  padding:8px 14px;
+  border-radius:8px;
+}
+
+footer{
+  margin-top:60px;
+  text-align:center;
+  font-size:13px;
+  color:#ffcccc;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Anonymous SOS FR</div>
+  <div class="id" id="userId">ID : —</div>
+  <button onclick="logout()">Déconnexion</button>
+</header>
+
+<div class="container">
+  <h1>Espace membre</h1>
+  <p>
+    Vous êtes connecté à votre espace personnel.<br>
+    Accédez aux fonctionnalités disponibles ci-dessous.
+  </p>
+
+  <div class="cards">
+
+    <div class="card">
+      <h3>Vidéos rémunérées</h3>
+      <p>
+        Regardez des vidéos sponsorisées jusqu’au bout<br>
+        et gagnez de l’argent.
+      </p>
+      <a href="pubs.html">Accéder</a>
+    </div>
+
+    <div class="card">
+      <h3>Solde & gains</h3>
+      <p>
+        Consultez votre solde actuel et vos gains.
+      </p>
+      <a href="#">Bientôt disponible</a>
+    </div>
+
+    <div class="card">
+      <h3>Communauté</h3>
+      <p>
+        Discussions, entraide et informations<br>
+        réservées aux membres.
+      </p>
+      <a href="#">Bientôt disponible</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Nous sommes Anonymous. Nous sommes légion.<br>
+  Vous êtes chez vous.
+</footer>
+
+<script>
+// ---- VÉRIFICATION CONNEXION ----
+const user = JSON.parse(localStorage.getItem("anonymousUser"));
+
+if(!user || !user.connected){
+  // pas connecté → retour accueil
+  window.location.href = "index.html";
+}
+
+// afficher l’ID
+document.getElementById("userId").innerText = "ID : " + user.id;
+
+function logout(){
+  user.connected = false;
+  localStorage.setItem("anonymousUser", JSON.stringify(user));
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
