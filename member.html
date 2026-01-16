@@ -1,157 +1,52 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR — Espace Membre</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<title>Espace Membre</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{background:black;color:#aaffaa;height:100vh;overflow:hidden}
-canvas{position:fixed;inset:0;z-index:0}
-
-.overlay{
-  position:relative;
-  z-index:1;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+body {
+  background: black;
+  color: #00ff00;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding-top: 100px;
 }
 
-.card{
-  width:380px;
-  background:#0a0f0a;
-  border-radius:16px;
-  padding:24px;
-  text-align:center;
-  border:1px solid #00ff66;
-  box-shadow:0 0 40px #00ff66;
+button {
+  margin-top: 30px;
+  padding: 12px 20px;
+  background: darkred;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }
-
-h1{color:#00ff66;margin-bottom:10px;text-shadow:0 0 12px #00ff66}
-
-nav{
-  margin:12px 0;
-}
-nav a{
-  display:block;
-  margin:6px 0;
-  text-decoration:none;
-}
-nav button{
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:6px;
-  background:#003300;
-  color:#aaffaa;
-  font-weight:bold;
-  cursor:pointer;
-}
-nav button:hover{
-  background:#00ff66;
-  color:black;
-}
-
-.role{margin:8px 0;font-weight:bold}
-.admin{color:#ff4444}
-.membre{color:#00ff66}
-
-.logout{
-  background:#ff4444;
-  color:white;
-  margin-top:10px;
-}
-
-footer{margin-top:12px;font-size:11px;opacity:.6}
 </style>
 </head>
 
 <body>
 
-<canvas id="matrix"></canvas>
+<h1>Espace Membre</h1>
+<h2 id="welcome"></h2>
 
-<div class="overlay">
-  <div class="card">
-    <h1>Espace Membre</h1>
-
-    <p>Connecté en tant que :</p>
-    <p id="email"></p>
-    <p id="role" class="role"></p>
-
-    <nav>
-      <a href="chat.html"><button>💬 Chat général</button></a>
-      <a href="lives.html"><button>🎥 Salons Live</button></a>
-      <a href="admin.html" id="adminLink" style="display:none;">
-        <button style="background:#ff4444;color:white;">⚠️ Administration</button>
-      </a>
-    </nav>
-
-    <button class="logout" onclick="logout()">🚪 Se déconnecter</button>
-
-    <footer>© Anonymous SOS FR — Version BÊTA</footer>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-onAuthStateChanged(auth, user => {
-  if (!user) {
-    location.href = "index.html";
-    return;
-  }
-
-  document.getElementById("email").textContent = user.email;
-
-  if (user.email === "despeschez@gmail.com") {
-    document.getElementById("role").textContent = "🔴 ADMINISTRATEUR";
-    document.getElementById("role").className = "role admin";
-    document.getElementById("adminLink").style.display = "block";
-  } else {
-    document.getElementById("role").textContent = "🟢 MEMBRE";
-    document.getElementById("role").className = "role membre";
-  }
-});
-
-window.logout = () => {
-  signOut(auth).then(() => location.href = "index.html");
-};
-</script>
+<button onclick="logout()">Se déconnecter</button>
 
 <script>
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-const letters="01";
-const font=14;
-const cols=canvas.width/font;
-const drops=Array(Math.floor(cols)).fill(1);
-function draw(){
-  ctx.fillStyle="rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#00ff66";
-  ctx.font=font+"px monospace";
-  for(let i=0;i<drops.length;i++){
-    const t=letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(t,i*font,drops[i]*font);
-    if(drops[i]*font>canvas.height&&Math.random()>0.975)drops[i]=0;
-    drops[i]++;
+  const id = localStorage.getItem("anonymous_id");
+
+  if (!id) {
+    window.location.href = "index.html";
   }
-}
-setInterval(draw,33);
+
+  document.getElementById("welcome").innerText =
+    "Bienvenue " + id;
+
+  function logout() {
+    localStorage.removeItem("anonymous_id");
+    window.location.href = "index.html";
+  }
 </script>
 
 </body>
