@@ -1,168 +1,94 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
 body {
-  margin:0;
-  background:#000;
-  color:#fff;
-  font-family:Arial, sans-serif;
+  background: black;
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* blocs */
-.section {
-  display:none;
-  padding:20px;
-}
-.active {
-  display:block;
-}
-
-/* carte */
-.card {
-  background:#111;
-  border:2px solid red;
-  border-radius:10px;
-  padding:20px;
-  max-width:400px;
-  margin:20px auto;
-  text-align:center;
-}
-
-/* boutons */
-button {
-  width:100%;
-  padding:12px;
-  margin:10px 0;
-  background:red;
-  color:white;
-  border:none;
-  cursor:pointer;
-}
-button:hover {
-  background:darkred;
+.box {
+  border: 2px solid red;
+  border-radius: 12px;
+  padding: 30px;
+  width: 320px;
+  text-align: center;
+  background: #111;
 }
 
 input {
-  width:100%;
-  padding:12px;
-  margin:10px 0;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  margin-top: 15px;
 }
 
-/* chat */
-#chat {
-  height:60vh;
-  overflow-y:auto;
-  border:1px solid red;
-  padding:10px;
+button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: darkred;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
 }
-.msg {
-  margin:6px 0;
-}
-.user {
-  color:red;
-  font-weight:bold;
+
+#error {
+  margin-top: 10px;
+  color: red;
 }
 </style>
 </head>
 
 <body>
 
-<!-- SECTION ID -->
-<div id="idSection" class="section">
-  <div class="card">
-    <h2>Choisis ton ID</h2>
-    <input id="userIdInput" placeholder="Anonymous42">
-    <button onclick="saveId()">Entrer</button>
-  </div>
-</div>
+<div class="box">
+  <h2>Choisis ton ID</h2>
 
-<!-- SECTION SALONS -->
-<div id="salonsSection" class="section">
-  <div class="card">
-    <h2>Choisis un salon</h2>
-    <button onclick="enterRoom('Général')">💬 Général</button>
-    <button onclick="enterRoom('Musique')">🎵 Musique</button>
-    <button onclick="enterRoom('Live')">🔴 Live</button>
-    <button onclick="enterRoom('ASMR')">🎧 ASMR</button>
-  </div>
-</div>
+  <input
+    id="userId"
+    type="text"
+    placeholder="Anonymous42"
+    autocomplete="off"
+  />
 
-<!-- SECTION SALON -->
-<div id="roomSection" class="section">
-  <div class="card">
-    <h2 id="roomTitle"></h2>
-    <div id="chat"></div>
-    <input id="messageInput" placeholder="Écris un message">
-    <button onclick="sendMessage()">Envoyer</button>
-    <button onclick="backToSalons()">⬅ Retour aux salons</button>
-  </div>
+  <button onclick="enter()">Entrer</button>
+
+  <div id="error"></div>
 </div>
 
 <script>
-const idSection = document.getElementById("idSection");
-const salonsSection = document.getElementById("salonsSection");
-const roomSection = document.getElementById("roomSection");
-const chat = document.getElementById("chat");
-const roomTitle = document.getElementById("roomTitle");
+  // Si déjà inscrit → redirection auto
+  const savedId = localStorage.getItem("anonymous_id");
+  if (savedId) {
+    window.location.href = "member.html";
+  }
 
-let currentRoom = null;
+  function enter() {
+    const input = document.getElementById("userId");
+    const id = input.value.trim();
+    const error = document.getElementById("error");
 
-// démarrage
-const savedId = localStorage.getItem("anonymous_id");
-if (!savedId) {
-  show(idSection);
-} else {
-  show(salonsSection);
-}
+    error.innerText = "";
 
-// fonctions affichage
-function show(section) {
-  idSection.classList.remove("active");
-  salonsSection.classList.remove("active");
-  roomSection.classList.remove("active");
-  section.classList.add("active");
-}
+    if (!id || id.length < 3) {
+      error.innerText = "ID trop court (min 3 caractères)";
+      return;
+    }
 
-// ID
-function saveId() {
-  const id = userIdInput.value.trim();
-  if (id.length < 3) return alert("ID trop court");
-  localStorage.setItem("anonymous_id", id);
-  show(salonsSection);
-}
-
-// salons
-function enterRoom(room) {
-  currentRoom = room;
-  roomTitle.innerText = "Salon : " + room;
-  chat.innerHTML = "";
-  show(roomSection);
-}
-
-// chat (local pour l’instant)
-function sendMessage() {
-  const text = messageInput.value.trim();
-  if (!text) return;
-
-  const user = localStorage.getItem("anonymous_id");
-  const div = document.createElement("div");
-  div.className = "msg";
-  div.innerHTML = <span class="user">${user}</span> : ${text};
-  chat.appendChild(div);
-
-  messageInput.value = "";
-  chat.scrollTop = chat.scrollHeight;
-}
-
-// retour
-function backToSalons() {
-  show(salonsSection);
-}
+    localStorage.setItem("anonymous_id", id);
+    window.location.href = "member.html";
+  }
 </script>
 
 </body>
