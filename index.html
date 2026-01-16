@@ -6,141 +6,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-  margin:0;
-  background:black;
-  color:#aaffaa;
-  height:100vh;
-  overflow:hidden;
-  font-family:Arial, Helvetica, sans-serif;
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
-canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
+
+.box {
+  background: #111;
+  border: 2px solid red;
+  border-radius: 12px;
+  padding: 30px;
+  width: 320px;
+  text-align: center;
+  z-index: 10;
 }
-.overlay{
-  position:relative;
-  z-index:2;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  font-size: 16px;
 }
-.card{
-  width:360px;
-  background:#001a00;
-  padding:25px;
-  border-radius:16px;
-  text-align:center;
-  box-shadow:0 0 40px #00ff66;
-  border:1px solid #00ff66;
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: red;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
 }
-h1{
-  color:#00ff66;
-  text-shadow:0 0 15px #00ff66;
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
-input{
-  width:100%;
-  padding:10px;
-  margin:6px 0;
-  border:none;
-  border-radius:6px;
-}
-button{
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  border:none;
-  border-radius:6px;
-  font-weight:bold;
-  cursor:pointer;
-}
-.create{background:#1976ff;color:white;}
-.login{background:#00c853;color:black;}
-#status{margin-top:10px;font-size:13px;}
-footer{opacity:.6;font-size:11px;margin-top:10px;}
 </style>
 </head>
 
 <body>
 
-<canvas id="matrix"></canvas>
-
-<div class="overlay">
-<div class="card">
-<h1>Anonymous SOS FR</h1>
-<p>Plateforme communautaire indépendante et sécurisée</p>
-
-<input id="email" type="email" placeholder="Adresse email">
-<input id="password" type="password" placeholder="Mot de passe">
-
-<button class="create" onclick="register()">Créer un compte</button>
-<button class="login" onclick="login()">Se connecter</button>
-
-<div id="status"></div>
-
-<footer>© Anonymous SOS FR</footer>
-</div>
+<div class="box">
+  <h2>Choisis ton ID</h2>
+  <input type="text" id="userId" placeholder="Anonymous42">
+  <button onclick="enter()">Entrer</button>
+  <div class="error" id="error"></div>
 </div>
 
 <script>
-// MATRIX
-const c=document.getElementById("matrix");
-const ctx=c.getContext("2d");
-c.width=window.innerWidth;c.height=window.innerHeight;
-const letters="01";
-const font=16;
-const cols=c.width/font;
-const drops=Array(Math.floor(cols)).fill(1);
-function draw(){
-ctx.fillStyle="rgba(0,0,0,0.05)";
-ctx.fillRect(0,0,c.width,c.height);
-ctx.fillStyle="#00ff66";
-ctx.font=font+"px monospace";
-for(let i=0;i<drops.length;i++){
-const t=letters[Math.floor(Math.random()*letters.length)];
-ctx.fillText(t,i*font,drops[i]*font);
-if(drops[i]*font>c.height&&Math.random()>0.975)drops[i]=0;
-drops[i]++;
-}}
-setInterval(draw,33);
-</script>
+function enter() {
+  const id = document.getElementById("userId").value.trim();
+  if (id.length < 3) {
+    document.getElementById("error").innerText = "ID trop court";
+    return;
+  }
+  localStorage.setItem("anonymous_id", id);
+  window.location.href = "member.html";
+}
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr",
-  storageBucket: "anonymous-sos-fr.appspot.com",
-  messagingSenderId: "490705618757",
-  appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const status = document.getElementById("status");
-
-window.register = () => {
-  createUserWithEmailAndPassword(auth,email.value,password.value)
-  .then(()=>status.textContent="Compte créé ✓")
-  .catch(e=>status.textContent=e.message);
-};
-
-window.login = () => {
-  signInWithEmailAndPassword(auth,email.value,password.value)
-  .then(cred=>{
-    if(cred.user.email === "despeschez@gmail.com"){
-      location.href="admin.html";
-    }else{
-      location.href="member.html";
-    }
-  })
-  .catch(()=>status.textContent="Identifiants invalides");
-};
+// Si déjà enregistré → accès direct
+if (localStorage.getItem("anonymous_id")) {
+  window.location.href = "member.html";
+}
 </script>
 
 </body>
