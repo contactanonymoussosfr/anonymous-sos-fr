@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Forum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body {
+  background:#0a0a0a;
+  color:white;
+  font-family:Arial;
+  padding:40px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Forum Anonymous SOS FR</h1>
+<p>Bienvenue <strong id="user"></strong></p>
+
+<script>
+const user = localStorage.getItem("connectedUser");
+if (!user) location.href = "connexion.html";
+document.getElementById("user").innerText = user;
+</script>
+
+</body>
+</html>
