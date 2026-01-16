@@ -12,10 +12,10 @@ html, body {
   height: 100%;
   background: black;
   font-family: Arial, sans-serif;
-  color: #00ff66;
   overflow: hidden;
 }
 
+/* MATRIX */
 canvas {
   position: fixed;
   top: 0;
@@ -23,38 +23,45 @@ canvas {
   z-index: 0;
 }
 
+/* APP */
 #app {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   display: grid;
   grid-template-columns: 220px 1fr;
   height: 100%;
 }
 
+/* USERS */
 #users {
+  background: rgba(0,0,0,0.85);
   border-right: 2px solid #00ff66;
   padding: 10px;
-  overflow-y: auto;
+  color: #00ff66;
 }
 
 #users h3 {
   margin-top: 0;
 }
 
+/* CHAT */
 #chat {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  background: rgba(0,0,0,0.85);
 }
 
+/* MESSAGES */
 #messages {
   flex: 1;
   padding: 15px;
   overflow-y: auto;
+  color: #00ff66;
+  font-size: 15px;
 }
 
 .message {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .name {
@@ -65,6 +72,7 @@ canvas {
   color: red;
 }
 
+/* SEND */
 #send {
   display: flex;
   border-top: 2px solid #00ff66;
@@ -77,6 +85,7 @@ canvas {
   border: none;
   color: #00ff66;
   font-size: 16px;
+  outline: none;
 }
 
 #send button {
@@ -110,93 +119,4 @@ canvas {
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr",
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-let currentUser = null;
-
-onAuthStateChanged(auth, user => {
-  if (!user) {
-    window.location.href = "connexion.html";
-  } else {
-    currentUser = user;
-  }
-});
-
-window.sendMessage = async function () {
-  const input = document.getElementById("text");
-  if (!input.value.trim()) return;
-
-  await addDoc(collection(db, "messages"), {
-    uid: currentUser.uid,
-    email: currentUser.email,
-    role: currentUser.email === "despeschez@gmail.com" ? "admin" : "member",
-    text: input.value,
-    created: serverTimestamp()
-  });
-
-  input.value = "";
-};
-
-const q = query(collection(db, "messages"), orderBy("created"));
-onSnapshot(q, snap => {
-  const box = document.getElementById("messages");
-  box.innerHTML = "";
-
-  snap.forEach(doc => {
-    const m = doc.data();
-    const div = document.createElement("div");
-    div.className = "message";
-
-    const name = document.createElement("span");
-    name.className = "name " + (m.role === "admin" ? "admin" : "");
-    name.textContent = m.email + " : ";
-
-    div.appendChild(name);
-    div.append(m.text);
-    box.appendChild(div);
-  });
-
-  box.scrollTop = box.scrollHeight;
-});
-</script>
-
-<script>
-const c = document.getElementById("matrix");
-const ctx = c.getContext("2d");
-c.width = window.innerWidth;
-c.height = window.innerHeight;
-
-const letters = "01";
-const font = 14;
-const cols = c.width / font;
-const drops = Array.from({length: cols}).fill(1);
-
-function draw() {
-  ctx.fillStyle = "rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,c.width,c.height);
-  ctx.fillStyle = "#00ff66";
-  ctx.font = font + "px monospace";
-
-  drops.forEach((y, i) => {
-    const t = letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(t, i*font, y*font);
-    drops[i] = y*font > c.height && Math.random() > 0.975 ? 0 : y+1;
-  });
-}
-setInterval(draw, 33);
-</script>
-
-</body>
-</html>
+import { initializeApp } from
