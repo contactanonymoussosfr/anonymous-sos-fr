@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Catalogue de cadeaux</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{background:#000;color:#00ff66;font-family:Arial;padding:20px}
+h1{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:15px}
+.gift{border:2px solid #00ff66;padding:15px;text-align:center}
+.price{font-size:14px;margin-top:5px}
+</style>
+</head>
+<body>
+
+<h1>🎁 Catalogue de cadeaux</h1>
+<div class="grid" id="giftList"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "TA_CLE_API",
+  authDomain: "anonymous-sos-fr.firebaseapp.com",
+  projectId: "anonymous-sos-fr"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const list = document.getElementById("giftList");
+
+const snap = await getDocs(collection(db,"gifts"));
+snap.forEach(doc=>{
+  const g = doc.data();
+  if(!g.active) return;
+
+  const div = document.createElement("div");
+  div.className="gift";
+  div.innerHTML = `
+    <div style="font-size:40px">${g.icon}</div>
+    <strong>${g.name}</strong>
+    <div class="price">${g.price} 💎</div>
+    <div style="font-size:12px">XP +${g.xp}</div>
+  `;
+  list.appendChild(div);
+});
+</script>
+
+</body>
+</html>
