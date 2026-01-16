@@ -6,117 +6,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* FOND GLOBAL */
 body {
-  background: linear-gradient(135deg, #0a0a0a, #1a0000);
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(135deg, #0b0b0b, #1a0000);
   color: #f2f2f2;
 }
 
 /* HEADER */
 header {
   padding: 20px 40px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255,0,0,0.3);
 }
-
 header h1 {
   margin: 0;
-  font-size: 18px;
   letter-spacing: 2px;
+  font-size: 20px;
 }
 
 /* HERO */
 .hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 20px;
   text-align: center;
+  padding: 80px 20px 60px;
 }
-
 .hero h2 {
-  font-size: 36px;
-  max-width: 700px;
-  line-height: 1.3;
+  font-size: 38px;
+  max-width: 800px;
+  margin: auto;
 }
-
 .hero p {
+  margin-top: 20px;
   font-size: 16px;
-  max-width: 600px;
   opacity: 0.9;
-  margin: 20px 0 30px;
 }
 
-/* BOUTONS */
-.actions {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.actions button {
-  padding: 14px 22px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.primary {
-  background: #c4161c;
-  color: white;
-}
-
-.secondary {
-  background: transparent;
-  color: white;
-  border: 1px solid rgba(255,255,255,0.3);
-}
-
-/* SECTION INFO */
+/* SECTIONS */
 .section {
   padding: 60px 20px;
-  background: rgba(0,0,0,0.4);
 }
-
-.section-content {
-  max-width: 900px;
+.grid {
+  max-width: 1100px;
   margin: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
 }
 
+/* CARDS */
 .card {
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
+  border: 1px solid rgba(255,0,0,0.6);
+  border-radius: 12px;
   padding: 25px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 0 25px rgba(255,0,0,0.15);
 }
-
 .card h3 {
   margin-top: 0;
-  font-size: 18px;
+  color: #ff3b3b;
 }
-
 .card p {
   font-size: 14px;
-  opacity: 0.85;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+/* BUTTONS */
+button {
+  margin-top: 15px;
+  padding: 12px 18px;
+  background: #c4161c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 }
 
 /* FOOTER */
 footer {
-  padding: 20px;
   text-align: center;
+  padding: 30px;
   font-size: 12px;
   opacity: 0.6;
 }
@@ -130,45 +99,69 @@ footer {
 </header>
 
 <section class="hero">
-  <h2>Reprenez le contrôle de votre espace numérique</h2>
-
+  <h2>Une plateforme communautaire indépendante</h2>
   <p>
-    Anonymous SOS FR est une plateforme communautaire indépendante.
-    Elle permet d’échanger, de s’informer et de s’entraider
-    dans un cadre respectueux et anonyme.
+    Anonymat, entraide, opportunités et services numériques.<br>
+    Rejoignez un réseau libre et structuré.
   </p>
-
-  <div class="actions">
-    <button class="primary">Accéder à la plateforme</button>
-    <button class="secondary">En savoir plus</button>
-  </div>
 </section>
 
 <section class="section">
-  <div class="section-content">
+  <div class="grid">
+
     <div class="card">
       <h3>Anonymat</h3>
       <p>
-        Aucune identité publique requise.
-        Vous contrôlez ce que vous partagez.
+        Aucune identité publique requise.<br>
+        Vous contrôlez ce que vous partagez.<br>
+        Respect et anonymat obligatoires.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Principes Anonymous</h3>
+      <p>
+        Nous sommes Anonymous.<br>
+        Nous sommes la communauté.<br>
+        Tout se passe ici.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Création de sites</h3>
+      <p>
+        Nous pouvons créer votre site web de A à Z.<br>
+        Vitrine, projet, plateforme, service.
+      </p>
+      <button>Contacter le service client</button>
+    </div>
+
+    <div class="card">
+      <h3>Opportunités & revenus</h3>
+      <p>
+        Regardez des publicités et gagnez de l’argent.<br>
+        Participez à des propositions communautaires.<br>
+        D’autres solutions arrivent.
       </p>
     </div>
 
     <div class="card">
       <h3>Communauté</h3>
       <p>
-        Un espace d’échange basé sur le respect,
-        la solidarité et l’écoute.
+        Échanges, entraide, propositions diverses.<br>
+        Un espace ouvert aux idées et projets.
       </p>
     </div>
 
     <div class="card">
-      <h3>Indépendance</h3>
+      <h3>Accès</h3>
       <p>
-        Plateforme libre, sans exploitation commerciale
-        des données personnelles.
+        Plateforme en évolution.<br>
+        Inscription bientôt disponible.
       </p>
+      <button>Rejoindre</button>
     </div>
+
   </div>
 </section>
 
