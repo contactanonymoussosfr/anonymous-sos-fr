@@ -6,11 +6,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
 body{
-  margin:0;
   background:black;
-  color:#00ff66;
+  color:#aaffaa;
   height:100vh;
   overflow:hidden;
 }
@@ -19,84 +18,68 @@ canvas{
   inset:0;
   z-index:0;
 }
-
-/* LAYOUT */
-.app{
+#app{
   position:relative;
-  z-index:2;
-  display:flex;
+  z-index:1;
+  display:grid;
+  grid-template-columns:260px 1fr;
   height:100vh;
 }
-
-/* SIDEBAR */
-.sidebar{
-  width:260px;
-  background:#001a0f;
-  border-right:1px solid #00ff66;
+#users{
+  border-right:2px solid #00ff66;
   padding:10px;
-  overflow-y:auto;
 }
-.sidebar h2{
-  font-size:16px;
-  margin-bottom:10px;
+#users h3{
   text-align:center;
+  margin-bottom:10px;
+  color:#00ff66;
 }
 .user{
-  padding:6px;
-  border-bottom:1px solid #003d22;
-  font-size:13px;
+  margin:6px 0;
 }
-.admin{color:#ff4444;font-weight:bold}
-.modo{color:#ffaa00;font-weight:bold}
-.member{color:#00ff66}
+.admin{color:red}
+.modo{color:orange}
+.member{color:#aaffaa}
 
-/* CHAT */
-.chat{
-  flex:1;
+#chat{
   display:flex;
   flex-direction:column;
 }
-.messages{
+#header{
+  padding:10px;
+  text-align:center;
+  border-bottom:2px solid #00ff66;
+  color:#00ff66;
+}
+#messages{
   flex:1;
   padding:15px;
   overflow-y:auto;
 }
 .msg{
   margin-bottom:8px;
-  font-size:14px;
 }
-.msg span{
-  opacity:.7;
-  font-size:11px;
-}
-
-/* INPUT */
-.input{
+#input{
   display:flex;
-  padding:10px;
-  border-top:1px solid #00ff66;
-  background:#001a0f;
+  border-top:2px solid #00ff66;
 }
-input{
+#input input{
   flex:1;
-  padding:10px;
+  padding:12px;
   border:none;
-  border-radius:6px;
 }
-button{
-  margin-left:10px;
-  padding:10px 18px;
+#input button{
+  padding:12px 20px;
   border:none;
-  border-radius:6px;
   background:#00ff66;
   font-weight:bold;
   cursor:pointer;
 }
 footer{
-  font-size:11px;
-  opacity:.5;
   text-align:center;
-  padding:5px;
+  font-size:11px;
+  opacity:.6;
+  margin-top:5px;
 }
 </style>
 </head>
@@ -105,144 +88,116 @@ footer{
 
 <canvas id="matrix"></canvas>
 
-<div class="app">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2>Connectés</h2>
-    <div id="users"></div>
+<div id="app">
+  <div id="users">
+    <h3>Connectés</h3>
+    <div id="userList"></div>
   </div>
 
-  <!-- CHAT -->
-  <div class="chat">
-    <div class="messages" id="messages"></div>
+  <div id="chat">
+    <div id="header">Chat communautaire – Anonymous SOS FR</div>
+    <div id="messages"></div>
 
-    <div class="input">
-      <input id="message" placeholder="Écrire un message…" autocomplete="off">
-      <button onclick="sendMessage()">Envoyer</button>
+    <div id="input">
+      <input id="msg" placeholder="Écrire un message…">
+      <button onclick="send()">Envoyer</button>
     </div>
 
-    <footer>Chat communautaire sécurisé – Anonymous SOS FR</footer>
+    <footer>Chat sécurisé – Messages écrits uniquement</footer>
   </div>
-
 </div>
 
 <script type="module">
 /* ================= FIREBASE ================= */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import {
-  getAuth,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  onSnapshot,
-  serverTimestamp,
-  setDoc,
-  doc
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
   authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr",
-  storageBucket: "anonymous-sos-fr.appspot.com",
-  messagingSenderId: "490705618757",
-  appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
+  projectId: "anonymous-sos-fr"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-/* ================= USER ================= */
-let currentUser;
-let role = "member"; // admin | modo | member
+let CURRENT_USER = null;
+let ROLE = "member";
 
+/* ================= AUTH ================= */
 onAuthStateChanged(auth, user=>{
-  if(!user) location.href="index.html";
-  currentUser = user;
-
-  // 🔴 ADMIN MANUEL (ton compte)
-  if(user.email === "despeschez@gmail.com"){
-    role = "admin";
+  if(!user){
+    location.href="index.html";
+    return;
   }
+  CURRENT_USER = user.email;
 
-  setDoc(doc(db,"users",user.uid),{
-    email:user.email,
-    role:role,
-    online:true,
+  ROLE = CURRENT_USER === "despeschez@gmail.com" ? "admin" : "member";
+
+  setDoc(doc(db,"online",CURRENT_USER),{
+    email:CURRENT_USER,
+    role:ROLE,
     time:serverTimestamp()
   });
-});
 
-/* ================= USERS LIST ================= */
-onSnapshot(collection(db,"users"), snap=>{
-  const box = document.getElementById("users");
-  box.innerHTML="";
-  snap.forEach(d=>{
-    const u=d.data();
-    const div=document.createElement("div");
-    div.className="user "+u.role;
-    div.textContent=u.email+" ("+u.role+")";
-    box.appendChild(div);
+  loadChat();
+  loadUsers();
+
+  window.addEventListener("beforeunload",()=>{
+    deleteDoc(doc(db,"online",CURRENT_USER));
   });
 });
 
 /* ================= CHAT ================= */
-function sendMessage(){
-  const input=document.getElementById("message");
-  if(!input.value.trim())return;
-
-  addDoc(collection(db,"messages"),{
-    text:input.value,
-    user:currentUser.email,
-    role:role,
-    time:serverTimestamp()
+function loadChat(){
+  const q = query(collection(db,"messages"), orderBy("time","asc"));
+  onSnapshot(q,snap=>{
+    const box=document.getElementById("messages");
+    box.innerHTML="";
+    snap.forEach(d=>{
+      const m=d.data();
+      const div=document.createElement("div");
+      div.className="msg";
+      div.innerHTML=<b class="${m.role}">${m.user}</b> : ${m.text};
+      box.appendChild(div);
+    });
+    box.scrollTop=box.scrollHeight;
   });
-
-  input.value="";
 }
 
-onSnapshot(collection(db,"messages"), snap=>{
-  const box=document.getElementById("messages");
-  box.innerHTML="";
-  snap.docs.sort((a,b)=>a.data().time?.seconds-b.data().time?.seconds);
-  snap.forEach(d=>{
-    const m=d.data();
-    const div=document.createElement("div");
-    div.className="msg";
-    div.innerHTML=<b class="${m.role}">${m.user}</b> : ${m.text}<br><span>${m.role}</span>;
-    box.appendChild(div);
+window.send = async ()=>{
+  const input=document.getElementById("msg");
+  if(!input.value.trim()) return;
+
+  await addDoc(collection(db,"messages"),{
+    user:CURRENT_USER,
+    role:ROLE,
+    text:input.value,
+    time:serverTimestamp()
   });
-  box.scrollTop=box.scrollHeight;
-});
+  input.value="";
+};
+
+/* ================= USERS ================= */
+function loadUsers(){
+  onSnapshot(collection(db,"online"),snap=>{
+    const box=document.getElementById("userList");
+    box.innerHTML="";
+    snap.forEach(d=>{
+      const u=d.data();
+      const div=document.createElement("div");
+      div.className="user "+u.role;
+      div.textContent=u.email+" ("+u.role+")";
+      box.appendChild(div);
+    });
+  });
+}
 
 /* ================= MATRIX ================= */
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-const letters="01";
-const font=14;
-const cols=canvas.width/font;
-const drops=Array(Math.floor(cols)).fill(1);
-
-setInterval(()=>{
-  ctx.fillStyle="rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#00ff66";
-  ctx.font=font+"px monospace";
-  for(let i=0;i<drops.length;i++){
-    const t=letters[Math.floor(Math.random()*2)];
-    ctx.fillText(t,i*font,drops[i]*font);
-    if(drops[i]*font>canvas.height&&Math.random()>0.975)drops[i]=0;
-    drops[i]++;
-  }
-},33);
-</script>
-
-</body>
-</html>
+const c=document.getElementById("matrix"),ctx=c.getContext("2d");
+function resize(){c.width=innerWidth;c.height=innerHeight}
+window.onresize=resize;resize();
+const letters="01";const f=16;
+let cols=c.width/f;let drops=Array(cols).
