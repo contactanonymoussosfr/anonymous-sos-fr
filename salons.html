@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Salons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  background:#000;
+  color:#fff;
+  font-family:Arial;
+  margin:0;
+  padding:20px;
+}
+h1 {
+  text-align:center;
+}
+.salon {
+  background:#111;
+  border:2px solid red;
+  padding:15px;
+  margin:15px 0;
+  border-radius:10px;
+  cursor:pointer;
+}
+.salon:hover {
+  background:#1a1a1a;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Choisis un salon</h1>
+
+<div class="salon" onclick="go('general')">💬 Général</div>
+<div class="salon" onclick="go('music')">🎵 Musique</div>
+<div class="salon" onclick="go('live')">🔴 Live</div>
+<div class="salon" onclick="go('asmr')">🎧 ASMR</div>
+
+<script>
+function go(room) {
+  window.location.href = "salon.html?room=" + room;
+}
+</script>
+
+</body>
+</html>
