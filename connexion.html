@@ -1,39 +1,69 @@
-[13:51, 16/01/2026] Anonymous sos fr: <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import {
-  getFirestore, collection, getDocs,
-  doc, updateDoc, increment,
-  addDoc, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Connexion – Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-/* 🔧 TA CONFIG FIREBASE */
-const firebaseConfig = {
-  apiKey: "TA_CLE_API",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr"
-};
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#000;
+  font-family:Arial, sans-serif;
+}
+.card{
+  background:#111;
+  border:2px solid red;
+  padding:30px;
+  width:320px;
+  text-align:center;
+  color:#fff;
+  border-radius:10px;
+}
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:red;
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+#error{
+  color:red;
+  margin-top:10px;
+}
+</style>
+</head>
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+<body>
 
-const adsList = document.getElementById("adsList");
-let currentUser = null;
+<div class="card">
+  <h2>Connexion</h2>
 
-onAuthStateChanged(auth, async …
-[13:55, 16/01/2026] Anonymous sos fr: <form id="loginForm">
-  <input type="email" id="email" required>
-  <input type="password" id="password" required>
-  <button type="submit">Se connecter</button>
-</form>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <button type="submit">Se connecter</button>
+  </form>
+
+  <div id="error"></div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "TA_CLE_API",
+  apiKey: "TA_VRAIE_CLE_API",
   authDomain: "anonymous-sos-fr.firebaseapp.com",
   projectId: "anonymous-sos-fr"
 };
@@ -42,16 +72,19 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault(); // 🔴 OBLIGATOIRE
+  e.preventDefault();
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = email.value;
+  const password = password.value;
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
     window.location.href = "member.html";
   } catch (err) {
-    alert("Erreur : " + err.message);
+    document.getElementById("error").innerText = err.message;
   }
 });
 </script>
+
+</body>
+</html>
