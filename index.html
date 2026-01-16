@@ -7,117 +7,135 @@
 
 <style>
 * {
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    margin: 0;
-    min-height: 100vh;
-    background: linear-gradient(
-        rgba(0,0,0,0.75),
-        rgba(0,0,0,0.75)
-    ),
-    url("https://i.imgur.com/7QZ6FQp.jpg") center/cover no-repeat;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
+  margin: 0;
+  background: #0f0f0f url("https://i.imgur.com/7QZ6FQp.jpg") center/cover fixed;
+  color: #fff;
 }
 
-.container {
-    background: rgba(0,0,0,0.6);
-    padding: 40px 30px;
-    max-width: 380px;
-    width: 100%;
-    text-align: center;
-    border-radius: 12px;
+/* HEADER */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid #222;
+  z-index: 100;
 }
 
-h1 {
-    margin-bottom: 10px;
-    letter-spacing: 2px;
+.logo {
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
-.subtitle {
-    font-size: 14px;
-    opacity: 0.8;
-    margin-bottom: 25px;
+header a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 15px;
+  font-size: 14px;
 }
 
-.message {
-    font-size: 13px;
-    margin-bottom: 25px;
-    line-height: 1.5;
-    opacity: 0.9;
+/* FEED */
+.feed {
+  max-width: 480px;
+  margin: 90px auto 40px;
 }
 
-.radio {
-    margin-bottom: 25px;
+.post {
+  background: rgba(0,0,0,0.9);
+  border: 1px solid #222;
+  border-radius: 6px;
+  margin-bottom: 20px;
 }
 
-.radio audio {
-    width: 100%;
+.post-header {
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 1px solid #222;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    cursor: pointer;
+.post-content {
+  padding: 15px;
+  font-size: 14px;
 }
 
-.login {
-    background: #ffffff;
-    color: black;
+.post-footer {
+  padding: 10px;
+  font-size: 12px;
+  opacity: 0.6;
 }
 
-.register {
-    background: #e50914;
-    color: white;
+/* RADIO */
+.radio-box {
+  background: rgba(0,0,0,0.9);
+  border: 1px solid #222;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.footer {
-    margin-top: 20px;
-    font-size: 11px;
-    opacity: 0.6;
+.radio-box h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: normal;
+  opacity: 0.8;
+}
+
+audio {
+  width: 100%;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1>ANONYMOUS SOS FR</h1>
-    <div class="subtitle">Plateforme communautaire anonyme</div>
+<header>
+  <div class="logo">ANONYMOUS</div>
+  <div>
+    <a href="connexion.html">Connexion</a>
+    <a href="inscription.html">Inscription</a>
+  </div>
+</header>
 
-    <div class="message">
-        Nous sommes Anonymous.<br>
-        Il n’y a pas de pardon chez nous.<br>
-        Bienvenue sur le réseau.
+<div class="feed">
+
+  <!-- RADIO -->
+  <div class="radio-box">
+    <h3>🔊 Radio libre</h3>
+    <audio controls>
+      <source src="URL_DE_TA_RADIO_ICI" type="audio/mpeg">
+      Votre navigateur ne supporte pas la radio.
+    </audio>
+  </div>
+
+  <!-- POSTS -->
+  <div class="post">
+    <div class="post-header">@system</div>
+    <div class="post-content">
+      Bienvenue sur la plateforme.  
+      Créez un compte pour participer.
     </div>
+    <div class="post-footer">aujourd’hui</div>
+  </div>
 
-    <div class="radio">
-        <audio controls>
-            <source src="" type="audio/mpeg">
-            Radio indisponible
-        </audio>
+  <div class="post">
+    <div class="post-header">@anonymous</div>
+    <div class="post-content">
+      Respect, anonymat et échanges libres.
     </div>
+    <div class="post-footer">il y a quelques minutes</div>
+  </div>
 
-    <a href="connexion.html">
-        <button class="login">Connexion</button>
-    </a>
-
-    <a href="inscription.html">
-        <button class="register">Inscription</button>
-    </a>
-
-    <div class="footer">
-        Respect et anonymat obligatoires
-    </div>
 </div>
 
 </body>
