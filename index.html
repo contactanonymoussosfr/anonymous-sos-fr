@@ -1,149 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-* {
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* FOND ANONYMOUS */
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
-    url("https://images.unsplash.com/photo-1605902711622-cfb43c44367f") center/cover no-repeat fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #e4e6eb;
-}
-
-/* BRUIT VISUEL */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("https://i.imgur.com/8Km9tLL.png");
-  opacity: 0.05;
-  pointer-events: none;
-}
-
-/* CARTE */
-.card {
-  width: 100%;
-  max-width: 420px;
-  padding: 30px;
-  background: rgba(10,10,10,0.9);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
-
-/* TITRES */
-h1 {
-  text-align: center;
-  margin: 0;
-  font-size: 24px;
-  letter-spacing: 2px;
-}
-
-.subtitle {
-  text-align: center;
-  font-size: 14px;
-  color: #b0b3b8;
-  margin: 8px 0 22px;
-}
-
-/* TEXTE */
-.description {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #d0d3d8;
-  margin-bottom: 18px;
-}
-
-/* RADIO */
-.radio-title {
-  font-size: 12px;
-  color: #8a8d91;
-  margin-bottom: 6px;
-}
-
-audio {
-  width: 100%;
-  filter: brightness(0.9);
-  margin-bottom: 20px;
-}
-
-/* BOUTONS */
-button {
-  width: 100%;
-  padding: 13px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-}
-
-.login {
-  background: #2d2f33;
-  color: #e4e6eb;
-  margin-bottom: 10px;
-}
-
-.register {
-  background: #c4161c;
-  color: white;
-}
-
-/* FOOTER */
-.footer {
-  margin-top: 18px;
-  font-size: 12px;
-  text-align: center;
-  color: #8a8d91;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Accueil</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('votre-image-anonymous.jpg') no-repeat center center/cover;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        audio {
+            margin-top: 20px;
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="card">
-
-  <h1>ANONYMOUS SOS FR</h1>
-  <div class="subtitle">Plateforme communautaire anonyme</div>
-
-  <div class="description">
-    Créez un compte pour accéder à la plateforme et participer aux échanges.
-    L’anonymat et le respect sont au cœur du réseau.
-  </div>
-
-  <div class="radio-title">🔊 Radio libre</div>
-  <audio controls>
-    <source src="URL_DE_TA_RADIO_ICI" type="audio/mpeg">
-    Votre navigateur ne supporte pas la radio.
-  </audio>
-
-  <a href="connexion.html">
-    <button class="login">Connexion</button>
-  </a>
-
-  <a href="inscription.html">
-    <button class="register">Créer un compte</button>
-  </a>
-
-  <div class="footer">
-    Vos informations restent privées.
-  </div>
-
-</div>
-
+    <div class="container">
+        <h1>Bienvenue sur Anonymous SOS FR</h1>
+        <p>Nous sommes Anonymous. Nous sommes légion. N'oubliez pas, nous ne pardonnons pas. Et n'hésitez pas à inviter plus de monde.</p>
+        <audio autoplay>
+            <source src="votre-message-audio.mp3" type="audio/mpeg">
+            Votre navigateur ne supporte pas l'audio.
+        </audio>
+    </div>
 </body>
 </html>
