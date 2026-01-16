@@ -2,93 +2,166 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR – Vidéos TikTok</title>
+<title>Anonymous SOS FR — Vidéos rémunérées</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background: radial-gradient(circle at top, #5a0000, #120000);
-  color:#fff;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #8b0000, #120000);
+    color: #fff;
 }
 
-header{
-  padding:20px;
-  border-bottom:1px solid #ff2a2a;
-  font-size:18px;
+header {
+    padding: 20px;
+    border-bottom: 2px solid #ff2a2a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.container{
-  max-width:900px;
-  margin:40px auto;
-  padding:20px;
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px 20px;
 }
 
-h1{
-  text-align:center;
-  color:#ff3b3b;
+h1 {
+    color: #ff2a2a;
+    text-align: center;
 }
 
-.info{
-  border:1px solid #ff2a2a;
-  padding:15px;
-  border-radius:10px;
-  margin-bottom:30px;
+.note {
+    border: 1px solid #ff2a2a;
+    padding: 15px;
+    margin: 25px 0;
+    border-radius: 10px;
 }
 
-.card{
-  border:1px solid #ff2a2a;
-  border-radius:15px;
-  padding:20px;
-  margin-top:30px;
-  text-align:center;
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    border: 1px solid #ff2a2a;
+    border-radius: 10px;
+    padding: 20px;
+    background: rgba(0,0,0,0.4);
+}
+
+.card h3 {
+    color: #ff2a2a;
+}
+
+.card p {
+    font-size: 14px;
+}
+
+.card a {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+    padding: 12px;
+    background: #ff2a2a;
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.card a:hover {
+    background: #fff;
+}
+
+footer {
+    text-align: center;
+    padding: 25px;
+    border-top: 2px solid #ff2a2a;
+    font-size: 13px;
+    margin-top: 40px;
 }
 </style>
 
 <script>
 const user = JSON.parse(localStorage.getItem("user"));
-if(!user || !user.connected){
-  alert("Vous devez être connecté pour accéder aux vidéos.");
-  window.location.href="connexion.html";
+if (!user || !user.connected) {
+    alert("Vous devez être connecté pour accéder aux vidéos sponsorisées.");
+    window.location.href = "connexion.html";
 }
 </script>
-
 </head>
+
 <body>
 
 <header>
-  Anonymous SOS FR
+    <strong>Anonymous SOS FR</strong>
+    <span>🔵 Site officiel</span>
 </header>
 
 <div class="container">
+    <h1>Vidéos sponsorisées rémunérées</h1>
 
-<h1>Vidéos TikTok Officielles</h1>
+    <div class="note">
+        ✔ Regardez des vidéos publicitaires  
+        ✔ Gagnez de l’argent réel  
+        ✔ Paiements via PayPal, cartes cadeaux ou crypto  
+        <br><br>
+        ⚠️ Les gains dépendent des plateformes partenaires
+    </div>
 
-<div class="info">
-✔ Vous êtes sur le site officiel Anonymous SOS FR 🔵<br>
-✔ Nous sommes légion, nous ne pardonnons pas<br>
-✔ N’hésitez pas à inviter du monde
+    <div class="cards">
+
+        <div class="card">
+            <h3>💰 Swagbucks</h3>
+            <p>
+                Regardez des vidéos sponsorisées, répondez à des sondages et gagnez de l’argent réel.
+                <br><br>
+                💳 Paiement : PayPal / Cartes cadeaux
+            </p>
+            <a href="https://www.swagbucks.com" target="_blank">Accéder à Swagbucks</a>
+        </div>
+
+        <div class="card">
+            <h3>💰 Freecash</h3>
+            <p>
+                Vidéos, pubs et offres rémunérées.
+                <br><br>
+                💳 Paiement : PayPal / Crypto
+            </p>
+            <a href="https://freecash.com" target="_blank">Accéder à Freecash</a>
+        </div>
+
+        <div class="card">
+            <h3>💰 TimeBucks</h3>
+            <p>
+                Regardez des vidéos, TikTok, pubs et micro-tâches.
+                <br><br>
+                💳 Paiement : PayPal / Crypto
+            </p>
+            <a href="https://timebucks.com" target="_blank">Accéder à TimeBucks</a>
+        </div>
+
+        <div class="card">
+            <h3>💰 Idle-Empire</h3>
+            <p>
+                Vidéos sponsorisées + offres.
+                <br><br>
+                💳 Paiement : PayPal / Crypto
+            </p>
+            <a href="https://www.idle-empire.com" target="_blank">Accéder à Idle-Empire</a>
+        </div>
+
+    </div>
 </div>
 
-<div class="card">
-  <h2>Vidéo officielle TikTok</h2>
-
-  <blockquote class="tiktok-embed"
-    cite="https://www.tiktok.com/@anonymous_sos_fr/video/7261234567890123456"
-    data-video-id="7261234567890123456"
-    style="max-width:605px;min-width:325px;">
-  </blockquote>
-
-</div>
-
-<p style="text-align:center;margin-top:40px;">
-  Vous êtes chez vous.<br>
-  Anonymous SOS FR – Réseau indépendant
-</p>
-
-</div>
-
-<script async src="https://www.tiktok.com/embed.js"></script>
+<footer>
+    Vous êtes sur le site officiel Anonymous SOS FR 🔵<br>
+    Nous sommes légion. Nous ne pardonnons pas.<br>
+    Réseau indépendant
+</footer>
 
 </body>
 </html>
