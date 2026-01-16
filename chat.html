@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Chat Anonymous SOS FR</title>
+<title>Chat – Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -11,73 +11,78 @@ html, body {
   padding: 0;
   height: 100%;
   background: black;
-  color: #aaffaa;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
+  color: #00ff66;
   overflow: hidden;
 }
 
 canvas {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   z-index: 0;
 }
 
 #app {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  height: 100vh;
+  grid-template-columns: 220px 1fr;
+  height: 100%;
 }
 
-.panel {
-  border-right: 1px solid #00ff66;
+#users {
+  border-right: 2px solid #00ff66;
   padding: 10px;
   overflow-y: auto;
 }
 
-.panel.right {
-  border-right: none;
-  border-left: 1px solid #00ff66;
+#users h3 {
+  margin-top: 0;
 }
 
 #chat {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 #messages {
   flex: 1;
+  padding: 15px;
   overflow-y: auto;
-  padding: 10px;
 }
 
 .message {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-.user {
-  color: #00ff66;
+.name {
   font-weight: bold;
 }
 
-.input-zone {
+.admin {
+  color: red;
+}
+
+#send {
   display: flex;
-  border-top: 1px solid #00ff66;
+  border-top: 2px solid #00ff66;
 }
 
-input {
+#send input {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
+  background: black;
   border: none;
-  outline: none;
+  color: #00ff66;
+  font-size: 16px;
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
+#send button {
   background: #00ff66;
-  color: black;
+  border: none;
+  padding: 12px 20px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -89,76 +94,108 @@ button {
 <canvas id="matrix"></canvas>
 
 <div id="app">
-
-  <div class="panel">
+  <div id="users">
     <h3>Connectés</h3>
-    <div>• Membre</div>
-    <div>• Modérateur</div>
-    <div>• Admin</div>
+    <div id="userList"></div>
   </div>
 
   <div id="chat">
-    <h2 style="text-align:center;">Chat Anonymous SOS FR</h2>
     <div id="messages"></div>
 
-    <div class="input-zone">
-      <input id="messageInput" placeholder="Écrire un message..." />
+    <div id="send">
+      <input id="text" placeholder="Écrire un message…" />
       <button onclick="sendMessage()">Envoyer</button>
     </div>
   </div>
-
-  <div class="panel right">
-    <h3>Modération</h3>
-    <div>✔ Surveillance active</div>
-  </div>
-
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, serverTimestamp, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
   authDomain: "anonymous-sos-fr.firebaseapp.com",
   projectId: "anonymous-sos-fr",
-  storageBucket: "anonymous-sos-fr.appspot.com",
-  messagingSenderId: "490705618757",
-  appId: "1:490705618757:web:ac31fc1073d9f858b2a02c"
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 
-const messagesRef = collection(db, "messages");
-const messagesBox = document.getElementById("messages");
+let currentUser = null;
 
-window.sendMessage = async () => {
-  const input = document.getElementById("messageInput");
-  const text = input.value.trim();
-  if (text === "") return;
+onAuthStateChanged(auth, user => {
+  if (!user) {
+    window.location.href = "connexion.html";
+  } else {
+    currentUser = user;
+  }
+});
 
-  await addDoc(messagesRef, {
-    user: "Anonyme",
-    text: text,
-    createdAt: serverTimestamp()
+window.sendMessage = async function () {
+  const input = document.getElementById("text");
+  if (!input.value.trim()) return;
+
+  await addDoc(collection(db, "messages"), {
+    uid: currentUser.uid,
+    email: currentUser.email,
+    role: currentUser.email === "despeschez@gmail.com" ? "admin" : "member",
+    text: input.value,
+    created: serverTimestamp()
   });
 
   input.value = "";
 };
 
-const q = query(messagesRef, orderBy("createdAt"));
-onSnapshot(q, (snapshot) => {
-  messagesBox.innerHTML = "";
-  snapshot.forEach(doc => {
-    const msg = doc.data();
+const q = query(collection(db, "messages"), orderBy("created"));
+onSnapshot(q, snap => {
+  const box = document.getElementById("messages");
+  box.innerHTML = "";
+
+  snap.forEach(doc => {
+    const m = doc.data();
     const div = document.createElement("div");
     div.className = "message";
-    div.innerHTML = <span class="user">${msg.user} :</span> ${msg.text};
-    messagesBox.appendChild(div);
+
+    const name = document.createElement("span");
+    name.className = "name " + (m.role === "admin" ? "admin" : "");
+    name.textContent = m.email + " : ";
+
+    div.appendChild(name);
+    div.append(m.text);
+    box.appendChild(div);
   });
-  messagesBox.scrollTop = messagesBox.scrollHeight;
+
+  box.scrollTop = box.scrollHeight;
 });
+</script>
+
+<script>
+const c = document.getElementById("matrix");
+const ctx = c.getContext("2d");
+c.width = window.innerWidth;
+c.height = window.innerHeight;
+
+const letters = "01";
+const font = 14;
+const cols = c.width / font;
+const drops = Array.from({length: cols}).fill(1);
+
+function draw() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle = "#00ff66";
+  ctx.font = font + "px monospace";
+
+  drops.forEach((y, i) => {
+    const t = letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(t, i*font, y*font);
+    drops[i] = y*font > c.height && Math.random() > 0.975 ? 0 : y+1;
+  });
+}
+setInterval(draw, 33);
 </script>
 
 </body>
