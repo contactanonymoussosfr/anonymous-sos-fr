@@ -3,15 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+/* ===== BASE ===== */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   background: linear-gradient(180deg, #2b0000, #0a0a0a);
-  color: white;
+  color: #fff;
 }
+
+/* ===== HEADER ===== */
 header {
   display: flex;
   justify-content: space-between;
@@ -19,61 +22,132 @@ header {
   padding: 15px 30px;
   border-bottom: 1px solid #550000;
 }
+
+header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
 .top-buttons button {
   margin-left: 10px;
   padding: 8px 16px;
   border-radius: 8px;
   border: 1px solid #444;
   background: #1a1a1a;
-  color: white;
+  color: #fff;
   cursor: pointer;
 }
+
 .top-buttons .primary {
   background: red;
   border: none;
 }
+
+/* ===== HERO ===== */
 .hero {
   text-align: center;
-  padding: 80px 20px;
+  padding: 80px 20px 40px;
 }
+
 .hero h1 {
   color: red;
   font-size: 42px;
+  margin-bottom: 10px;
 }
+
 .hero p {
   color: #ffb3b3;
+  font-size: 18px;
 }
+
+/* ===== CARDS ===== */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 25px;
-  padding: 20px;
   max-width: 1100px;
   margin: auto;
+  padding: 20px;
 }
+
 .card {
   background: #111;
-  border: 1px solid #660000;
+  border: 1px solid red;
   border-radius: 14px;
   padding: 25px;
 }
+
 .card h3 {
   color: red;
+  margin-top: 0;
 }
+
+.card p {
+  color: #ddd;
+  line-height: 1.5;
+}
+
 .card button {
   margin-top: 15px;
-  padding: 10px;
+  padding: 10px 18px;
   background: red;
   border: none;
   border-radius: 8px;
-  color: white;
+  color: #fff;
   cursor: pointer;
 }
+
+/* ===== LIGNE CENTRALE ===== */
+.middle-line {
+  text-align: center;
+  margin: 40px auto;
+  padding: 12px 20px;
+  max-width: 600px;
+  color: #fff;
+  font-size: 16px;
+  border-top: 1px solid #660000;
+  border-bottom: 1px solid #660000;
+  opacity: 0.9;
+}
+
+/* ===== CONTACT ===== */
+.contact-section {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 30px;
+  background: #111;
+  border: 1px solid red;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.contact-section h2 {
+  color: red;
+  margin-bottom: 15px;
+}
+
+.contact-section a {
+  color: #ffb3b3;
+  text-decoration: none;
+}
+
+.contact-section a:hover {
+  text-decoration: underline;
+}
+
+.recruit {
+  margin-top: 20px;
+  color: #ff6666;
+  font-weight: bold;
+}
+
+/* ===== FOOTER ===== */
 footer {
   text-align: center;
   padding: 20px;
   border-top: 1px solid #550000;
   color: #aaa;
+  font-size: 14px;
 }
 </style>
 </head>
@@ -83,8 +157,8 @@ footer {
 <header>
   <h2>Anonymous SOS FR</h2>
   <div class="top-buttons">
-    <button onclick="location.href='connexion.html'">Connexion</button>
-    <button class="primary" onclick="location.href='inscription.html'">Créer un compte</button>
+    <button onclick="showConnexion()">Connexion</button>
+    <button class="primary" onclick="showInscription()">Créer un compte</button>
     <button onclick="logout()">Déconnexion</button>
   </div>
 </header>
@@ -97,13 +171,13 @@ footer {
 <section class="cards">
   <div class="card">
     <h3>Anonymat</h3>
-    <p>Aucune identité publique. Vous contrôlez vos données.</p>
+    <p>Aucune identité publique requise. Vous contrôlez ce que vous partagez.</p>
   </div>
 
   <div class="card">
     <h3>Création de sites web</h3>
     <p>Sites, plateformes, services de A à Z.</p>
-    <button onclick="alert('Contactez-nous via les réseaux')">Nous contacter</button>
+    <button onclick="scrollContact()">Nous contacter / Nous rejoindre</button>
   </div>
 
   <div class="card">
@@ -112,16 +186,19 @@ footer {
   </div>
 </section>
 
-<footer>
-Recrutement en continu — Anonymous SOS FR
-</footer>
+<!-- LIGNE CENTRALE -->
+<div class="middle-line">
+  Recrutement en continu — Anonymous SOS FR
+</div>
 
-<script>
-function logout() {
-  localStorage.removeItem("connectedUser");
-  alert("Déconnecté");
-}
-</script>
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <h2>Nous contacter / Nous rejoindre</h2>
 
-</body>
-</html>
+  <p>Rejoignez-nous sur tous nos réseaux officiels :</p>
+
+  <p>📱 TikTok : <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank">@anonymous_sos_fr</a></p>
+  <p>📱 TikTok : <a href="https://www.tiktok.com/@popysa5" target="_blank">@popysa5</a></p>
+  <p>▶️ YouTube : Mr Despres</p>
+  <p>📧 Email : despreschez@gmail.com</p>
+  <p>💬 WhatsApp uniq…
