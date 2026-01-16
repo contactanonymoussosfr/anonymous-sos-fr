@@ -6,260 +6,213 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:radial-gradient(circle at top, #5a0000, #120000);
-    color:#fff;
+  margin:0;
+  background:radial-gradient(circle at top,#5a0000,#120000);
+  color:#fff;
 }
-
 header{
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    padding:15px;
-    background:#2b0000;
-    border-bottom:2px solid #ff0000;
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  padding:15px;
+  border-bottom:1px solid #ff0000;
 }
-
 button{
-    padding:10px 18px;
-    border-radius:8px;
-    border:1px solid #ff0000;
-    background:#3a0000;
-    color:#fff;
-    cursor:pointer;
-    font-weight:bold;
+  padding:10px 18px;
+  border-radius:20px;
+  border:1px solid #ff0000;
+  background:#2a0000;
+  color:#fff;
+  cursor:pointer;
 }
-
-button.red{
-    background:#ff0000;
+button.primary{background:#ff0000}
+button:hover{opacity:.85}
+.status{
+  text-align:center;
+  margin:15px;
+  color:#ff8080;
 }
-
-button:disabled{
-    opacity:0.4;
-    cursor:not-allowed;
-}
-
-#status{
-    text-align:center;
-    margin:15px;
-    font-weight:bold;
-}
-
-main{
-    text-align:center;
-    padding:30px 15px;
-}
-
 h1{
-    color:#ff0000;
-    text-shadow:0 0 10px #ff0000;
+  text-align:center;
+  color:#ff0000;
+  margin-top:30px;
 }
-
+.barre{
+  text-decoration:line-through;
+}
 .subtitle{
-    margin-bottom:30px;
+  text-align:center;
+  max-width:800px;
+  margin:15px auto;
+  line-height:1.6;
 }
-
+.badge{
+  color:#4da3ff;
+  font-weight:bold;
+}
 .cards{
-    display:flex;
-    gap:20px;
-    justify-content:center;
-    flex-wrap:wrap;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+  max-width:1000px;
+  margin:40px auto;
+  padding:0 20px;
 }
-
 .card{
-    background:#1b0000;
-    border:2px solid #ff0000;
-    border-radius:15px;
-    padding:20px;
-    width:260px;
-    box-shadow:0 0 15px rgba(255,0,0,0.4);
+  border:1px solid #ff0000;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 0 15px #ff000055;
 }
-
-.card h3{
-    color:#ff0000;
-}
-
+.card h3{color:#ff0000}
 footer{
-    text-align:center;
-    padding:20px;
-    font-size:14px;
-    opacity:0.8;
+  text-align:center;
+  margin:40px 20px;
+  color:#ffb3b3;
 }
-
 .modal{
-    position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
-    background:rgba(0,0,0,0.8);
-    display:none;
-    align-items:center;
-    justify-content:center;
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#000000cc;
+  align-items:center;
+  justify-content:center;
 }
-
 .modal-content{
-    background:#1b0000;
-    border:2px solid #ff0000;
-    border-radius:15px;
-    padding:25px;
-    width:300px;
+  background:#1a0000;
+  border:1px solid #ff0000;
+  border-radius:15px;
+  padding:20px;
+  width:300px;
 }
-
-.modal-content input{
-    width:100%;
-    padding:10px;
-    margin:8px 0;
-    border-radius:6px;
-    border:none;
+.modal input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
 }
+.close{margin-top:10px;width:100%}
 </style>
 </head>
 
 <body>
 
 <header>
-    <button id="btnLogin" onclick="openLogin()">Connexion</button>
-    <button class="red" id="btnRegister" onclick="openRegister()">Créer un compte</button>
-    <button id="btnLogout" onclick="logout()" disabled>Déconnexion</button>
+  <button onclick="openLogin()">Connexion</button>
+  <button class="primary" onclick="openRegister()">Créer un compte</button>
+  <button onclick="logout()">Déconnexion</button>
 </header>
 
-<div id="status">❌ Non connecté</div>
+<div class="status" id="status">❌ Non connecté — créez un compte ou connectez-vous</div>
 
-<main>
-    <h1>Plateforme communautaire indépendante</h1>
-    <div class="subtitle">
-        Bienvenue sur le site officiel des Anonymous SOS FR 🔵  
-        <br>Nous sommes Anonymous. Nous sommes les gens.  
-        <br>N’oublions pas. Nous ne pardonnons pas.  
-        <br>Vous êtes chez vous, n’hésitez pas à inviter du monde.
-    </div>
+<h1 class="barre">Plateforme communautaire indépendante</h1>
 
-    <div class="cards">
-        <div class="card">
-            <h3>Anonymat</h3>
-            <p>Aucune identité publique requise.<br>
-            Seul votre ID est visible.</p>
-        </div>
-
-        <div class="card">
-            <h3>Création de sites web</h3>
-            <p>Sites, plateformes et services de A à Z.<br>
-            Accompagnement sérieux.</p>
-        </div>
-
-        <div class="card">
-            <h3>Opportunités</h3>
-            <p>Regardez des vidéos complètes.<br>
-            Les publicités visionnées en entier vous font gagner de l’argent.</p>
-        </div>
-    </div>
-</main>
-
-<footer>
-    Recrutement en continu — Anonymous SOS FR  
-    <br>Nous recrutons tous les jours. Ne perdez pas votre temps.
-</footer>
-
-<!-- MODALS -->
-
-<div class="modal" id="loginModal">
-    <div class="modal-content">
-        <h3>Connexion</h3>
-        <input id="loginId" placeholder="ID">
-        <input id="loginPass" type="password" placeholder="Mot de passe">
-        <button class="red" onclick="login()">Se connecter</button>
-        <button onclick="closeModals()">Fermer</button>
-    </div>
+<div class="subtitle">
+  <p class="barre">
+    Bienvenue sur le <b>site officiel</b> des Anonymous SOS FR 
+    <span class="badge">🔵 Badge bleu</span><br>
+    Nous sommes Anonymous. Nous sommes légion.<br>
+    N’oublions pas. Nous ne pardonnons pas.
+  </p>
+  <p>N’hésitez pas à inviter du monde.</p>
 </div>
 
+<div class="cards">
+  <div class="card">
+    <h3>Anonymat</h3>
+    <p>Aucune identité publique requise.<br>Seul votre ID est visible.</p>
+  </div>
+
+  <div class="card">
+    <h3>Création de sites web</h3>
+    <p>Sites, plateformes et services de A à Z.<br>Accompagnement sérieux.</p>
+    <p>
+      📱 TikTok : <b>@anonymous_sos_fr</b><br>
+      🎥 YouTube : <b>mr despres</b><br>
+      📧 Email : <b>DESPRESCHEZ@gmail.com</b><br>
+      💬 WhatsApp : <b>+32 456 89 43 35</b>
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>Opportunités</h3>
+    <p>
+      Regardez des vidéos complètes.<br>
+      Les publicités vues en entier<br>
+      vous font gagner de l’argent.
+    </p>
+  </div>
+</div>
+
+<footer>
+  Recrutement en continu — Anonymous SOS FR<br>
+  Nous recrutons tous les jours. Ne perdez pas votre temps.
+</footer>
+
+<!-- MODAL INSCRIPTION -->
 <div class="modal" id="registerModal">
-    <div class="modal-content">
-        <h3>Créer un compte</h3>
-        <input id="regEmail" placeholder="Email">
-        <input id="regId" placeholder="ID">
-        <input id="regPass" type="password" placeholder="Mot de passe">
-        <button class="red" onclick="register()">Créer</button>
-        <button onclick="closeModals()">Fermer</button>
-    </div>
+  <div class="modal-content">
+    <h3>Créer un compte</h3>
+    <input id="regEmail" type="email" placeholder="Email">
+    <input id="regPass" type="password" placeholder="Mot de passe">
+    <input id="regId" placeholder="ID public">
+    <button class="primary" onclick="register()">Créer</button>
+    <button class="close" onclick="closeModals()">Fermer</button>
+  </div>
+</div>
+
+<!-- MODAL CONNEXION -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <h3>Connexion</h3>
+    <input id="logId" placeholder="ID">
+    <input id="logPass" type="password" placeholder="Mot de passe">
+    <button class="primary" onclick="login()">Connexion</button>
+    <button class="close" onclick="closeModals()">Fermer</button>
+  </div>
 </div>
 
 <script>
-let users = JSON.parse(localStorage.getItem("users")) || {};
-let currentUser = localStorage.getItem("currentUser");
-
-function updateUI(){
-    const status = document.getElementById("status");
-    const btnLogin = document.getElementById("btnLogin");
-    const btnRegister = document.getElementById("btnRegister");
-    const btnLogout = document.getElementById("btnLogout");
-
-    if(currentUser){
-        status.innerHTML = "✅ Connecté en tant que <b>"+currentUser+"</b>";
-        btnLogin.disabled = true;
-        btnRegister.disabled = true;
-        btnLogout.disabled = false;
-    }else{
-        status.innerHTML = "❌ Non connecté — créez un compte ou connectez-vous";
-        btnLogin.disabled = false;
-        btnRegister.disabled = false;
-        btnLogout.disabled = true;
-    }
-}
-
-function openLogin(){ document.getElementById("loginModal").style.display="flex"; }
-function openRegister(){ document.getElementById("registerModal").style.display="flex"; }
+function openRegister(){document.getElementById("registerModal").style.display="flex"}
+function openLogin(){document.getElementById("loginModal").style.display="flex"}
 function closeModals(){
-    document.getElementById("loginModal").style.display="none";
-    document.getElementById("registerModal").style.display="none";
+  document.getElementById("registerModal").style.display="none";
+  document.getElementById("loginModal").style.display="none";
 }
 
 function register(){
-    const email = regEmail.value.trim();
-    const id = regId.value.trim();
-    const pass = regPass.value;
-
-    if(!email || !id || !pass){
-        alert("Tous les champs sont obligatoires");
-        return;
-    }
-    if(users[id]){
-        alert("ID déjà utilisé");
-        return;
-    }
-
-    users[id] = {email, pass};
-    localStorage.setItem("users", JSON.stringify(users));
-    localStorage.setItem("currentUser", id);
-    currentUser = id;
-
-    alert("Compte créé avec succès. Vous êtes connecté.");
-    closeModals();
-    updateUI();
+  const email=regEmail.value,pass=regPass.value,id=regId.value;
+  if(!email||!pass||!id){alert("Tous les champs sont obligatoires");return;}
+  localStorage.setItem("user",JSON.stringify({email,pass,id}));
+  alert("Compte créé");
+  closeModals();
 }
 
 function login(){
-    const id = loginId.value.trim();
-    const pass = loginPass.value;
-
-    if(!users[id] || users[id].pass !== pass){
-        alert("ID ou mot de passe incorrect");
-        return;
-    }
-
-    localStorage.setItem("currentUser", id);
-    currentUser = id;
-    closeModals();
-    updateUI();
+  const u=JSON.parse(localStorage.getItem("user"));
+  if(!u||logId.value!==u.id||logPass.value!==u.pass){
+    alert("Identifiants incorrects");return;
+  }
+  localStorage.setItem("logged","1");
+  updateStatus();
+  closeModals();
 }
 
 function logout(){
-    localStorage.removeItem("currentUser");
-    currentUser = null;
-    updateUI();
+  localStorage.removeItem("logged");
+  updateStatus();
 }
 
-updateUI();
+function updateStatus(){
+  const u=JSON.parse(localStorage.getItem("user"));
+  if(localStorage.getItem("logged")&&u){
+    status.innerHTML="✅ Connecté en tant que : <b>"+u.id+"</b>";
+  }else{
+    status.innerHTML="❌ Non connecté — créez un compte ou connectez-vous";
+  }
+}
+updateStatus();
 </script>
 
 </body>
