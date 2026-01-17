@@ -1,93 +1,151 @@
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import {
-  getFirestore, collection, getDocs,
-  doc, updateDoc, increment,
-  addDoc, serverTimestamp
-} from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Pubs – Anonymous SOS FR</title>
 
-/* 🔧 TA CONFIG FIREBASE */
-const firebaseConfig = {
-  apiKey: "TA_CLE_API",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-const adsList = document.getElementById("adsList");
-let currentUser = null;
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "connexion.html";
-    return;
-  }
-
-  currentUser = user;
-  loadAds();
-});
-
-async function loadAds() {
-  adsList.innerHTML = "";
-  const snap = await getDocs(collection(db, "ads"));
-
-  snap.forEach(docSnap => {
-    const ad = docSnap.data();
-    if (!ad.active) return;
-
-    const div = document.createElement("div");
-    div.className = "ad";
-
-    div.innerHTML = `
-      <h3>${ad.title}</h3>
-      <p>${ad.description}</p>
-      <p><strong>Gain :</strong> ${ad.reward} crédits</p>
-      <button>▶️ Regarder</button>
-      <div class="timer"></div>
-    `;
-
-    const btn = div.querySelector("button");
-    const timerEl = div.querySelector(".timer");
-
-    btn.onclick = () => watchAd(ad, docSnap.id, btn, timerEl);
-    adsList.appendChild(div);
-  });
+<style>
+body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #4a0000, #120000);
+    color:#fff;
 }
 
-function watchAd(ad, adId, btn, timerEl) {
-  btn.disabled = true;
-  let time = 60;
-  timerEl.innerText = "⏱️ Pub en cours : 60s";
+/* HEADER */
+header{
+    background:#7a0000;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+header button{
+    background:#ff2b2b;
+    border:none;
+    padding:8px 14px;
+    border-radius:6px;
+    color:#fff;
+    cursor:pointer;
+}
+header button:hover{opacity:0.8;}
 
-  const interval = setInterval(async () => {
-    time--;
-    timerEl.innerText = "⏱️ Pub en cours : " + time + "s";
-
-    if (time <= 0) {
-      clearInterval(interval);
-      await rewardUser(ad, adId);
-      timerEl.innerText = "✅ Crédits ajoutés";
-      btn.innerText = "✔ Déjà vue";
-    }
-  }, 1000);
+/* CONTAINER */
+.container{
+    max-width:1000px;
+    margin:30px auto;
+    padding:20px;
 }
 
-async function rewardUser(ad, adId) {
-  const uid = currentUser.uid;
+/* TITRES */
+h1{text-align:center;}
+.subtitle{text-align:center;color:#ccc;margin-bottom:30px;}
 
-  await updateDoc(doc(db, "users", uid), {
-    credits: increment(ad.reward)
-  });
-
-  await addDoc(collection(db, "ads_history"), {
-    uid: uid,
-    adId: adId,
-    reward: ad.reward,
-    createdAt: serverTimestamp()
-  });
+/* PUB CARDS */
+.ads-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
 }
-</script>
+
+.ad-card{
+    border:1px solid #ff2b2b;
+    border-radius:10px;
+    padding:15px;
+    background:rgba(0,0,0,0.4);
+}
+
+.ad-card h3{margin:0 0 10px 0;}
+.ad-card video{
+    width:100%;
+    border-radius:8px;
+}
+
+.ad-card button{
+    width:100%;
+    margin-top:10px;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    background:#555;
+    color:#aaa;
+    cursor:not-allowed;
+}
+
+.ad-card button.active{
+    background:#00c853;
+    color:#000;
+    cursor:pointer;
+}
+
+/* SCORE */
+.score-box{
+    margin-top:40px;
+    border:1px solid #ff2b2b;
+    border-radius:10px;
+    padding:20px;
+    text-align:center;
+}
+
+.score{
+    font-size:32px;
+    color:#00e676;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div><strong>Anonymous SOS FR</strong></div>
+    <div>
+        <button onclick="window.location.href='dashboard.html'">Retour</button>
+    </div>
+</header>
+
+<div class="container">
+
+<h1>🎥 Regarder des pubs</h1>
+<p class="subtitle">Regarde les vidéos jusqu’au bout pour gagner des points</p>
+
+<div class="ads-grid">
+
+    <!-- PUB 1 -->
+    <div class="ad-card">
+        <h3>Pub – 10 secondes</h3>
+        <video id="video1" src="video1.mp4"></video>
+        <button id="btn1">Regarde la vidéo</button>
+    </div>
+
+    <!-- PUB 2 -->
+    <div class="ad-card">
+        <h3>Pub – 30 secondes</h3>
+        <video id="video2" src="video2.mp4"></video>
+        <button id="btn2">Regarde la vidéo</button>
+    </div>
+
+    <!-- PUB 3 -->
+    <div class="ad-card">
+        <h3>Pub – 60 secondes</h3>
+        <video id="video3" src="video3.mp4"></video>
+        <button id="btn3">Regarde la vidéo</button>
+    </div>
+
+</div>
+
+<div class="score-box">
+    <p>💰 Tes points</p>
+    <div class="score" id="points">0</div>
+</div>
+
+</div>
+
+<script>
+/* --- SÉCURITÉ SIMPLE --- */
+if(!localStorage.getItem("user_id")){
+    window.location.href="connexion.html";
+}
+
+/* --- POINTS --- */
+let points = parseInt(localStorage.getItem("points") || "0");
+document.getElementById
