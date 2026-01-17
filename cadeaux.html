@@ -20,7 +20,7 @@ header{
 }
 
 .container{
-  max-width:1100px;
+  max-width:1200px;
   margin:30px auto;
   padding:20px;
 }
@@ -57,11 +57,6 @@ h1{text-align:center;}
   cursor:pointer;
 }
 
-.card button:disabled{
-  background:#444;
-  cursor:not-allowed;
-}
-
 .balance{
   margin-top:30px;
   text-align:center;
@@ -80,7 +75,6 @@ h1{text-align:center;}
 <body>
 
 <script>
-// 🔐 COMPTE OBLIGATOIRE
 const currentUser = localStorage.getItem("currentUser");
 if(!currentUser){
   window.location.href="login.html";
@@ -93,8 +87,8 @@ if(!currentUser){
 
 <div class="container">
 
-<h1>Envoyer des cadeaux</h1>
-<p class="subtitle">Les cadeaux changent automatiquement selon les fêtes 🎉</p>
+<h1>Cadeaux à crédits</h1>
+<p class="subtitle">Moins cher que TikTok • Plus accessible • Plus fun</p>
 
 <div class="grid" id="giftsGrid"></div>
 
@@ -107,62 +101,24 @@ if(!currentUser){
 </div>
 
 <script>
-// 📊 UTILISATEUR
 let userData = JSON.parse(localStorage.getItem("user_" + currentUser));
 let credits = userData.credits || 0;
 document.getElementById("credits").innerText = credits;
 
-// 🎁 CADEAUX PERMANENTS
-const permanentGifts = [
+// 🎁 CADEAUX PERMANENTS + PRESTIGE
+const gifts = [
   {icon:"❤️", name:"Cœur", cost:10, points:1},
   {icon:"🌹", name:"Rose", cost:50, points:5},
   {icon:"🔥", name:"Flamme", cost:100, points:10},
-  {icon:"🦁", name:"Lion", cost:5000, points:100}
+  {icon:"🦁", name:"Lion Ultime", cost:3000, points:100},
+  {icon:"👑", name:"Couronne Suprême", cost:8000, points:300},
+  {icon:"🌌", name:"Univers SOS", cost:15000, points:600}
 ];
 
-// 🎉 CADEAUX SAISONNIERS (AUTO)
-const seasonalGifts = [];
-const today = new Date();
-const day = today.getDate();
-const month = today.getMonth() + 1;
-
-// ❤️ Saint-Valentin (1–14 février)
-if(month === 2 && day <= 14){
-  seasonalGifts.push(
-    {icon:"💘", name:"Cœur Amour", cost:150, points:15},
-    {icon:"💍", name:"Bague", cost:500, points:40}
-  );
-}
-
-// 👩 Fête des mères (mai)
-if(month === 5){
-  seasonalGifts.push(
-    {icon:"🌸", name:"Fleur Maman", cost:200, points:20},
-    {icon:"💐", name:"Bouquet", cost:600, points:50}
-  );
-}
-
-// 🎄 Noël (décembre)
-if(month === 12){
-  seasonalGifts.push(
-    {icon:"🎁", name:"Cadeau Noël", cost:300, points:25},
-    {icon:"🎅", name:"Père Noël", cost:1000, points:80}
-  );
-}
-
-// 🐣 Pâques (mars–avril)
-if(month === 3 || month === 4){
-  seasonalGifts.push(
-    {icon:"🥚", name:"Œuf", cost:120, points:10},
-    {icon:"🐰", name:"Lapin", cost:400, points:30}
-  );
-}
-
-// 📦 AFFICHAGE DES CADEAUX
-const allGifts = [...permanentGifts, ...seasonalGifts];
+// 📦 AFFICHAGE
 const grid = document.getElementById("giftsGrid");
 
-allGifts.forEach(gift=>{
+gifts.forEach(gift=>{
   const div = document.createElement("div");
   div.className="card";
   div.innerHTML = `
@@ -176,7 +132,6 @@ allGifts.forEach(gift=>{
   grid.appendChild(div);
 });
 
-// 🎁 ENVOI CADEAU
 function sendGift(cost, points, label){
   if(credits < cost){
     alert("Crédits insuffisants.");
