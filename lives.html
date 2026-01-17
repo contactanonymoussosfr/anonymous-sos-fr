@@ -2,180 +2,32 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Live — Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Lives</title>
 <style>
-body{
-  margin:0;
-  background:#000;
-  color:#fff;
-  font-family:Arial, sans-serif;
-  padding-bottom:70px; /* espace menu bas */
-}
-
-/* HEADER */
-header{
-  background:#8b0000;
-  padding:12px;
-  text-align:center;
-  font-weight:bold;
-}
-
-/* LISTE DES LIVES */
-.container{
-  max-width:500px;
-  margin:0 auto;
-}
-
-.live-card{
-  border-bottom:1px solid #222;
-  padding:12px;
-  cursor:pointer;
-}
-
-.live-card:hover{
-  background:#111;
-}
-
-.live-user{
-  color:#ff5555;
-  font-weight:bold;
-}
-
-.live-status{
-  font-size:12px;
-  color:#00ff7f;
-  margin-top:4px;
-}
-
-/* LECTEUR LIVE */
-.live-player{
-  display:none;
-  position:fixed;
-  top:0; left:0;
-  width:100%;
-  height:100%;
-  background:#000;
-  z-index:1000;
-}
-
-.live-video{
-  width:100%;
-  height:80%;
-  background:#000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  color:#777;
-}
-
-/* ACTIONS LIVE */
-.live-actions{
-  display:flex;
-  justify-content:space-around;
-  padding:10px;
-  background:#111;
-}
-
-.live-actions button{
-  background:#8b0000;
-  border:none;
-  color:white;
-  padding:8px 14px;
-  border-radius:20px;
-  font-size:14px;
-}
-
-/* MENU BAS */
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  background:#8b0000;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-  z-index:999;
-}
-
-.bottom-nav a{
-  color:white;
-  font-size:22px;
-  text-decoration:none;
-}
+body{margin:0;background:black;color:white;padding-bottom:60px;font-family:Arial}
+header{text-align:center;background:#8b0000;padding:10px}
+.bottom-nav{position:fixed;bottom:0;width:100%;background:#8b0000;display:flex;justify-content:space-around;padding:10px}
+.bottom-nav a{color:white;font-size:20px;text-decoration:none}
 </style>
 </head>
 
 <body>
 
-<!-- 🔐 PROTECTION CONNEXION -->
 <script>
 if(!localStorage.getItem("currentUser")){
   window.location.href="connexion.html";
 }
 </script>
 
-<header>🔴 LIVES</header>
+<header>LIVES</header>
+<p style="text-align:center">Lives en cours</p>
 
-<div class="container">
-
-  <!-- LIVE 1 -->
-  <div class="live-card" onclick="openLive('anonymous_sos_fr')">
-    <div class="live-user">@anonymous_sos_fr</div>
-    <div class="live-status">🔴 EN DIRECT • 124 spectateurs</div>
-  </div>
-
-  <!-- LIVE 2 -->
-  <div class="live-card" onclick="openLive('membre_live')">
-    <div class="live-user">@membre_live</div>
-    <div class="live-status">🔴 EN DIRECT • 38 spectateurs</div>
-  </div>
-
-</div>
-
-<!-- PLAYER LIVE -->
-<div class="live-player" id="livePlayer">
-  <div class="live-video" id="liveVideo">
-    LIVE EN COURS
-  </div>
-
-  <div class="live-actions">
-    <button onclick="sendGift()">🎁 Cadeau</button>
-    <button onclick="startBattle()">⚔️ Battle</button>
-    <button onclick="closeLive()">❌ Quitter</button>
-  </div>
-</div>
-
-<!-- MENU FIXE BAS -->
 <nav class="bottom-nav">
   <a href="feed.html">🏠</a>
   <a href="lives.html">🔴</a>
   <a href="classement.html">🏆</a>
   <a href="profil.html">👤</a>
 </nav>
-
-<script>
-function openLive(user){
-  document.getElementById("livePlayer").style.display="block";
-  document.getElementById("liveVideo").innerText =
-    "🔴 LIVE DE @" + user;
-}
-
-function closeLive(){
-  document.getElementById("livePlayer").style.display="none";
-}
-
-function sendGift(){
-  alert("🎁 Cadeau envoyé (simulation)");
-}
-
-function startBattle(){
-  alert("⚔️ Battle en préparation (prochaine étape)");
-}
-</script>
 
 </body>
 </html>
