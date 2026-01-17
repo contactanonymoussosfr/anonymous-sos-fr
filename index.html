@@ -6,295 +6,201 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle at top, #3b0000, #0b0000 70%);
-  color: #fff;
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:radial-gradient(circle at top,#3a0000,#000);
+  color:#fff;
 }
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  padding: 15px;
-  background: #7a0000;
+/* HEADER */
+header{
+  background:#7a0000;
+  padding:12px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
 }
 
-.navbar button {
-  background: #b30000;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  color: #fff;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.navbar button:hover {
-  background: #ff0000;
+header button{
+  background:#b30000;
+  border:none;
+  color:#fff;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
 }
 
 /* STATUS */
-.status {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 14px;
+#status{
+  text-align:center;
+  margin:10px 0;
+  font-size:14px;
 }
-
-.green { color: #00ff88; }
-.red { color: #ff4444; }
 
 /* MAIN */
-.main {
-  text-align: center;
-  margin-top: 40px;
-  padding: 20px;
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:30px 20px;
+  text-align:center;
 }
 
-.badge {
-  color: #00aaff;
-  font-size: 18px;
-  margin-left: 6px;
+h1{
+  font-size:30px;
+  margin-bottom:5px;
 }
 
-h1 {
-  font-size: 32px;
+.badge{
+  color:#1da1f2;
+  margin-left:6px;
 }
 
-.subtitle {
-  margin-top: 10px;
-  opacity: 0.9;
+.official{
+  font-size:13px;
+  opacity:.8;
+  margin-bottom:20px;
+}
+
+.subtitle{
+  font-size:14px;
+  line-height:1.5;
 }
 
 /* RADIO */
-.radio {
-  margin: 25px auto;
-  width: 280px;
-  background: rgba(0,0,0,0.6);
-  padding: 10px;
-  border-radius: 12px;
+.radio{
+  width:260px;
+  margin:25px auto;
+  background:#111;
+  padding:8px;
+  border-radius:8px;
 }
 
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 15px;
-  padding: 30px;
+/* CARDS */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-top:40px;
 }
 
-.card {
-  border: 1px solid #ff3333;
-  border-radius: 10px;
-  padding: 15px;
-  background: rgba(0,0,0,0.6);
+.card{
+  border:1px solid #ff3333;
+  border-radius:10px;
+  padding:12px;
+  background:rgba(0,0,0,0.6);
+  font-size:12px;
 }
 
-.card h3 {
-  color: #ff4444;
-  margin-bottom: 8px;
+.card h3{
+  margin:0 0 6px;
+  font-size:14px;
+  color:#ff4d4d;
 }
 
 /* MODAL */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  justify-content: center;
-  align-items: center;
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  justify-content:center;
+  align-items:center;
 }
 
-.modal-content {
-  background: #1a0000;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
+.modal-content{
+  background:#120000;
+  padding:20px;
+  border-radius:10px;
+  width:300px;
 }
 
-.modal-content input,
-.modal-content select {
-  width: 100%;
-  padding: 8px;
-  margin: 6px 0;
+.modal input{
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+  font-size:13px;
 }
 
-.modal-content button {
-  width: 100%;
-  margin-top: 10px;
-  background: #b30000;
-  border: none;
-  color: #fff;
-  padding: 8px;
+.gender{
+  display:flex;
+  justify-content:space-around;
+  font-size:13px;
+  margin-bottom:10px;
 }
 
-.footer {
-  text-align: center;
-  padding: 15px;
-  opacity: 0.7;
+/* SOS FLOAT */
+.sos{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25d366;
+  color:#fff;
+  padding:12px 16px;
+  border-radius:50px;
+  font-size:14px;
+  text-decoration:none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div class="navbar">
+<header>
   <button onclick="openLogin()">Connexion</button>
   <button onclick="openRegister()">Créer un compte</button>
   <button onclick="logout()">Déconnexion</button>
-</div>
+</header>
 
-<div class="status" id="status">
-  <span class="red">● Non connecté</span>
-</div>
+<div id="status">🔴 Non connecté</div>
 
-<!-- MAIN -->
-<div class="main">
-  <h1>Anonymous SOS FR <span class="badge">✔️</span></h1>
-  <p class="subtitle">
+<main>
+  <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
+  <div class="official">Vous êtes sur le vrai site officiel des Anonymous</div>
+
+  <div class="subtitle">
     Nous sommes Anonymous. Nous sommes légion.<br>
     Nous n'oublions pas. Nous ne pardonnons pas.<br>
     Vous êtes chez vous, n'hésitez pas à inviter du monde.
-  </p>
+  </div>
 
-  <p style="margin-top:15px; font-size:14px;">
-    Anonymous SOS FR est une communauté d'entraide dédiée à la protection des personnes
-    victimes de harcèlement, de menaces ou de situations urgentes.
-  </p>
-
-  <!-- RADIO -->
   <div class="radio">
     🎧 Radio Anonymous SOS FR<br>
-    <audio controls style="width:100%;">
-      <source src="" type="audio/mpeg">
+    <audio controls style="width:100%">
+      <source src="">
     </audio>
   </div>
-</div>
 
-<!-- GRID -->
-<div class="grid">
-
-  <div class="card">
-    <h3>SOS & Urgences</h3>
-    Aucune identité publique.<br>
-    Assistance prioritaire.<br><br>
-    🔴 <a href="https://wa.me/32456894335" target="_blank" style="color:#ff5555;">SOS WhatsApp</a><br>
-    🔵 <a href="https://discord.gg/TONDISCORD" target="_blank" style="color:#55aaff;">SOS Discord</a>
+  <!-- 8 CARRÉS -->
+  <div class="cards">
+    <div class="card"><h3>SOS</h3>Aide rapide<br>Contact direct</div>
+    <div class="card"><h3>Sites</h3>Création web<br>Accompagnement</div>
+    <div class="card"><h3>Opportunités</h3>Vidéos<br>Visibilité</div>
+    <div class="card"><h3>Communauté</h3>Entraide<br>Protection</div>
+    <div class="card"><h3>Anonymat</h3>ID uniquement<br>Sécurité</div>
+    <div class="card"><h3>Support</h3>Humain réel</div>
+    <div class="card"><h3>Signalements</h3>Harcèlement<br>Menaces</div>
+    <div class="card"><h3>Anonymous</h3>Présence réelle</div>
   </div>
+</main>
 
-  <div class="card">
-    <h3>Création de sites</h3>
-    Création web de A à Z.<br>
-    Accompagnement sérieux.<br><br>
-    📧 DESPRESCHEZ@gmail.com<br>
-    📞 +32 456 89 43 35
-  </div>
+<a class="sos" href="https://wa.me/32456894335" target="_blank">
+  🆘 SOS WhatsApp
+</a>
 
-  <div class="card">
-    <h3>Opportunités</h3>
-    Vidéos complètes.<br>
-    Projets & visibilité.
-  </div>
-
-  <div class="card">
-    <h3>Communauté</h3>
-    Entraide.<br>
-    Protection.<br>
-    Réseau solidaire.
-  </div>
-
-  <div class="card">
-    <h3>Anonymat</h3>
-    Aucune identité publique.<br>
-    Seulement votre ID.
-  </div>
-
-  <div class="card">
-    <h3>Signalements</h3>
-    Harcèlement.<br>
-    Menaces.<br>
-    Situations urgentes.
-  </div>
-
-  <div class="card">
-    <h3>Support</h3>
-    Humain réel.<br>
-    Pas de robot.
-  </div>
-
-  <div class="card">
-    <h3>Anonymous SOS FR</h3>
-    Présence active.<br>
-    Action réelle.
-  </div>
-
-</div>
-
-<div class="footer">
-  Recrutement en continu — Anonymous SOS FR
-</div>
-
-<!-- MODALS -->
+<!-- LOGIN -->
 <div class="modal" id="login">
   <div class="modal-content">
     <h3>Connexion</h3>
-    <input id="loginEmail" placeholder="Email">
+    <input id="loginId" placeholder="ID">
     <input id="loginPass" type="password" placeholder="Mot de passe">
     <button onclick="login()">Connexion</button>
     <button onclick="closeModals()">Fermer</button>
   </div>
 </div>
 
+<!-- REGISTER -->
 <div class="modal" id="register">
   <div class="modal-content">
-    <h3>Inscription</h3>
-    <input id="regEmail" placeholder="Email">
-    <input id="regPass" type="password" placeholder="Mot de passe">
-    <select id="regGender">
-      <option>Homme</option>
-      <option>Femme</option>
-      <option>Autre</option>
-    </select>
-    <button onclick="register()">Créer</button>
-    <button onclick="closeModals()">Fermer</button>
-  </div>
-</div>
-
-<script>
-function openLogin(){ document.getElementById("login").style.display="flex"; }
-function openRegister(){ document.getElementById("register").style.display="flex"; }
-function closeModals(){ document.querySelectorAll(".modal").forEach(m=>m.style.display="none"); }
-
-function register(){
-  localStorage.setItem("user", document.getElementById("regEmail").value);
-  closeModals();
-  alert("Compte créé");
-}
-
-function login(){
-  const u = document.getElementById("loginEmail").value;
-  localStorage.setItem("user", u);
-  updateStatus();
-  closeModals();
-}
-
-function logout(){
-  localStorage.removeItem("user");
-  updateStatus();
-}
-
-function updateStatus(){
-  const u = localStorage.getItem("user");
-  document.getElementById("status").innerHTML = u
-    ? <span class="green">● Connecté – ID : ${u}</span>
-    : <span class="red">● Non connecté</span>;
-}
-
-updateStatus();
-</script>
-
-</body>
-</html>
+    <h3>Inscription</h3…
