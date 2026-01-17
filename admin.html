@@ -1,159 +1,105 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR — Administration</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Panneau Admin</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-body{background:black;color:#aaffaa;height:100vh;overflow:hidden}
-canvas{position:fixed;inset:0;z-index:0}
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-.overlay{
-  position:relative;
-  z-index:1;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.card{
-  width:400px;
-  background:#120000;
-  border-radius:16px;
-  padding:26px;
-  text-align:center;
-  border:1px solid #ff4444;
-  box-shadow:0 0 40px #ff4444;
-}
-
-h1{
-  color:#ff4444;
-  margin-bottom:10px;
-  text-shadow:0 0 14px #ff4444;
-}
-
-nav{
-  margin:14px 0;
-}
-
-nav a{
-  display:block;
-  margin:6px 0;
-  text-decoration:none;
-}
-
-nav button{
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:6px;
-  background:#330000;
-  color:#ffaaaa;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-nav button:hover{
-  background:#ff4444;
-  color:white;
-}
-
-.admin-badge{
-  color:#ff4444;
-  font-weight:bold;
-  margin-bottom:10px;
-}
-
-.logout{
-  background:#ff4444;
-  color:white;
-  margin-top:10px;
-}
-
-footer{
-  margin-top:12px;
-  font-size:11px;
-  opacity:.6;
-}
-</style>
+  <style>
+    body {
+      background: #0f0f0f;
+      color: #fff;
+      font-family: Arial;
+      padding: 20px;
+    }
+    .user {
+      border: 1px solid red;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    select, button {
+      margin-top: 5px;
+    }
+  </style>
 </head>
-
 <body>
 
-<canvas id="matrix"></canvas>
-
-<div class="overlay">
-  <div class="card">
-    <h1>Administration</h1>
-
-    <p class="admin-badge">🔴 COMPTE ADMINISTRATEUR</p>
-
-    <p id="email"></p>
-
-    <nav>
-      <a href="member.html"><button>👤 Espace membre</button></a>
-      <a href="chat.html"><button>💬 Modérer le chat</button></a>
-      <a href="lives.html"><button>🎥 Gérer les salons Live</button></a>
-    </nav>
-
-    <button class="logout" onclick="logout()">🚪 Déconnexion</button>
-
-    <footer>© Anonymous SOS FR — Administration</footer>
-  </div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCONPdgpoKjPnW7Bv_iFo1K7BkdctXFJGQ",
-  authDomain: "anonymous-sos-fr.firebaseapp.com",
-  projectId: "anonymous-sos-fr"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-onAuthStateChanged(auth, user => {
-  if (!user || user.email !== "despeschez@gmail.com") {
-    location.href = "index.html";
-    return;
-  }
-
-  document.getElementById("email").textContent = user.email;
-});
-
-window.logout = () => {
-  signOut(auth).then(() => location.href = "index.html");
-};
-</script>
+<h1>🔒 Panneau Administrateur</h1>
+<div id="users"></div>
 
 <script>
-const canvas=document.getElementById("matrix");
-const ctx=canvas.getContext("2d");
-canvas.width=innerWidth;
-canvas.height=innerHeight;
-const letters="01";
-const font=14;
-const cols=canvas.width/font;
-const drops=Array(Math.floor(cols)).fill(1);
-function draw(){
-  ctx.fillStyle="rgba(0,0,0,0.05)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle="#ff4444";
-  ctx.font=font+"px monospace";
-  for(let i=0;i<drops.length;i++){
-    const t=letters[Math.floor(Math.random()*letters.length)];
-    ctx.fillText(t,i*font,drops[i]*font);
-    if(drops[i]*font>canvas.height&&Math.random()>0.975)drops[i]=0;
-    drops[i]++;
+  // 🔥 CONFIG FIREBASE (reprends EXACTEMENT la tienne)
+  const firebaseConfig = {
+    apiKey: "TA_API_KEY",
+    authDomain: "TON_AUTH_DOMAIN",
+    projectId: "TON_PROJECT_ID"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  auth.onAuthStateChanged(async user => {
+    if (!user) {
+      document.body.innerHTML = "⛔ Accès refusé";
+      return;
+    }
+
+    const me = await db.collection("users").doc(user.uid).get();
+
+    if (!me.exists || me.data().role !== "admin") {
+      document.body.innerHTML = "⛔ Accès réservé aux admins";
+      return;
+    }
+
+    loadUsers();
+  });
+
+  function loadUsers() {
+    db.collection("users").get().then(snapshot => {
+      const container = document.getElementById("users");
+      container.innerHTML = "";
+
+      snapshot.forEach(doc => {
+        const u = doc.data();
+
+        const div = document.createElement("div");
+        div.className = "user";
+
+        div.innerHTML = `
+          <strong>${u.username}</strong><br>
+          Niveau : <input type="number" value="${u.level || 1}" id="lvl-${doc.id}"><br>
+          Rôle :
+          <select id="role-${doc.id}">
+            <option value="user">user</option>
+            <option value="moderator">moderator</option>
+            <option value="admin">admin</option>
+          </select><br>
+          <button onclick="saveUser('${doc.id}')">💾 Sauvegarder</button>
+        `;
+
+        container.appendChild(div);
+
+        document.getElementById(role-${doc.id}).value = u.role;
+      });
+    });
   }
-}
-setInterval(draw,33);
+
+  function saveUser(uid) {
+    const level = Number(document.getElementById(lvl-${uid}).value);
+    const role = document.getElementById(role-${uid}).value;
+
+    db.collection("users").doc(uid).update({
+      level,
+      role
+    }).then(() => {
+      alert("✔ Modifié");
+    });
+  }
 </script>
 
 </body>
