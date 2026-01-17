@@ -8,7 +8,7 @@
 <style>
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:#0b0000;
   color:#fff;
 }
@@ -28,13 +28,9 @@ body{
   display:block;
   margin:0 auto;
   border:3px solid red;
-  object-fit:cover;
 }
-h1{
-  text-align:center;
-  margin:15px 0 5px;
-}
-.badge-main{
+h1{text-align:center}
+.role{
   text-align:center;
   color:#4da6ff;
   font-weight:bold;
@@ -45,25 +41,16 @@ h1{
   padding:12px;
   border-radius:10px;
 }
-.label{
-  color:#ff6b6b;
-  font-size:13px;
-}
-.value{
-  font-size:18px;
-}
 .progress-bar{
   width:100%;
   height:12px;
   background:#300;
   border-radius:10px;
   overflow:hidden;
-  margin-top:6px;
 }
 .progress{
   height:100%;
   background:red;
-  width:0%;
 }
 .badges span{
   display:inline-block;
@@ -82,7 +69,6 @@ h1{
   border-radius:10px;
   color:#fff;
   font-size:16px;
-  cursor:pointer;
 }
 </style>
 </head>
@@ -90,73 +76,48 @@ h1{
 <body>
 
 <div class="container">
-  <img id="avatar" class="avatar" src="https://via.placeholder.com/120">
+  <img id="avatar" class="avatar">
   <h1 id="username">Chargement…</h1>
-  <div class="badge-main" id="mainBadge"></div>
+  <div class="role" id="roleLabel"></div>
 
   <div class="block">
-    <div class="label">Niveau</div>
-    <div class="value" id="level"></div>
-    <div class="progress-bar">
-      <div class="progress" id="progress"></div>
-    </div>
-    <div class="label" id="progressText"></div>
+    <div id="level"></div>
+    <div class="progress-bar"><div class="progress" id="progress"></div></div>
+    <div id="progressText"></div>
   </div>
 
   <div class="block">
-    <div class="label">Points</div>
-    <div class="value" id="points"></div>
+    <div id="points"></div>
   </div>
 
-  <div class="block">
-    <div class="label">Badges obtenus</div>
-    <div class="badges" id="badges"></div>
-  </div>
+  <div class="block badges" id="badges"></div>
 
   <button class="logout" onclick="logout()">Se déconnecter</button>
 </div>
 
-<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
-/* 🔴 REMPLACE ICI PAR TES INFOS FIREBASE */
-const firebaseConfig = {
-  apiKey: "TON_API_KEY",
-  authDomain: "TON_PROJET.firebaseapp.com",
-  projectId: "TON_PROJET",
+const firebaseConfig={
+  apiKey:"TON_API_KEY",
+  authDomain:"TON_PROJET.firebaseapp.com",
+  projectId:"TON_PROJET"
 };
 firebase.initializeApp(firebaseConfig);
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+const auth=firebase.auth();
+const db=firebase.firestore();
 
-/* 🔢 LOGIQUE NIVEAUX */
-function levelFromPoints(points){
-  return Math.floor(points / 100) + 1;
-}
-
-function badgesFromLevel(level){
-  const b=[];
-  if(level>=1) b.push("🟢 Nouveau");
-  if(level>=10) b.push("🔵 Actif");
-  if(level>=50) b.push("🟠 Engagé");
-  if(level>=100) b.push("🔴 Vétéran");
-  if(level>=500) b.push("🟣 Élite");
-  if(level>=1000) b.push("🟡 Légende");
-  return b;
-}
+function levelFromPoints(p){return Math.floor(p/100)+1;}
+function allBadges(){return ["🟢 Nouveau","🔵 Actif","🟠 Engagé","🔴 Vétéran","🟣 Élite","🟡 Légende"];}
 
 auth.onAuthStateChanged(async user=>{
-  if(!user){
-    window.location.href="connexion.html";
-    return;
-  }
+  if(!user){location.href="connexion.html";return;}
 
   const ref=db.collection("users").doc(user.uid);
-  const snap=await ref.get();
+  let snap=await ref.get();
 
   if(!snap.exists){
     await ref.set({
@@ -164,35 +125,33 @@ auth.onAuthStateChanged(async user=>{
       email:user.email,
       avatar:"https://via.placeholder.com/120",
       points:0,
+      role:"user",
       createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
+    snap=await ref.get();
   }
 
-  // +5 points à chaque connexion
-  await ref.update({
-    points: firebase.firestore.FieldValue.increment(5)
-  });
+  const d=snap.data();
+  const isStaff=["admin","developer","moderator"].includes(d.role);
 
-  const data=(await ref.get()).data();
-  const points=data.points||0;
-  const level=levelFromPoints(points);
-  const badges=badgesFromLevel(level);
-  const progress=(points%100);
+  const level=isStaff?1000:levelFromPoints(d.points);
+  const badges=isStaff?allBadges():allBadges().filter((_,i)=>level>=[1,10,50,100,500,1000][i]);
+  const progress=isStaff?100:(d.points%100);
 
-  document.getElementById("username").innerText=data.username;
-  document.getElementById("avatar").src=data.avatar;
+  document.getElementById("username").innerText=d.username;
+  document.getElementById("avatar").src=d.avatar;
+  document.getElementById("roleLabel").innerText=isStaff?✔ ${d.role.toUpperCase()}:"Membre";
   document.getElementById("level").innerText="Niveau "+level;
-  document.getElementById("points").innerText=points+" pts";
+  document.getElementById("points").innerText=isStaff?"∞ Points":d.points+" points";
   document.getElementById("progress").style.width=progress+"%";
-  document.getElementById("progressText").innerText=progress+" / 100 vers le niveau suivant";
-  document.getElementById("mainBadge").innerText=badges[badges.length-1];
+  document.getElementById("progressText").innerText=isStaff?"Progression max":"Vers niveau suivant";
 
-  const bDiv=document.getElementById("badges");
-  bDiv.innerHTML="";
+  const b=document.getElementById("badges");
+  b.innerHTML="";
   badges.forEach(x=>{
     const s=document.createElement("span");
     s.innerText=x;
-    bDiv.appendChild(s);
+    b.appendChild(s);
   });
 });
 
