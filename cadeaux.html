@@ -9,24 +9,22 @@
 body{
   margin:0;
   font-family:Arial,sans-serif;
-  background:radial-gradient(circle at top,#3b0000,#0b0000);
+  background:radial-gradient(circle at top,#2a0000,#050000);
   color:#fff;
 }
-
-header{
-  background:#7a0000;
-  padding:15px;
-  text-align:center;
-}
-
-.container{
-  max-width:1200px;
-  margin:30px auto;
-  padding:20px;
-}
-
+header{background:#7a0000;padding:15px;text-align:center;}
+.container{max-width:1300px;margin:30px auto;padding:20px;}
 h1{text-align:center;}
 .subtitle{text-align:center;color:#ccc;margin-bottom:30px;}
+
+.section{
+  margin-top:45px;
+}
+.section h2{
+  text-align:center;
+  color:#ff7777;
+  margin-bottom:15px;
+}
 
 .grid{
   display:grid;
@@ -36,13 +34,13 @@ h1{text-align:center;}
 
 .card{
   border:1px solid #ff3333;
-  border-radius:10px;
+  border-radius:14px;
   padding:20px;
-  background:rgba(0,0,0,0.45);
+  background:rgba(0,0,0,0.5);
   text-align:center;
 }
 
-.icon{font-size:42px;}
+.icon{font-size:44px;}
 .card h3{margin:10px 0;}
 .card p{font-size:14px;color:#ccc;}
 
@@ -51,18 +49,17 @@ h1{text-align:center;}
   padding:10px;
   width:100%;
   border:none;
-  border-radius:6px;
+  border-radius:8px;
   background:#ff3333;
   color:#fff;
   cursor:pointer;
 }
 
 .balance{
-  margin-top:30px;
+  margin-top:40px;
   text-align:center;
   font-size:18px;
 }
-
 .effect{
   margin-top:20px;
   text-align:center;
@@ -76,28 +73,21 @@ h1{text-align:center;}
 
 <script>
 const currentUser = localStorage.getItem("currentUser");
-if(!currentUser){
-  window.location.href="login.html";
-}
+if(!currentUser){ window.location.href="login.html"; }
 </script>
 
 <header>
-  <h2>🎁 Cadeaux</h2>
+  <h2>🎁 Cadeaux – Anonymous SOS FR</h2>
 </header>
 
 <div class="container">
-
 <h1>Cadeaux à crédits</h1>
-<p class="subtitle">Moins cher que TikTok • Plus accessible • Plus fun</p>
+<p class="subtitle">Exclusifs • Féeriques • Prestige • Événements</p>
 
-<div class="grid" id="giftsGrid"></div>
+<div id="allSections"></div>
 
-<div class="balance">
-  💰 Tes crédits : <b id="credits">0</b>
-</div>
-
+<div class="balance">💰 Tes crédits : <b id="credits">0</b></div>
 <div class="effect" id="effect"></div>
-
 </div>
 
 <script>
@@ -105,53 +95,88 @@ let userData = JSON.parse(localStorage.getItem("user_" + currentUser));
 let credits = userData.credits || 0;
 document.getElementById("credits").innerText = credits;
 
-// 🎁 CADEAUX PERMANENTS + PRESTIGE
-const gifts = [
-  {icon:"❤️", name:"Cœur", cost:10, points:1},
-  {icon:"🌹", name:"Rose", cost:50, points:5},
-  {icon:"🔥", name:"Flamme", cost:100, points:10},
-  {icon:"🦁", name:"Lion Ultime", cost:3000, points:100},
-  {icon:"👑", name:"Couronne Suprême", cost:8000, points:300},
-  {icon:"🌌", name:"Univers SOS", cost:15000, points:600}
+function section(title, gifts){
+  let html = <div class="section"><h2>${title}</h2><div class="grid">;
+  gifts.forEach(g=>{
+    html += `
+    <div class="card">
+      <div class="icon">${g.icon}</div>
+      <h3>${g.name}</h3>
+      <p>${g.cost} crédits • +${g.points} points</p>
+      <button onclick="sendGift(${g.cost},${g.points},'${g.icon} ${g.name}')">
+        Envoyer
+      </button>
+    </div>`;
+  });
+  html += "</div></div>";
+  return html;
+}
+
+const sections = [
+  {
+    title:"Cadeaux standards & prestige",
+    gifts:[
+      {icon:"❤️",name:"Cœur",cost:10,points:1},
+      {icon:"🌹",name:"Rose",cost:50,points:5},
+      {icon:"🔥",name:"Flamme",cost:100,points:10},
+      {icon:"🦁",name:"Lion Ultime",cost:3000,points:100},
+      {icon:"👑",name:"Couronne Suprême",cost:8000,points:300},
+      {icon:"🌌",name:"Univers SOS",cost:15000,points:600}
+    ]
+  },
+  {
+    title:"Cadeaux Anonymous exclusifs",
+    gifts:[
+      {icon:"🎭",name:"Masque Anonymous",cost:500,points:20},
+      {icon:"👁️",name:"Œil Anonymous",cost:1000,points:40},
+      {icon:"🛡️",name:"Bouclier SOS",cost:2000,points:70},
+      {icon:"📡",name:"Signal Anonymous",cost:4000,points:120},
+      {icon:"⚠️",name:"Ordre Anonymous",cost:7000,points:250},
+      {icon:"🕶️",name:"Blackout",cost:12000,points:400}
+    ]
+  },
+  {
+    title:"🕶️ Cadeau ICONIQUE Anonymous",
+    gifts:[
+      {icon:"🕶️",name:"Anonymous – Jugement",cost:40000,points:1000}
+    ]
+  },
+  {
+    title:"🧚 Féerie & Contes",
+    gifts:[
+      {icon:"👠",name:"Soulier de verre",cost:300,points:20},
+      {icon:"❄️",name:"Flocon Éternel",cost:500,points:30},
+      {icon:"🧚",name:"Petite Fée",cost:400,points:25},
+      {icon:"👑",name:"Cendrillon Royale",cost:10000,points:400},
+      {icon:"👸",name:"Reine de Glace",cost:15000,points:600},
+      {icon:"🌈",name:"Reine des Fées",cost:20000,points:800}
+    ]
+  },
+  {
+    title:"🐉 Dresseur & Créatures (Original)",
+    gifts:[
+      {icon:"🧢",name:"Maître des Créatures",cost:45000,points:1200}
+    ]
+  }
 ];
 
-// 📦 AFFICHAGE
-const grid = document.getElementById("giftsGrid");
-
-gifts.forEach(gift=>{
-  const div = document.createElement("div");
-  div.className="card";
-  div.innerHTML = `
-    <div class="icon">${gift.icon}</div>
-    <h3>${gift.name}</h3>
-    <p>${gift.cost} crédits • +${gift.points} points</p>
-    <button onclick="sendGift(${gift.cost},${gift.points},'${gift.icon} ${gift.name}')">
-      Envoyer
-    </button>
-  `;
-  grid.appendChild(div);
+const container = document.getElementById("allSections");
+sections.forEach(s=>{
+  container.innerHTML += section(s.title,s.gifts);
 });
 
-function sendGift(cost, points, label){
+function sendGift(cost,points,label){
   if(credits < cost){
-    alert("Crédits insuffisants.");
+    alert("Crédits insuffisants");
     return;
   }
-
   credits -= cost;
   userData.credits = credits;
   userData.points += points;
-
   localStorage.setItem("user_" + currentUser, JSON.stringify(userData));
-  localStorage.setItem("points_" + currentUser, userData.points);
-
   document.getElementById("credits").innerText = credits;
-  document.getElementById("effect").innerText =
-    "✨ Cadeau envoyé : " + label;
-
-  setTimeout(()=>{
-    document.getElementById("effect").innerText="";
-  },3000);
+  document.getElementById("effect").innerText = "✨ Cadeau envoyé : " + label;
+  setTimeout(()=>{document.getElementById("effect").innerText="";},3000);
 }
 </script>
 
