@@ -15,22 +15,30 @@
 
 body {
   color: white;
-  background-image: url("anonymous.jpg"); /* ✅ TA PHOTO */
+  min-height: 100vh;
+
+  /* IMAGE ANONYMOUS INTÉGRÉE (PAS DE FICHIER) */
+  background:
+    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
+    url("data:image/svg+xml;utf8,
+    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>
+      <defs>
+        <radialGradient id='g' cx='50%' cy='30%' r='70%'>
+          <stop offset='0%' stop-color='%23660000'/>
+          <stop offset='100%' stop-color='%23000000'/>
+        </radialGradient>
+      </defs>
+      <rect width='800' height='600' fill='url(%23g)'/>
+      <text x='400' y='320' text-anchor='middle'
+        font-size='160'
+        fill='rgba(255,255,255,0.08)'
+        font-family='Arial'>☻</text>
+    </svg>");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
 }
 
-/* VOILE SOMBRE POUR LISIBILITÉ */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  z-index: -1;
-}
-
-/* BARRE DU HAUT */
+/* BARRE HAUTE */
 .top-bar {
   display: flex;
   justify-content: center;
@@ -56,11 +64,12 @@ body::before {
 .status {
   text-align: center;
   margin: 15px 0;
+  font-size: 16px;
 }
 
 /* HERO */
 .hero {
-  min-height: 80vh;
+  min-height: 75vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,7 +86,7 @@ body::before {
   margin-bottom: 15px;
 }
 
-/* VRAI BADGE BLEU */
+/* BADGE BLEU */
 .badge-blue {
   display: inline-block;
   margin-left: 8px;
@@ -88,13 +97,6 @@ body::before {
   color: white;
   font-size: 14px;
   line-height: 22px;
-  text-align: center;
-  vertical-align: middle;
-}
-
-.quote {
-  font-size: 18px;
-  line-height: 1.6;
 }
 
 /* CARTES */
@@ -133,7 +135,6 @@ body::before {
   display: none;
   margin-top: 10px;
   font-size: 14px;
-  line-height: 1.5;
 }
 
 /* FOOTER */
@@ -149,13 +150,13 @@ footer {
 <body>
 
 <header class="top-bar">
-  <button class="btn">Connexion</button>
+  <button class="btn" onclick="login()">Connexion</button>
   <button class="btn primary">Créer un compte</button>
-  <button class="btn">Déconnexion</button>
+  <button class="btn" onclick="logout()">Déconnexion</button>
 </header>
 
-<div class="status">
-  🟢 Connecté en tant que <strong>MrDespres</strong>
+<div class="status" id="status">
+  🔴 Non connecté
 </div>
 
 <section class="hero">
@@ -165,7 +166,7 @@ footer {
       <span class="badge-blue">✔</span>
     </h1>
 
-    <p class="quote">
+    <p>
       Nous sommes Anonymous. Nous sommes légion.<br>
       Nous n’oublions pas. Nous ne pardonnons pas.<br>
       Vous êtes chez vous, n’hésitez pas à inviter du monde.
@@ -174,54 +175,47 @@ footer {
 </section>
 
 <section class="cards">
-
   <div class="card">
     <h2>Anonymat</h2>
-    <p>
-      Aucune identité publique requise.<br>
-      Seul votre ID est visible.
-    </p>
+    <p>Aucune identité publique requise.<br>Seul votre ID est visible.</p>
   </div>
 
   <div class="card">
     <h2>Création de sites</h2>
-    <p>
-      Nous pouvons créer votre site web de A à Z.<br>
-      Vitrine, projet, plateforme, services.
-    </p>
+    <p>Création de sites web de A à Z.</p>
 
-    <button class="contact-btn" onclick="toggleContact()">
-      Contacter le service client
-    </button>
-
-    <div id="contact-info" class="contact-info">
-      📧 Email : DESPRESCHEZ@gmail.com<br>
-      📱 WhatsApp : +32 456 89 43 35<br>
-      🎥 YouTube : mr despres<br>
-      🎵 TikTok : @anonymous_sos_fr
+    <button class="contact-btn" onclick="toggleContact()">Contacter</button>
+    <div id="contact" class="contact-info">
+      📧 DESPRESCHEZ@gmail.com<br>
+      📱 +32 456 89 43 35<br>
+      🎵 @anonymous_sos_fr
     </div>
   </div>
 
   <div class="card">
     <h2>Opportunités</h2>
-    <p>
-      Regardez des vidéos complètes.<br>
-      Les publicités vues en entier<br>
-      vous font gagner de l’argent.
-    </p>
+    <p>Regardez des vidéos complètes et gagnez de l’argent.</p>
   </div>
-
 </section>
 
 <footer>
-  Recrutement en continu — Anonymous SOS FR<br>
-  Nous recrutons tous les jours. Ne perdez pas votre temps.
+  Recrutement en continu — Anonymous SOS FR
 </footer>
 
 <script>
 function toggleContact() {
-  const info = document.getElementById("contact-info");
-  info.style.display = info.style.display === "block" ? "none" : "block";
+  const c = document.getElementById("contact");
+  c.style.display = c.style.display === "block" ? "none" : "block";
+}
+
+function login() {
+  document.getElementById("status").innerHTML =
+    "🟢 Connecté en tant que <strong>MrDespres</strong>";
+}
+
+function logout() {
+  document.getElementById("status").innerHTML =
+    "🔴 Non connecté";
 }
 </script>
 
