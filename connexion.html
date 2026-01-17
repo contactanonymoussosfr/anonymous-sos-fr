@@ -3,57 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Connexion</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{
-  background:black;
-  color:white;
-  font-family:Arial;
-  text-align:center;
-  padding:40px;
-}
-input,button{
-  width:100%;
-  max-width:300px;
-  margin:10px auto;
-  padding:10px;
-  border-radius:6px;
-  border:none;
-}
-button{
-  background:#ff3b3b;
-  color:white;
-  font-weight:bold;
-}
-</style>
 </head>
-
 <body>
 
 <h2>Connexion</h2>
+<input id="email" type="email" placeholder="Email">
+<button id="go">Connexion</button>
 
-<input id="id" placeholder="Votre ID">
+<script src="firebase.js" type="module"></script>
+<script type="module">
+import { signInWithEmailAndPassword } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-<button onclick="login()">Connexion</button>
-
-<script>
-function login(){
-  const saved = localStorage.getItem("currentUser");
-  if(!saved){
-    alert("Aucun compte trouvé");
-    return;
-  }
-
-  const user = JSON.parse(saved);
-  const id = document.getElementById("id").value.trim();
-
-  if(user.id !== id){
-    alert("ID incorrect");
-    return;
-  }
-
-  window.location.href = "index.html";
-}
+document.getElementById("go").onclick = async ()=>{
+  const email = document.getElementById("email").value;
+  const cred = await signInWithEmailAndPassword(auth,email,"password123");
+  localStorage.setItem("uid",cred.user.uid);
+  location.href="index.html";
+};
 </script>
 
 </body>
