@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Publier – Simon City</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+header{
+  background:#7a0000;
+  padding:12px;
+  text-align:center;
+}
+
+main{
+  max-width:600px;
+  margin:20px auto;
+  padding:15px;
+  background:#1a0000;
+  border-radius:8px;
+}
+
+label{
+  display:block;
+  margin-top:10px;
+  font-size:14px;
+}
+
+input, textarea, select{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  border:none;
+  border-radius:4px;
+  font-size:14px;
+}
+
+textarea{
+  resize:none;
+  height:80px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  background:#ff3333;
+  border:none;
+  color:#fff;
+  font-size:16px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.success{
+  margin-top:15px;
+  text-align:center;
+  color:#7CFC00;
+  font-size:15px;
+}
+
+.info{
+  margin-top:10px;
+  font-size:13px;
+  opacity:.8;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+// 🔐 COMPTE OBLIGATOIRE
+const currentUser = localStorage.getItem("currentUser");
+if(!currentUser){
+  window.location.href = "login.html";
+}
+</script>
+
+<header>
+  <h2>📤 Publier</h2>
+</header>
+
+<main>
+
+<label>Type de contenu</label>
+<select id="type">
+  <option value="video">Vidéo</option>
+  <option value="image">Photo</option>
+</select>
+
+<label>Lien de la vidéo / photo</label>
+<input id="src" placeholder="https://..." required>
+
+<label>Description (facultatif)</label>
+<textarea id="desc" placeholder="Écris quelque chose..."></textarea>
+
+<button onclick="publish()">Publier</button>
+
+<div class="success" id="successMsg"></div>
+
+<div class="info">
+  Le contenu publié apparaît immédiatement dans le fil principal.
+</div>
+
+</main>
+
+<script>
+function publish(){
+  const type = document.getElementById("type").value;
+  const src = document.getElementById("src").value.trim();
+  const desc = document.getElementById("desc").value.trim();
+
+  if(!src){
+    alert("Lien obligatoire.");
+    return;
+  }
+
+  let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+  posts.push({
+    author: currentUser,
+    type: type,
+    src: src,
+    desc: desc,
+    date: new Date().toISOString()
+  });
+
+  localStorage.setItem("posts", JSON.stringify(posts));
+
+  document.getElementById("successMsg").innerText =
+    "✔ Contenu publié avec succès !";
+
+  document.getElementById("src").value = "";
+  document.getElementById("desc").value = "";
+}
+</script>
+
+</body>
+</html>
