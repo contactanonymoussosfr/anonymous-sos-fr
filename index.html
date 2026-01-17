@@ -13,24 +13,11 @@
   font-family:Arial, Helvetica, sans-serif;
 }
 
-/* 🌍 FOND AVEC IMAGE + SECOURS */
+/* FOND NOIR (VALIDÉ) */
 body{
   min-height:100vh;
   color:#fff;
-
-  /* FOND DE SECOURS */
-  background-color:#1a0000;
-
-  /* IMAGE (CHEMIN ABSOLU GITHUB PAGES) */
-  background-image:
-    linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.85)),
-    url("/anonymous-sos-fr/anonymous-earth.jpg");
-
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
-
+  background: radial-gradient(circle at top, #5a0000 0%, #1a0000 45%, #000 85%);
   display:flex;
   flex-direction:column;
 }
@@ -41,7 +28,7 @@ body{
   justify-content:center;
   gap:12px;
   padding:15px;
-  background:rgba(80,0,0,0.9);
+  background:rgba(90,0,0,0.95);
 }
 
 .btn{
@@ -168,7 +155,7 @@ footer{
   opacity:0.8;
 }
 
-/* MODALE */
+/* MODALE CRÉATION COMPTE */
 .modal{
   position:fixed;
   inset:0;
@@ -194,6 +181,26 @@ footer{
   margin-bottom:15px;
   border-radius:8px;
   border:none;
+}
+
+/* 🆘 BOUTON SOS FLOTTANT */
+.sos-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#e00000;
+  color:white;
+  padding:14px 18px;
+  border-radius:50px;
+  font-size:16px;
+  text-decoration:none;
+  font-weight:bold;
+  box-shadow:0 0 15px rgba(255,0,0,0.6);
+  z-index:9999;
+}
+
+.sos-btn:hover{
+  background:#ff2a2a;
 }
 </style>
 </head>
@@ -225,7 +232,7 @@ footer{
     <p class="about">
       Anonymous SOS FR est une communauté d’entraide dédiée
       à la protection des personnes victimes de harcèlement,
-      de menaces ou de situations urgentes.
+      de menaces ou de situations urgentes, en ligne comme dans la vie réelle.
     </p>
 
   </div>
@@ -266,6 +273,12 @@ footer{
   Recrutement en continu — Anonymous SOS FR
 </footer>
 
+<!-- 🆘 BOUTON SOS -->
+<a href="https://wa.me/32456894335" target="_blank" class="sos-btn">
+  🆘 SOS WhatsApp
+</a>
+
+<!-- MODALE COMPTE -->
 <div class="modal" id="registerModal">
   <div class="modal-content">
     <h2>Créer un compte</h2>
