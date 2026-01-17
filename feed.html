@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Fil – Simon City</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+header{
+  background:#7a0000;
+  padding:12px;
+  text-align:center;
+}
+
+.post{
+  border-bottom:1px solid #333;
+  padding:10px;
+}
+
+.author{
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.media{
+  width:100%;
+  max-height:400px;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+.desc{
+  margin-top:6px;
+  font-size:14px;
+}
+
+.date{
+  font-size:12px;
+  opacity:.6;
+  margin-top:4px;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+// 🔐 COMPTE OBLIGATOIRE
+const currentUser = localStorage.getItem("currentUser");
+if(!currentUser){
+  window.location.href = "login.html";
+}
+</script>
+
+<header>
+  <h2>🎬 Fil principal</h2>
+</header>
+
+<div id="feed"></div>
+
+<script>
+// 📦 RÉCUPÉRATION DES POSTS
+let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+// 🔽 DU PLUS RÉCENT AU PLUS ANCIEN
+posts.reverse();
+
+const feed = document.getElementById("feed");
+
+if(posts.length === 0){
+  feed.innerHTML = "<p style='text-align:center;opacity:.6'>Aucun contenu pour le moment.</p>";
+}
+
+posts.forEach(post=>{
+  const div = document.createElement("div");
+  div.className = "post";
+
+  let mediaHTML = "";
+  if(post.type === "video"){
+    mediaHTML = <video class="media" controls src="${post.src}"></video>;
+  }else{
+    mediaHTML = <img class="media" src="${post.src}">;
+  }
+
+  div.innerHTML = `
+    <div class="author">@${post.author}</div>
+    ${mediaHTML}
+    <div class="desc">${post.desc || ""}</div>
+    <div class="date">${new Date(post.date).toLocaleString()}</div>
+  `;
+
+  feed.appendChild(div);
+});
+</script>
+
+</body>
+</html>
