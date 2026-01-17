@@ -1,46 +1,125 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Lives</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Live – Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  background:black;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+#liveContainer{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  background:black;
+}
+
+video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+#overlay{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+}
+
+#giftAnimation{
+  position:absolute;
+  top:40%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:60px;
+  display:none;
+  text-align:center;
+}
+
+#controls{
+  position:absolute;
+  bottom:10px;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  pointer-events:auto;
+}
+
+button{
+  padding:10px 15px;
+  font-size:16px;
+  border:none;
+  border-radius:8px;
+  background:#ff3333;
+  color:white;
+}
+</style>
 </head>
 
-<body onload="requireAuth()">
+<body>
 
-<header>
-  <nav>
-    <a href="index.html">Feed</a>
-    <a href="lives.html">Lives</a>
-    <a href="member.html">Profil</a>
-    <a href="#" onclick="logout()">Quitter</a>
-  </nav>
-</header>
+<script>
+const currentUser = localStorage.getItem("currentUser");
+if(!currentUser){
+  alert("Connecte-toi pour accéder au live");
+  window.location.href="login.html";
+}
+</script>
 
-<div class="container">
-  <h2 class="page-title">Lives</h2>
+<div id="liveContainer">
 
-  <p style="font-size:14px;opacity:0.8;">
-    Section live (version simulation, sans serveur).
-  </p>
+  <!-- VIDEO LIVE (caméra) -->
+  <video id="video" autoplay muted></video>
 
-  <div class="live-box" id="liveBox">
-    LIVE OFF
+  <!-- OVERLAY CADEAUX -->
+  <div id="overlay">
+    <div id="giftAnimation"></div>
   </div>
 
-  <button onclick="toggleLive()">Lancer / Arrêter le live</button>
+  <!-- BOUTONS TEST -->
+  <div id="controls">
+    <button onclick="sendGift('❤️','Cœur')">❤️</button>
+    <button onclick="sendGift('🦁','Lion Ultime')">🦁</button>
+    <button onclick="sendGift('🕶️','Anonymous – Jugement')">🕶️</button>
+  </div>
+
 </div>
 
-<script src="app.js"></script>
 <script>
-  // Live local (simulation)
-  let live = false;
+// 🎥 CAMÉRA
+navigator.mediaDevices.getUserMedia({video:true,audio:true})
+.then(stream=>{
+  document.getElementById("video").srcObject = stream;
+})
+.catch(()=>{
+  alert("Autorise la caméra");
+});
 
-  function toggleLive() {
-    live = !live;
-    document.getElementById("liveBox").textContent = live ? "LIVE ON" : "LIVE OFF";
+// 🎁 ANIMATION CADEAU
+function sendGift(icon,name){
+  const box = document.getElementById("giftAnimation");
+  box.innerHTML = icon + "<br>" + name;
+  box.style.display="block";
+
+  let duration = 3000;
+  if(name.includes("Lion") || name.includes("Jugement")){
+    duration = 30000;
   }
+
+  setTimeout(()=>{
+    box.style.display="none";
+  },duration);
+}
 </script>
 
 </body>
