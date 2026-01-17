@@ -13,7 +13,7 @@
   font-family:Arial, Helvetica, sans-serif;
 }
 
-/* 🔒 FOND CONSERVÉ */
+/* FOND (INCHANGÉ) */
 body{
   min-height:100vh;
   color:#fff;
@@ -51,7 +51,7 @@ body{
   font-size:16px;
 }
 
-/* ZONE CENTRALE */
+/* CONTENU CENTRAL */
 .main{
   flex:1;
   display:flex;
@@ -85,21 +85,20 @@ body{
   vertical-align:middle;
 }
 
-/* TEXTE PRINCIPAL */
+/* TEXTES */
 .quote{
   font-size:18px;
   line-height:1.6;
   margin-bottom:25px;
 }
 
-/* TEXTE À PROPOS */
 .about{
   font-size:16px;
   line-height:1.7;
   opacity:0.95;
 }
 
-/* CARTES EN BAS */
+/* CARTES */
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
@@ -121,12 +120,11 @@ body{
   margin-bottom:8px;
 }
 
-/* MESSAGE SOS */
+/* SOS */
 .sos-message{
   margin-top:10px;
   font-size:13px;
   line-height:1.5;
-  opacity:0.95;
 }
 
 /* CONTACT */
@@ -156,6 +154,42 @@ footer{
   font-size:13px;
   opacity:0.8;
 }
+
+/* MODALE CRÉATION COMPTE */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.75);
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-content{
+  background:#111;
+  padding:25px;
+  border-radius:14px;
+  width:90%;
+  max-width:320px;
+  text-align:center;
+  border:1px solid #ff2a2a;
+}
+
+.modal-content h2{
+  margin-bottom:15px;
+}
+
+.modal-content input{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+  border-radius:8px;
+  border:none;
+}
+
+.modal-content button{
+  width:100%;
+}
 </style>
 </head>
 
@@ -163,7 +197,7 @@ footer{
 
 <header class="top-bar">
   <button class="btn" onclick="login()">Connexion</button>
-  <button class="btn primary" onclick="register()">Créer un compte</button>
+  <button class="btn primary" onclick="openRegister()">Créer un compte</button>
   <button class="btn" onclick="logout()">Déconnexion</button>
 </header>
 
@@ -186,9 +220,9 @@ footer{
     </p>
 
     <p class="about">
-      Anonymous SOS FR est une communauté indépendante dédiée à l’entraide,
-      à la protection des personnes et à l’accompagnement face aux situations difficiles,
-      notamment dans le cadre du harcèlement et des abus en ligne.
+      Anonymous SOS FR est une communauté dédiée à l’entraide,
+      à la protection des personnes et à l’accompagnement face
+      au harcèlement et aux situations urgentes.
     </p>
 
   </div>
@@ -196,37 +230,24 @@ footer{
 
 <section class="cards">
 
-  <!-- 🆘 CARTE SOS / ANONYMAT -->
   <div class="card">
     <h2>Anonymat & SOS</h2>
-    <p>
-      Aucune identité publique requise.<br>
-      Seul votre ID est visible.
-    </p>
+    <p>Aucune identité publique requise.<br>Seul votre ID est visible.</p>
 
     <p class="sos-message">
       🆘 <strong>Besoin d’aide urgente ?</strong><br>
-      Si vous êtes victime de harcèlement, de menaces,
-      ou que vous traversez une situation grave,
+      Harcèlement, menaces, détresse :
       vous êtes sur le site officiel des Anonymous SOS FR
       <span class="badge-blue">✔</span>.<br>
-      <strong>N’hésitez pas à nous contacter immédiatement.</strong><br>
-      📲 WhatsApp prioritaire – réponse humaine.
+      📲 WhatsApp prioritaire.
     </p>
   </div>
 
-  <!-- CRÉATION DE SITES -->
   <div class="card">
     <h2>Création de sites</h2>
-    <p>
-      Création de sites web de A à Z.<br>
-      Vitrine, projet, plateforme, services.
-    </p>
+    <p>Création de sites web de A à Z.</p>
 
-    <button class="contact-btn" onclick="toggleContact()">
-      Contacter le service client
-    </button>
-
+    <button class="contact-btn" onclick="toggleContact()">Contacter</button>
     <div id="contact" class="contact-info">
       📧 DESPRESCHEZ@gmail.com<br>
       📱 WhatsApp : +32 456 89 43 35<br>
@@ -234,14 +255,9 @@ footer{
     </div>
   </div>
 
-  <!-- OPPORTUNITÉS -->
   <div class="card">
     <h2>Opportunités</h2>
-    <p>
-      Regardez des vidéos complètes.<br>
-      Les publicités vues en entier<br>
-      vous font gagner de l’argent.
-    </p>
+    <p>Vidéos complètes → gain possible.</p>
   </div>
 
 </section>
@@ -250,29 +266,57 @@ footer{
   Recrutement en continu — Anonymous SOS FR
 </footer>
 
+<!-- MODALE CRÉATION COMPTE -->
+<div class="modal" id="registerModal">
+  <div class="modal-content">
+    <h2>Créer un compte</h2>
+    <input type="text" id="username" placeholder="Choisissez un pseudo">
+    <button class="btn primary" onclick="register()">Créer et se connecter</button>
+    <button class="btn" onclick="closeRegister()" style="margin-top:10px;">Annuler</button>
+  </div>
+</div>
+
 <script>
 let connected = false;
+let user = "";
 
 function updateStatus(){
   document.getElementById("status").innerHTML = connected
-    ? "🟢 Connecté en tant que <strong>MrDespres</strong>"
+    ? "🟢 Connecté en tant que <strong>" + user + "</strong>"
     : "🔴 Non connecté";
 }
 
 function login(){
   connected = true;
+  user = "MrDespres";
   updateStatus();
-}
-
-function register(){
-  connected = true;
-  updateStatus();
-  alert("Compte créé avec succès. Vous êtes maintenant connecté.");
 }
 
 function logout(){
   connected = false;
+  user = "";
   updateStatus();
+}
+
+function openRegister(){
+  document.getElementById("registerModal").style.display = "flex";
+}
+
+function closeRegister(){
+  document.getElementById("registerModal").style.display = "none";
+}
+
+function register(){
+  const name = document.getElementById("username").value.trim();
+  if(name === ""){
+    alert("Veuillez entrer un pseudo.");
+    return;
+  }
+  user = name;
+  connected = true;
+  closeRegister();
+  updateStatus();
+  alert("Compte créé avec succès. Bienvenue " + user + " !");
 }
 
 function toggleContact(){
