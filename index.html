@@ -9,277 +9,185 @@
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:radial-gradient(circle at top,#3a0000,#000);
-  color:#fff;
+  background:linear-gradient(180deg,#4b0000,#150000);
+  color:white;
 }
 
 /* HEADER */
 header{
-  background:#7a0000;
-  padding:12px;
+  background:#b00000;
+  padding:10px;
   display:flex;
-  justify-content:center;
+  justify-content:flex-end;
   gap:10px;
 }
 
 header button{
-  background:#b30000;
+  background:#ff3b3b;
   border:none;
-  color:#fff;
+  color:white;
   padding:8px 14px;
   border-radius:6px;
   cursor:pointer;
-  font-size:14px;
+  font-weight:bold;
 }
 
 /* STATUS */
 #status{
   text-align:center;
-  margin:10px 0;
+  margin-top:10px;
   font-size:14px;
 }
 
 /* MAIN */
 main{
-  max-width:1000px;
-  margin:auto;
-  padding:40px 20px;
   text-align:center;
+  padding:40px 20px 120px;
 }
 
 h1{
-  font-size:30px;
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
 
 .badge{
-  display:inline-flex;
-  justify-content:center;
-  align-items:center;
-  width:20px;
-  height:20px;
-  background:#1da1f2;
-  color:#fff;
-  border-radius:50%;
-  font-size:14px;
-  margin-left:6px;
-}
-
-.official{
-  font-size:13px;
-  opacity:.8;
-  margin-bottom:20px;
+  color:#1da1f2;
+  font-size:18px;
 }
 
 .subtitle{
-  font-size:14px;
-  line-height:1.5;
+  opacity:0.8;
+  margin-bottom:20px;
 }
 
 /* RADIO */
 .radio{
-  width:260px;
-  margin:25px auto;
-  background:#111;
-  padding:8px;
-  border-radius:8px;
+  margin:20px auto;
+  max-width:320px;
 }
 
-/* ESPACE AVANT CARRÉS */
-.bottom-space{
-  height:120px;
+/* PRIVATE ZONE */
+#private-zone{
+  display:none;
+  margin-top:40px;
 }
 
-/* CARRÉS */
-.cards{
+/* BOX GRID */
+.grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:18px;
-  max-width:1100px;
-  margin:0 auto 40px;
+  gap:12px;
+  max-width:900px;
+  margin:0 auto;
 }
 
-.card{
-  border:1px solid #ff3333;
+.box{
+  border:1px solid #ff3b3b;
   border-radius:10px;
   padding:12px;
-  background:rgba(0,0,0,0.6);
-  font-size:12px;
-  text-align:center;
-}
-
-.card h3{
-  margin:0 0 6px;
   font-size:14px;
-  color:#ff4d4d;
+  background:rgba(0,0,0,0.4);
+  cursor:pointer;
 }
 
-/* SOS FLOAT */
-.sos{
+.box:hover{
+  background:rgba(255,0,0,0.15);
+}
+
+/* SOS BUTTON */
+#sos-btn{
   position:fixed;
   bottom:20px;
   right:20px;
   background:#25d366;
-  color:#fff;
-  padding:12px 16px;
-  border-radius:50px;
+  color:white;
+  padding:12px 18px;
+  border-radius:30px;
+  font-weight:bold;
   text-decoration:none;
-  font-size:14px;
 }
 
-/* MODALS */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  justify-content:center;
-  align-items:center;
-}
-
-.modal-content{
-  background:#120000;
-  padding:20px;
-  border-radius:10px;
-  width:300px;
-}
-
-.modal-content input{
-  width:100%;
-  padding:8px;
-  margin-bottom:8px;
-}
-
-.gender{
-  display:flex;
-  justify-content:space-around;
-  font-size:13px;
-  margin-bottom:10px;
+/* FOOTER */
+footer{
+  text-align:center;
+  opacity:0.6;
+  font-size:12px;
+  margin-top:40px;
 }
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header>
-  <button onclick="openLoginModal()">Connexion</button>
-  <button onclick="openRegisterModal()">Créer un compte</button>
-  <button onclick="logoutUser()">Déconnexion</button>
+  <button onclick="location.href='connexion.html'">Connexion</button>
+  <button onclick="location.href='inscription.html'">Créer un compte</button>
+  <button onclick="logout()">Déconnexion</button>
 </header>
 
 <div id="status">🔴 Non connecté</div>
 
+<!-- MAIN -->
 <main>
-  <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
-  <div class="official">Vous êtes sur le vrai site officiel des Anonymous</div>
 
-  <div class="subtitle">
-    Nous sommes Anonymous. Nous sommes légion.<br>
-    Nous n'oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous, n'hésitez pas à inviter du monde.
+<h1>Anonymous SOS FR <span class="badge">✔️</span></h1>
+<div class="subtitle">Vous êtes sur le vrai site officiel des Anonymous</div>
+
+<p>
+Nous sommes Anonymous. Nous sommes légion.<br>
+Nous n’oublions pas. Nous ne pardonnons pas.<br>
+Vous êtes chez vous.
+</p>
+
+<!-- RADIO -->
+<div class="radio">
+  <audio controls autoplay>
+    <source src="radio.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<!-- ZONE PRIVÉE (CONNECTÉS UNIQUEMENT) -->
+<div id="private-zone">
+
+  <div class="grid">
+    <div class="box" onclick="location.href='lives.html'">🔴 Lives</div>
+    <div class="box" onclick="location.href='feed.html'">📱 Feed</div>
+    <div class="box" onclick="location.href='classement.html'">🏆 Classements</div>
+    <div class="box" onclick="location.href='gifts.html'">🎁 Cadeaux</div>
+
+    <div class="box" onclick="location.href='chat.html'">💬 Chat</div>
+    <div class="box" onclick="location.href='profil.html'">👤 Profil</div>
+    <div class="box" onclick="location.href='forum.html'">🌐 Communauté</div>
+    <div class="box" onclick="location.href='ads.html'">📺 Gagner des crédits</div>
   </div>
 
-  <div class="radio">
-    🎧 Radio Anonymous SOS FR<br>
-    <audio controls style="width:100%"></audio>
-  </div>
+</div>
+
+<footer>
+Recrutement en continu — Anonymous SOS FR
+</footer>
+
 </main>
 
-<!-- ESPACE POUR DESCENDRE LES CARRÉS -->
-<div class="bottom-space"></div>
-
-<!-- CARRÉS TOUT EN BAS -->
-<section>
-  <div class="cards">
-    <div class="card"><h3>🆘 SOS</h3>Aide rapide<br>Contact direct</div>
-    <div class="card"><h3>💻 Sites</h3>Création web<br>A à Z</div>
-    <div class="card"><h3>🎥 Opportunités</h3>Vidéos<br>Visibilité</div>
-    <div class="card"><h3>🤝 Communauté</h3>Entraide<br>Protection</div>
-
-    <div class="card"><h3>🔒 Anonymat</h3>ID uniquement<br>Sécurisé</div>
-    <div class="card"><h3>📞 Contact</h3>
-      📧 DESPRESCHEZ@gmail.com<br>
-      📱 +32 456 89 43 35
-    </div>
-    <div class="card"><h3>🎵 TikTok</h3>@anonymous_sos_fr</div>
-    <div class="card"><h3>▶️ YouTube</h3>mr despres</div>
-  </div>
-</section>
-
-<a class="sos" href="https://wa.me/32456894335" target="_blank">
-  SOS WhatsApp
+<!-- SOS WHATSAPP (NE PAS TOUCHER) -->
+<a id="sos-btn" href="https://wa.me/32456894335" target="_blank">
+SOS WhatsApp
 </a>
 
-<!-- LOGIN -->
-<div class="modal" id="loginModal">
-  <div class="modal-content">
-    <h3>Connexion</h3>
-    <input id="loginId" placeholder="ID">
-    <input id="loginPass" type="password" placeholder="Mot de passe">
-    <button onclick="loginUser()">Connexion</button>
-    <button onclick="closeModals()">Fermer</button>
-  </div>
-</div>
-
-<!-- REGISTER -->
-<div class="modal" id="registerModal">
-  <div class="modal-content">
-    <h3>Créer un compte</h3>
-    <input id="regEmail" placeholder="Email">
-    <input id="regId" placeholder="ID">
-    <input id="regPass" type="password" placeholder="Mot de passe">
-
-    <div class="gender">
-      <label><input type="radio" name="gender" value="Homme"> 👨 Homme</label>
-      <label><input type="radio" name="gender" value="Femme"> 👩 Femme</label>
-    </div>
-
-    <button onclick="createAccount()">Créer</button>
-    <button onclick="closeModals()">Fermer</button>
-  </div>
-</div>
-
 <script>
-function openLoginModal(){
-  document.getElementById("loginModal").style.display="flex";
-}
-function openRegisterModal(){
-  document.getElementById("registerModal").style.display="flex";
-}
-function closeModals(){
-  document.querySelectorAll(".modal").forEach(m=>m.style.display="none");
-}
-
-function createAccount(){
-  const g=document.querySelector('input[name="gender"]:checked');
-  if(!regEmail.value||!regId.value||!regPass.value||!g){
-    alert("Tous les champs sont obligatoires");
-    return;
-  }
-  localStorage.setItem("user_"+regId.value,JSON.stringify({
-    id:regId.value,
-    pass:regPass.value,
-    gender:g.value
-  }));
-  alert("Compte créé");
-  closeModals();
-}
-
-function loginUser(){
-  const u=JSON.parse(localStorage.getItem("user_"+loginId.value));
-  if(!u||u.pass!==loginPass.value){
-    alert("ID ou mot de passe incorrect");
-    return;
-  }
-  localStorage.setItem("currentUser",u.id);
-  document.getElementById("status").innerHTML=
-    "🟢 Connecté – ID : "+u.id+" ("+u.gender+")";
-  closeModals();
-}
-
-function logoutUser(){
+function logout(){
   localStorage.removeItem("currentUser");
-  document.getElementById("status").innerHTML="🔴 Non connecté";
+  location.reload();
+}
+
+const user = localStorage.getItem("currentUser");
+
+if(user){
+  document.getElementById("status").innerHTML =
+    "🟢 Connecté — ID : " + JSON.parse(user).id + " (" + JSON.parse(user).gender + ")";
+  document.getElementById("private-zone").style.display = "block";
+}else{
+  document.getElementById("private-zone").style.display = "none";
 }
 </script>
 
