@@ -1,206 +1,31 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Pubs – Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:radial-gradient(circle at top,#4a0000,#120000);
-  color:#fff;
-}
-
-header{
-  background:#7a0000;
-  padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-header strong{font-size:18px;}
-
-header button{
-  background:#ff2b2b;
-  border:none;
-  padding:8px 14px;
-  border-radius:6px;
-  color:#fff;
-  cursor:pointer;
-}
-
-.container{
-  max-width:1000px;
-  margin:30px auto;
-  padding:20px;
-}
-
-h1{text-align:center;}
-.subtitle{text-align:center;color:#ccc;margin-bottom:30px;}
-
-.ads-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:20px;
-}
-
-.ad-card{
-  border:1px solid #ff2b2b;
-  border-radius:10px;
-  padding:15px;
-  background:rgba(0,0,0,0.4);
-}
-
-.ad-card h3{margin:0 0 10px 0;}
-
-.ad-card video{
-  width:100%;
-  border-radius:8px;
-}
-
-.ad-card button{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  border:none;
-  border-radius:6px;
-  background:#555;
-  color:#aaa;
-  cursor:not-allowed;
-}
-
-.ad-card button.active{
-  background:#00c853;
-  color:#000;
-  cursor:pointer;
-}
-
-.score-box{
-  margin-top:40px;
-  border:1px solid #ff2b2b;
-  border-radius:10px;
-  padding:20px;
-  text-align:center;
-}
-
-.score{
-  font-size:32px;
-  color:#00e676;
-}
-</style>
-</head>
-
+<html>
 <body>
 
-<script>
-// 🔐 COMPTE OBLIGATOIRE
-const currentUser = localStorage.getItem("currentUser");
-if(!currentUser){
-  window.location.href="login.html";
-}
-</script>
+<h2>Pubs</h2>
+<p>Points : <span id="pts">0</span></p>
+<button onclick="watch()">Regarder 10s</button>
 
-<header>
-  <strong>Anonymous SOS FR</strong>
-  <button onclick="window.location.href='feed.html'">Retour</button>
-</header>
+<script src="firebase.js" type="module"></script>
+<script type="module">
+import { doc, getDoc, updateDoc } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<div class="container">
+const uid = localStorage.getItem("uid");
+if(!uid) location.href="connexion.html";
 
-<h1>🎥 Regarder des pubs</h1>
-<p class="subtitle">Regarde les vidéos jusqu’au bout pour gagner des points</p>
+const ref = doc(db,"users",uid);
+let snap = await getDoc(ref);
+let points = snap.data().points;
+pts.innerText = points;
 
-<div class="ads-grid">
-
-  <div class="ad-card">
-    <h3>Pub – 10 secondes (+1 point)</h3>
-    <video id="video1" src="video1.mp4"></video>
-    <button id="btn1">Regarder</button>
-  </div>
-
-  <div class="ad-card">
-    <h3>Pub – 30 secondes (+2 points)</h3>
-    <video id="video2" src="video2.mp4"></video>
-    <button id="btn2">Regarder</button>
-  </div>
-
-  <div class="ad-card">
-    <h3>Pub – 60 secondes (+4 points)</h3>
-    <video id="video3" src="video3.mp4"></video>
-    <button id="btn3">Regarder</button>
-  </div>
-
-</div>
-
-<div class="score-box">
-  <p>💰 Tes points</p>
-  <div class="score" id="points">0</div>
-</div>
-
-</div>
-
-<script>
-// 📊 POINTS UTILISATEUR
-let userData = JSON.parse(localStorage.getItem("user_" + currentUser));
-let points = userData.points || 0;
-document.getElementById("points").innerText = points;
-
-// 🎁 BONUS PARRAINAGE
-function bonusParrain(){
-  if(!userData.parrain) return;
-
-  const today = new Date().toDateString();
-  const limitKey = "parrain_bonus_" + userData.parrain + "_" + today;
-  let count = parseInt(localStorage.getItem(limitKey) || "0");
-
-  if(count >= 20) return;
-
-  const parrainKey = "user_" + userData.parrain;
-  const parrainData = JSON.parse(localStorage.getItem(parrainKey));
-  if(!parrainData) return;
-
-  parrainData.points += 1;
-  localStorage.setItem(parrainKey, JSON.stringify(parrainData));
-
-  count++;
-  localStorage.setItem(limitKey, count);
-}
-
-// 🎥 CONFIG PUB
-function setupAd(videoId, btnId, reward){
-  const video = document.getElementById(videoId);
-  const btn = document.getElementById(btnId);
-
-  btn.onclick = () => video.play();
-
-  video.onended = () => {
-    btn.classList.add("active");
-    btn.innerText = Gagner +${reward} points;
-    btn.onclick = () => {
-      points += reward;
-      userData.points = points;
-      userData.credits += reward;
-
-      localStorage.setItem("user_" + currentUser, JSON.stringify(userData));
-      localStorage.setItem("points_" + currentUser, points);
-
-      bonusParrain();
-
-      document.getElementById("points").innerText = points;
-      btn.innerText = "Déjà gagné aujourd’hui";
-      btn.disabled = true;
-      btn.classList.remove("active");
-    };
-  };
-}
-
-// ▶️ INITIALISATION
-setupAd("video1","btn1",1);
-setupAd("video2","btn2",2);
-setupAd("video3","btn3",4);
+window.watch = async ()=>{
+  setTimeout(async ()=>{
+    points++;
+    await updateDoc(ref,{points});
+    pts.innerText = points;
+  },10000);
+};
 </script>
 
 </body>
