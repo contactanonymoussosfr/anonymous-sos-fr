@@ -2,31 +2,21 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Connexion</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion TEST</title>
 </head>
 
-<body style="background:black;color:white;text-align:center;font-family:Arial">
+<body style="background:black;color:white;text-align:center">
 
-<h2>Connexion</h2>
+<h2>Connexion TEST</h2>
 
-<input id="username" placeholder="Pseudo"><br><br>
-<button onclick="login()">Se connecter</button>
+<input id="u" placeholder="Pseudo"><br><br>
+<button onclick="go()">SE CONNECTER</button>
 
 <script>
-function login(){
-  const u = document.getElementById("username").value.trim();
-
-  if(!u){
-    alert("Entre un pseudo");
-    return;
-  }
-
-  // 🔑 CLÉ UNIQUE (IMPORTANT)
+function go(){
+  const u = document.getElementById("u").value;
   localStorage.setItem("currentUser", u);
-
-  // REDIRECTION
-  window.location.href = "feed.html";
+  alert("STOCKÉ = " + localStorage.getItem("currentUser"));
 }
 </script>
 
