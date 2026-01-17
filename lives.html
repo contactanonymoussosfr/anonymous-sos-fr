@@ -1,39 +1,33 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Lives</title>
-</head>
+<html>
+<body>
 
-<body style="background:black;color:white;text-align:center;font-family:Arial">
+<h2>Lives en cours</h2>
+<button onclick="start()">Démarrer</button>
+<button onclick="stop()">Arrêter</button>
 
-<script>
-// 🔒 PROTECTION
-if(!localStorage.getItem("user")){
-  window.location.href = "connexion.html";
-}
-</script>
+<div id="list"></div>
 
-<h2>LIVES</h2>
+<script src="firebase.js" type="module"></script>
+<script type="module">
+import { doc, updateDoc, collection, query, where, onSnapshot }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<button onclick="start()">▶️ Démarrer le live</button>
-<button onclick="stop()">⏹️ Arrêter le live</button>
+const uid = localStorage.getItem("uid");
+if(!uid) location.href="connexion.html";
 
-<p id="status"></p>
+const myRef = doc(db,"users",uid);
 
-<br>
+window.start = ()=> updateDoc(myRef,{live:true});
+window.stop = ()=> updateDoc(myRef,{live:false});
 
-<a href="feed.html" style="color:red">
-⬅️ Retour au feed
-</a>
-
-<script>
-function start(){
-  document.getElementById("status").innerText = "🔴 LIVE EN COURS";
-}
-function stop(){
-  document.getElementById("status").innerText = "⏹️ LIVE ARRÊTÉ";
-}
+const q = query(collection(db,"users"),where("live","==",true));
+onSnapshot(q,(snap)=>{
+  list.innerHTML="";
+  snap.forEach(d=>{
+    list.innerHTML += "<p>🔴 "+d.data().id+"</p>";
+  });
+});
 </script>
 
 </body>
