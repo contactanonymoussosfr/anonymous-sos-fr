@@ -2,21 +2,57 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Connexion TEST</title>
+<title>Connexion</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  background:black;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+  padding:40px;
+}
+input,button{
+  width:100%;
+  max-width:300px;
+  margin:10px auto;
+  padding:10px;
+  border-radius:6px;
+  border:none;
+}
+button{
+  background:#ff3b3b;
+  color:white;
+  font-weight:bold;
+}
+</style>
 </head>
 
-<body style="background:black;color:white;text-align:center">
+<body>
 
-<h2>Connexion TEST</h2>
+<h2>Connexion</h2>
 
-<input id="u" placeholder="Pseudo"><br><br>
-<button onclick="go()">SE CONNECTER</button>
+<input id="id" placeholder="Votre ID">
+
+<button onclick="login()">Connexion</button>
 
 <script>
-function go(){
-  const u = document.getElementById("u").value;
-  localStorage.setItem("currentUser", u);
-  alert("STOCKÉ = " + localStorage.getItem("currentUser"));
+function login(){
+  const saved = localStorage.getItem("currentUser");
+  if(!saved){
+    alert("Aucun compte trouvé");
+    return;
+  }
+
+  const user = JSON.parse(saved);
+  const id = document.getElementById("id").value.trim();
+
+  if(user.id !== id){
+    alert("ID incorrect");
+    return;
+  }
+
+  window.location.href = "index.html";
 }
 </script>
 
