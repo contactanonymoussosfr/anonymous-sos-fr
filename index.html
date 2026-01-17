@@ -5,6 +5,7 @@
 <title>Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <style>
@@ -21,6 +22,7 @@ header {
   padding: 14px;
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 10px;
   flex-wrap: wrap;
 }
@@ -40,17 +42,22 @@ button:hover {
 }
 
 /* BADGE BLEU */
-.badge {
-  display: inline-flex;
+.title {
+  display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+}
+
+.badge {
   width: 18px;
   height: 18px;
   background: #1d9bf0;
-  color: white;
-  font-size: 12px;
+  color: #fff;
   border-radius: 50%;
-  margin-left: 6px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* MAIN */
@@ -68,7 +75,7 @@ main {
   padding: 30px;
 }
 
-/* AUTH MODAL */
+/* AUTH BOX */
 .auth-box {
   display: none;
   background: #120000;
@@ -86,20 +93,43 @@ main {
   border-radius: 6px;
   border: none;
 }
+
+/* STATUS */
+#userStatus {
+  margin-top: 15px;
+  color: #00ff99;
+  font-weight: bold;
+  word-break: break-all;
+}
+
+/* SOS WHATSAPP */
+.sos-whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: #fff;
+  font-weight: bold;
+  padding: 14px 18px;
+  border-radius: 50px;
+  text-decoration: none;
+  box-shadow: 0 0 20px rgba(37,211,102,0.8);
+  z-index: 9999;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <button onclick="showLogin()">Connexion</button>
-  <button onclick="showRegister()">Créer un compte</button>
-  <button onclick="logout()" id="logoutBtn" style="display:none;">Déconnexion</button>
+  <button id="btn-login">Connexion</button>
+  <button id="btn-register">Créer un compte</button>
+  <button id="btn-logout" style="display:none;">Déconnexion</button>
 </header>
 
 <main>
   <div class="sos-box">
-    <h1>
+    <h1 class="title">
       Anonymous SOS FR
       <span class="badge">✔</span>
     </h1>
@@ -115,6 +145,9 @@ main {
       des personnes victimes de harcèlement, de menaces ou de situations urgentes,
       en ligne comme dans la vie réelle.
     </p>
+
+    <!-- STATUT UTILISATEUR -->
+    <div id="userStatus"></div>
   </div>
 </main>
 
@@ -134,31 +167,44 @@ main {
   <button onclick="register()">Créer le compte</button>
 </div>
 
+<!-- SOS WHATSAPP -->
+<a href="https://wa.me/32456894335" target="_blank" class="sos-whatsapp">
+  🆘 SOS WhatsApp
+</a>
+
 <script>
-/* 🔴 REMPLACE SEULEMENT CES 2 LIGNES 🔴 */
+/* 🔴 REMPLACE UNIQUEMENT CES 2 LIGNES 🔴 */
 const SUPABASE_URL = "https://TON-PROJET.supabase.co";
-const SUPABASE_KEY = "TA_CLE_PUBLIQUE";
+const SUPABASE_ANON_KEY = "TA_CLE_PUBLIQUE";
 
-/* NE TOUCHE PAS AU RESTE */
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+/* INITIALISATION */
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
-function showLogin() {
+/* BOUTONS */
+btnLogin.onclick = () => {
   loginBox.style.display = "block";
   registerBox.style.display = "none";
-}
+};
 
-function showRegister() {
+btnRegister.onclick = () => {
   registerBox.style.display = "block";
   loginBox.style.display = "none";
-}
+};
 
+btnLogout.onclick = async () => {
+  await supabase.auth.signOut();
+};
+
+/* AUTH */
 async function login() {
   const { error } = await supabase.auth.signInWithPassword({
     email: loginEmail.value,
     password: loginPassword.value
   });
   if (error) alert(error.message);
-  else location.reload();
 }
 
 async function register() {
@@ -170,14 +216,22 @@ async function register() {
   else alert("Compte créé. Vérifie ton email.");
 }
 
-async function logout() {
-  await supabase.auth.signOut();
-  location.reload();
-}
+/* ÉTAT DE CONNEXION (CLÉ DU PROBLÈME) */
+supabase.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    btnLogin.style.display = "none";
+    btnRegister.style.display = "none";
+    btnLogout.style.display = "inline-block";
+    loginBox.style.display = "none";
+    registerBox.style.display = "none";
 
-supabase.auth.getSession().then(({ data }) => {
-  if (data.session) {
-    document.getElementById("logoutBtn").style.display = "inline-block";
+    // 👉 ICI on affiche UNIQUEMENT l’ID utilisateur
+    userStatus.textContent = "🟢 Connecté — ID utilisateur : " + session.user.id;
+  } else {
+    btnLogin.style.display = "inline-block";
+    btnRegister.style.display = "inline-block";
+    btnLogout.style.display = "none";
+    userStatus.textContent = "";
   }
 });
 </script>
