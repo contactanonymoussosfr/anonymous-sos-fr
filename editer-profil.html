@@ -2,52 +2,89 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Éditer mon profil</title>
+<title>Modifier mon profil</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body{margin:0;font-family:Arial;background:#0f0f0f;color:#fff}
-.container{max-width:600px;margin:30px auto;padding:20px}
-.card{border:1px solid #ff2a2a;border-radius:14px;padding:20px;background:#141414}
-label{display:block;margin-top:12px;color:#ccc}
-input,textarea{width:100%;padding:10px;border-radius:6px;border:none;margin-top:6px}
-button{margin-top:16px;padding:12px;width:100%;background:#ff2a2a;border:none;border-radius:8px;font-weight:bold}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0f0f0f;
+  color:#fff;
+}
+
+nav{
+  background:#140000;
+  padding:15px;
+}
+
+nav a{
+  color:#ff4a4a;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.container{
+  max-width:600px;
+  margin:30px auto;
+  padding:20px;
+}
+
+input, textarea, button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border-radius:8px;
+  border:none;
+}
+
+button{
+  background:#ff2a2a;
+  font-weight:bold;
+}
 </style>
 </head>
+
 <body>
 
-<script>
-const user = JSON.parse(localStorage.getItem("user"));
-if(!user || !user.connected){ window.location.href="connexion.html"; }
-</script>
+<nav>
+  <a href="profil.html">⬅ Retour au profil</a>
+</nav>
 
 <div class="container">
-  <div class="card">
-    <h2>Éditer mon profil</h2>
+  <h2>Modifier mon profil</h2>
 
-    <label>Pseudo (public)</label>
-    <input id="pseudo" placeholder="monpseudo">
+  <input id="pseudo" placeholder="Pseudo public">
+  <input id="photo" placeholder="Lien photo de profil">
+  <textarea id="bio" placeholder="Bio"></textarea>
+  <textarea id="videos"
+    placeholder="Liens vidéos TikTok / YouTube (1 par ligne)">
+  </textarea>
 
-    <label>Bio</label>
-    <textarea id="bio" rows="4" placeholder="Ma bio..."></textarea>
-
-    <button onclick="save()">Enregistrer</button>
-  </div>
+  <button onclick="save()">Enregistrer</button>
 </div>
 
 <script>
-const profile = JSON.parse(localStorage.getItem("profile")) || {};
-document.getElementById("pseudo").value = profile.pseudo || "";
-document.getElementById("bio").value = profile.bio || "";
+const p = JSON.parse(localStorage.getItem("profile")) || {};
+
+pseudo.value = p.pseudo || "";
+photo.value = p.photo || "";
+bio.value = p.bio || "";
+videos.value = (p.videos || []).join("\n");
 
 function save(){
   const data = {
-    pseudo: document.getElementById("pseudo").value || "utilisateur",
-    bio: document.getElementById("bio").value || "",
-    views: profile.views || 0,
-    points: profile.points || 0
+    pseudo: pseudo.value,
+    photo: photo.value,
+    bio: bio.value,
+    videos: videos.value
+      .split("\n")
+      .map(v => v.trim())
+      .filter(v => v !== "")
   };
+
   localStorage.setItem("profile", JSON.stringify(data));
-  window.location.href="profil.html";
+  window.location.href = "profil.html";
 }
 </script>
 
