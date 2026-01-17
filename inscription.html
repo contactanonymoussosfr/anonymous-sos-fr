@@ -4,60 +4,44 @@
 <meta charset="UTF-8">
 <title>Inscription</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body{
-  background:black;
-  color:white;
-  font-family:Arial;
-  text-align:center;
-  padding:40px;
-}
-input,select,button{
-  width:100%;
-  max-width:300px;
-  margin:10px auto;
-  padding:10px;
-  border-radius:6px;
-  border:none;
-}
-button{
-  background:#ff3b3b;
-  color:white;
-  font-weight:bold;
-}
-</style>
 </head>
-
 <body>
 
 <h2>Créer un compte</h2>
-
-<input id="id" placeholder="ID utilisateur" required>
-<input id="email" type="email" placeholder="Adresse email" required>
-
+<input id="id" placeholder="ID utilisateur">
+<input id="email" type="email" placeholder="Email">
 <select id="gender">
-  <option value="Homme">👨 Homme</option>
-  <option value="Femme">👩 Femme</option>
+  <option>Homme</option>
+  <option>Femme</option>
 </select>
+<button id="go">Créer</button>
 
-<button onclick="register()">Créer le compte</button>
+<script src="firebase.js" type="module"></script>
+<script type="module">
+import { createUserWithEmailAndPassword } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, setDoc } from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-<script>
-function register(){
-  const user = {
-    id: document.getElementById("id").value.trim(),
-    email: document.getElementById("email").value.trim(),
-    gender: document.getElementById("gender").value
-  };
+document.getElementById("go").onclick = async ()=>{
+  const id = document.getElementById("id").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const gender = document.getElementById("gender").value;
 
-  if(!user.id || !user.email){
-    alert("Champs manquants");
-    return;
-  }
+  if(!id || !email){ alert("Champs manquants"); return; }
 
-  localStorage.setItem("currentUser", JSON.stringify(user));
-  window.location.href = "index.html";
-}
+  const cred = await createUserWithEmailAndPassword(auth,email,"password123");
+
+  await setDoc(doc(db,"users",cred.user.uid),{
+    id,
+    gender,
+    points:0,
+    live:false
+  });
+
+  localStorage.setItem("uid",cred.user.uid);
+  location.href="index.html";
+};
 </script>
 
 </body>
