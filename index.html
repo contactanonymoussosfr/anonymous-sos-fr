@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+[11:20, 17/01/2026] Anonymous sos fr: <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -43,90 +43,156 @@ body {
   background: #e00000;
 }
 
+/* S…
+[11:25, 17/01/2026] Anonymous sos fr: <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+/* 🔒 FOND CONSERVÉ TEL QUEL */
+body{
+  min-height:100vh;
+  color:#fff;
+  background: radial-gradient(circle at top, #5a0000 0%, #1a0000 45%, #000 85%);
+  display:flex;
+  flex-direction:column;
+}
+
+/* BARRE HAUTE */
+.top-bar{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  padding:15px;
+  background:rgba(90,0,0,0.95);
+}
+
+.btn{
+  padding:10px 18px;
+  border-radius:10px;
+  border:1px solid #ff2a2a;
+  background:transparent;
+  color:#fff;
+  cursor:pointer;
+}
+
+.btn.primary{
+  background:#e00000;
+}
+
 /* STATUT */
-.status {
-  text-align: center;
-  margin: 15px 0;
-  font-size: 16px;
+.status{
+  text-align:center;
+  margin:15px 0;
+  font-size:16px;
 }
 
-/* HERO */
-.hero {
-  min-height: 75vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+/* ZONE CENTRALE */
+.main{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
 }
 
-.hero-content {
-  max-width: 900px;
-  padding: 20px;
+.content{
+  max-width:900px;
 }
 
-.hero h1 {
-  font-size: 36px;
-  margin-bottom: 15px;
+/* TITRE CENTRAL */
+.title{
+  font-size:38px;
+  margin-bottom:20px;
 }
 
 /* BADGE BLEU */
-.badge-blue {
-  display: inline-block;
-  margin-left: 8px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #1da1f2;
-  color: white;
-  font-size: 14px;
-  line-height: 22px;
+.badge-blue{
+  display:inline-block;
+  margin-left:10px;
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  background:#1da1f2;
+  color:#fff;
+  font-size:15px;
+  line-height:24px;
+  vertical-align:middle;
 }
 
-/* CARTES */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 40px 20px;
+/* TEXTE PRINCIPAL */
+.quote{
+  font-size:18px;
+  line-height:1.6;
+  margin-bottom:25px;
 }
 
-.card {
-  border: 1px solid #ff2a2a;
-  border-radius: 16px;
-  padding: 20px;
-  background: rgba(0,0,0,0.75);
+/* TEXTE À PROPOS */
+.about{
+  font-size:16px;
+  line-height:1.7;
+  opacity:0.95;
 }
 
-.card h2 {
-  color: #ff2a2a;
-  margin-bottom: 10px;
+/* CARTES EN BAS (PLUS PETITES) */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:15px;
+  padding:20px;
+}
+
+.card{
+  border:1px solid #ff2a2a;
+  border-radius:14px;
+  padding:15px;
+  background:rgba(0,0,0,0.75);
+  font-size:14px;
+}
+
+.card h2{
+  color:#ff2a2a;
+  font-size:16px;
+  margin-bottom:8px;
 }
 
 /* CONTACT */
-.contact-btn {
-  margin-top: 12px;
-  padding: 10px;
-  width: 100%;
-  background: red;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
+.contact-btn{
+  margin-top:10px;
+  padding:8px;
+  width:100%;
+  background:#e00000;
+  border:none;
+  border-radius:8px;
+  color:#fff;
+  cursor:pointer;
+  font-size:14px;
 }
 
-.contact-info {
-  display: none;
-  margin-top: 10px;
-  font-size: 14px;
-  line-height: 1.5;
+.contact-info{
+  display:none;
+  margin-top:8px;
+  font-size:13px;
+  line-height:1.5;
 }
 
 /* FOOTER */
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-  opacity: 0.8;
+footer{
+  text-align:center;
+  padding:15px;
+  font-size:13px;
+  opacity:0.8;
 }
 </style>
 </head>
@@ -135,7 +201,7 @@ footer {
 
 <header class="top-bar">
   <button class="btn" onclick="login()">Connexion</button>
-  <button class="btn primary">Créer un compte</button>
+  <button class="btn primary" onclick="register()">Créer un compte</button>
   <button class="btn" onclick="logout()">Déconnexion</button>
 </header>
 
@@ -143,18 +209,30 @@ footer {
   🔴 Non connecté
 </div>
 
-<section class="hero">
-  <div class="hero-content">
-    <h1>
+<section class="main">
+  <div class="content">
+
+    <!-- 🔥 TITRE BIEN AU CENTRE -->
+    <h1 class="title">
       Bienvenue sur le site officiel des Anonymous SOS FR
       <span class="badge-blue">✔</span>
     </h1>
 
-    <p>
+    <!-- TEXTE D’ORIGINE CONSERVÉ -->
+    <p class="quote">
       Nous sommes Anonymous. Nous sommes légion.<br>
       Nous n’oublions pas. Nous ne pardonnons pas.<br>
       Vous êtes chez vous, n’hésitez pas à inviter du monde.
     </p>
+
+    <!-- PLUS DE TEXTE SUR VOUS -->
+    <p class="about">
+      Anonymous SOS FR est une communauté indépendante axée sur l’entraide,
+      le partage et l’accès à des opportunités numériques.
+      Nous accompagnons nos membres, protégeons leur anonymat
+      et développons des solutions accessibles à tous.
+    </p>
+
   </div>
 </section>
 
@@ -171,7 +249,8 @@ footer {
   <div class="card">
     <h2>Création de sites</h2>
     <p>
-      Création de sites web de A à Z.
+      Création de sites web de A à Z.<br>
+      Vitrine, projet, plateforme, services.
     </p>
 
     <button class="contact-btn" onclick="toggleContact()">
@@ -201,20 +280,36 @@ footer {
 </footer>
 
 <script>
-function toggleContact() {
+let connected = false;
+
+function updateStatus(){
+  document.getElementById("status").innerHTML = connected
+    ? "🟢 Connecté en tant que <strong>MrDespres</strong>"
+    : "🔴 Non connecté";
+}
+
+function login(){
+  connected = true;
+  updateStatus();
+}
+
+function register(){
+  connected = true;
+  updateStatus();
+  alert("Compte créé avec succès. Vous êtes maintenant connecté.");
+}
+
+function logout(){
+  connected = false;
+  updateStatus();
+}
+
+function toggleContact(){
   const c = document.getElementById("contact");
   c.style.display = c.style.display === "block" ? "none" : "block";
 }
 
-function login() {
-  document.getElementById("status").innerHTML =
-    "🟢 Connecté en tant que <strong>MrDespres</strong>";
-}
-
-function logout() {
-  document.getElementById("status").innerHTML =
-    "🔴 Non connecté";
-}
+updateStatus();
 </script>
 
 </body>
