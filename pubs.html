@@ -1,167 +1,332 @@
-<!DOCTYPE html>
+[18:38, 17/01/2026] Anonymous sos fr: <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR — Vidéos rémunérées</title>
+<title>Inscription – Simon City</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #8b0000, #120000);
-    color: #fff;
+body{
+  background:#0b0000;
+  color:#fff;
+  font-family:Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }
 
-header {
-    padding: 20px;
-    border-bottom: 2px solid #ff2a2a;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.box{
+  background:#1a0000;
+  padding:25px;
+  border-radius:8px;
+  width:320px;
 }
 
-.container {
-    max-width: 1000px;
-    margin: auto;
-    padding: 30px 20px;
+h2{
+  text-align:center;
+  margin-bottom:15px;
 }
 
-h1 {
-    color: #ff2a2a;
-    text-align: center;
+input{
+  width:100%;
+  padding:10px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:4px;
 }
 
-.note {
-    border: 1px solid #ff2a2a;
-    padding: 15px;
-    margin: 25px 0;
-    border-radius: 10px;
+button{
+  width:100%;
+  padding:10px;
+  background:#ff3333;
+  border:none;
+  color:#fff;
+  font-size:16px;
+  border-radius:4px;
+  cursor:pointer;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+small{
+  display:block;
+  text-align:center;
+  opacity:.7;
+  margin-top:10px;
 }
 
-.card {
-    border: 1px solid #ff2a2a;
-    border-radius: 10px;
-    padding: 20px;
-    background: rgba(0,0,0,0.4);
-}
-
-.card h3 {
-    color: #ff2a2a;
-}
-
-.card p {
-    font-size: 14px;
-}
-
-.card a {
-    display: block;
-    margin-top: 15px;
-    text-align: center;
-    padding: 12px;
-    background: #ff2a2a;
-    color: #000;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 6px;
-}
-
-.card a:hover {
-    background: #fff;
-}
-
-footer {
-    text-align: center;
-    padding: 25px;
-    border-top: 2px solid #ff2a2a;
-    font-size: 13px;
-    margin-top: 40px;
+.error{
+  color:#ff7777;
+  font-size:13px;
+  text-align:center;
 }
 </style>
-
-<script>
-const user = JSON.parse(localStorage.getItem("user"));
-if (!user || !user.connected) {
-    alert("Vous devez être connecté pour accéder aux vidéos sponsorisées.");
-    window.location.href = "connexion.html";
-}
-</script>
 </head>
 
 <body>
 
-<header>
-    <strong>Anonymous SOS FR</strong>
-    <span>🔵 Site officiel</span>
-</header>
+<div class="box">
+  <h2>Créer un compte</h2>
 
-<div class="container">
-    <h1>Vidéos sponsorisées rémunérées</h1>
+  <input id="email" type="email" placeholder="Adresse email" required>
+  <input id="password" type="password" placeholder="Mot de passe" required>
+  <input id="userId" type="text" placeholder="ID utilisateur" required>
 
-    <div class="note">
-        ✔ Regardez des vidéos publicitaires  
-        ✔ Gagnez de l’argent réel  
-        ✔ Paiements via PayPal, cartes cadeaux ou crypto  
-        <br><br>
-        ⚠️ Les gains dépendent des plateformes partenaires
-    </div>
+  <input id="referral" type="text" placeholder="Code parrain (optionnel)">
 
-    <div class="cards">
+  <button onclick="register()">Créer mon compte</button>
 
-        <div class="card">
-            <h3>💰 Swagbucks</h3>
-            <p>
-                Regardez des vidéos sponsorisées, répondez à des sondages et gagnez de l’argent réel.
-                <br><br>
-                💳 Paiement : PayPal / Cartes cadeaux
-            </p>
-            <a href="https://www.swagbucks.com" target="_blank">Accéder à Swagbucks</a>
-        </div>
+  <div class="error" id="error"></div>
 
-        <div class="card">
-            <h3>💰 Freecash</h3>
-            <p>
-                Vidéos, pubs et offres rémunérées.
-                <br><br>
-                💳 Paiement : PayPal / Crypto
-            </p>
-            <a href="https://freecash.com" target="_blank">Accéder à Freecash</a>
-        </div>
-
-        <div class="card">
-            <h3>💰 TimeBucks</h3>
-            <p>
-                Regardez des vidéos, TikTok, pubs et micro-tâches.
-                <br><br>
-                💳 Paiement : PayPal / Crypto
-            </p>
-            <a href="https://timebucks.com" target="_blank">Accéder à TimeBucks</a>
-        </div>
-
-        <div class="card">
-            <h3>💰 Idle-Empire</h3>
-            <p>
-                Vidéos sponsorisées + offres.
-                <br><br>
-                💳 Paiement : PayPal / Crypto
-            </p>
-            <a href="https://www.idle-empire.com" target="_blank">Accéder à Idle-Empire</a>
-        </div>
-
-    </div>
+  <small>
+    Ton ID sera aussi ton code de parrainage.
+  </small>
 </div>
 
-<footer>
-    Vous êtes sur le site officiel Anonymous SOS FR 🔵<br>
-    Nous sommes légion. Nous ne pardonnons pas.<br>
-    Réseau indépendant
-</footer>
+<script>
+function register(){
+  const email = emailInput();
+  const password = passwordInput();
+  const id = idInput();
+  const referral = referralInput();
+
+  if(!email || !password || !id){
+    showError("Tous les champs obligatoires doivent être remplis.");
+    return;
+  }
+
+  // Vérifier si l'ID existe déjà
+  if(localStorage.getItem("user_"+id)){
+    showError("Cet ID est déjà utilisé.");
+    return;
+  }
+
+  // Création du compte
+  const userData = {
+    email: email,
+    password: password,
+    id: id,
+    credits: 5,
+    points: 5,
+    parrain: null
+  };
+
+  // Vérification du parrainage
+  if(referral){
+    if(referral === id){
+      showError("Tu ne peux pas te parrainer toi-même.");
+      return;
+    }
+
+    const parrainData = localStorage.getItem("user_"+referral);
+    if(!parrainData){
+      showError("Code parrain invalide.");
+      return;
+    }
+
+    // Bonus parrain
+    const parrain = JSON.parse(parrainData);
+    parrain.points += 5;
+    parrain.credits += 5;
+    localStorage.setItem("user_"+referral, JSON.stringify(parrain));
+
+    userData.parrain = referral;
+  }
+
+  // Sauvegarde utilisateur
+  localStorage.setItem("user_"+id, JSON.stringify(userData));
+
+  // Points PUB (classement)
+  localStorage.setItem("points_"+id, userData.points);
+
+  // Connexion automatique
+  localStorage.setItem("currentUser", id);
+
+  window.location.href = "pub.html";
+}
+
+function emailInput(){ return document.getElementById("email").value.trim(); }
+function passwordInput(){ return document.getElementById("password").value.trim(); }
+function idInput(){ return document.getElementById("userId").value.trim(); }
+function referralInput(){ return document.getElementById("referral").value.trim(); }
+
+function showError(msg){
+  document.getElementById("error").innerText = msg;
+}
+</script>
+
+</body>
+</html>
+[18:40, 17/01/2026] Anonymous sos fr: <!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Pubs – Simon City</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#0b0000;
+  color:#fff;
+}
+
+header{
+  background:#7a0000;
+  padding:12px;
+  text-align:center;
+}
+
+main{
+  max-width:600px;
+  margin:20px auto;
+  padding:20px;
+  background:#1a0000;
+  border-radius:8px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  background:#ff3333;
+  border:none;
+  color:#fff;
+  font-size:16px;
+  border-radius:6px;
+  cursor:pointer;
+  margin-top:15px;
+}
+
+.info{
+  margin-top:15px;
+  font-size:14px;
+  opacity:.85;
+  text-align:center;
+}
+
+.video-box{
+  background:#000;
+  height:200px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:15px;
+  border-radius:6px;
+}
+
+.hidden{
+  display:none;
+}
+
+.success{
+  text-align:center;
+  margin-top:15px;
+  font-size:16px;
+  color:#7CFC00;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+// 🔐 SÉCURITÉ : compte obligatoire
+const currentUser = localStorage.getItem("currentUser");
+if(!currentUser){
+  window.location.href = "login.html";
+}
+</script>
+
+<header>
+  <h2>Regarder une publicité</h2>
+</header>
+
+<main>
+
+  <div class="info">
+    Regarde la vidéo jusqu’à la fin pour gagner des points.<br>
+    Plus la vidéo est longue, plus tu gagnes.
+  </div>
+
+  <button id="startBtn" onclick="startAd()">▶ Lancer une publicité</button>
+
+  <div class="video-box hidden" id="videoBox">
+    <span id="timerText">Publicité en cours…</span>
+  </div>
+
+  <div class="success hidden" id="successMsg"></div>
+
+</main>
+
+<script>
+// 🎯 DURÉES POSSIBLES DES PUBS (en secondes)
+const adDurations = [8, 30, 45, 60];
+
+// 🎯 CALCUL DES POINTS SELON DURÉE
+function calculatePoints(seconds){
+  if(seconds < 10) return 1;
+  if(seconds < 30) return 1;
+  if(seconds < 45) return 2;
+  if(seconds < 60) return 3;
+  return 4;
+}
+
+let currentDuration = 0;
+let countdown = 0;
+let interval = null;
+
+function startAd(){
+  document.getElementById("startBtn").disabled = true;
+  document.getElementById("successMsg").classList.add("hidden");
+
+  // Choisir une durée aléatoire
+  currentDuration = adDurations[Math.floor(Math.random() * adDurations.length)];
+  countdown = currentDuration;
+
+  document.getElementById("videoBox").classList.remove("hidden");
+  updateTimer();
+
+  interval = setInterval(()=>{
+    countdown--;
+    updateTimer();
+
+    if(countdown <= 0){
+      clearInterval(interval);
+      endAd();
+    }
+  },1000);
+}
+
+function updateTimer(){
+  document.getElementById("timerText").innerText =
+    "Publicité – " + countdown + "s restantes";
+}
+
+function endAd(){
+  document.getElementById("videoBox").classList.add("hidden");
+  document.getElementById("startBtn").disabled = false;
+
+  const pointsWon = calculatePoints(currentDuration);
+
+  // Récupération utilisateur
+  const userKey = "user_" + currentUser;
+  const userData = JSON.parse(localStorage.getItem(userKey));
+
+  // Ajout points + crédits
+  userData.points += pointsWon;
+  userData.credits += pointsWon;
+
+  localStorage.setItem(userKey, JSON.stringify(userData));
+
+  // Classement PUB
+  const currentPoints = parseInt(localStorage.getItem("points_"+currentUser) || "0");
+  localStorage.setItem("points_"+currentUser, currentPoints + pointsWon);
+
+  document.getElementById("successMsg").innerText =
+    "✔ Publicité terminée ! +" + pointsWon + " points gagnés.";
+  document.getElementById("successMsg").classList.remove("hidden");
+}
+</script>
 
 </body>
 </html>
