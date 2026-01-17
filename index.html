@@ -13,7 +13,6 @@
   font-family:Arial, Helvetica, sans-serif;
 }
 
-/* FOND NOIR (VALIDÉ) */
 body{
   min-height:100vh;
   color:#fff;
@@ -65,27 +64,23 @@ body{
   max-width:900px;
 }
 
-/* TITRE */
 .title{
-  font-size:38px;
+  font-size:36px;
   margin-bottom:20px;
 }
 
-/* BADGE BLEU */
 .badge-blue{
   display:inline-block;
   margin-left:10px;
-  width:24px;
-  height:24px;
+  width:22px;
+  height:22px;
   border-radius:50%;
   background:#1da1f2;
   color:#fff;
-  font-size:15px;
-  line-height:24px;
-  vertical-align:middle;
+  font-size:14px;
+  line-height:22px;
 }
 
-/* TEXTES */
 .quote{
   font-size:18px;
   line-height:1.6;
@@ -98,10 +93,10 @@ body{
   opacity:0.95;
 }
 
-/* CARTES EN BAS */
+/* CARTES */
 .cards{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
   gap:15px;
   padding:20px;
 }
@@ -120,14 +115,12 @@ body{
   margin-bottom:8px;
 }
 
-/* MESSAGE SOS */
 .sos-message{
-  margin-top:10px;
+  margin-top:8px;
   font-size:13px;
   line-height:1.5;
 }
 
-/* CONTACT */
 .contact-btn{
   margin-top:10px;
   padding:8px;
@@ -147,7 +140,6 @@ body{
   line-height:1.5;
 }
 
-/* FOOTER */
 footer{
   text-align:center;
   padding:15px;
@@ -155,7 +147,27 @@ footer{
   opacity:0.8;
 }
 
-/* MODALE CRÉATION COMPTE */
+/* BOUTON SOS */
+.sos-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#e00000;
+  color:white;
+  padding:14px 18px;
+  border-radius:50px;
+  font-size:16px;
+  text-decoration:none;
+  font-weight:bold;
+  box-shadow:0 0 15px rgba(255,0,0,0.6);
+  z-index:9999;
+}
+
+.sos-btn:hover{
+  background:#ff2a2a;
+}
+
+/* MODALE */
 .modal{
   position:fixed;
   inset:0;
@@ -182,26 +194,6 @@ footer{
   border-radius:8px;
   border:none;
 }
-
-/* 🆘 BOUTON SOS FLOTTANT */
-.sos-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#e00000;
-  color:white;
-  padding:14px 18px;
-  border-radius:50px;
-  font-size:16px;
-  text-decoration:none;
-  font-weight:bold;
-  box-shadow:0 0 15px rgba(255,0,0,0.6);
-  z-index:9999;
-}
-
-.sos-btn:hover{
-  background:#ff2a2a;
-}
 </style>
 </head>
 
@@ -217,7 +209,6 @@ footer{
 
 <section class="main">
   <div class="content">
-
     <h1 class="title">
       Bienvenue sur le site officiel des Anonymous SOS FR
       <span class="badge-blue">✔</span>
@@ -234,20 +225,35 @@ footer{
       à la protection des personnes victimes de harcèlement,
       de menaces ou de situations urgentes, en ligne comme dans la vie réelle.
     </p>
-
   </div>
 </section>
 
 <section class="cards">
 
+  <!-- NOUVEAU CARRÉ SOUTIEN -->
+  <div class="card">
+    <h2>🧡 Soutenir l’aide humanitaire</h2>
+    <p>
+      Vous souhaitez soutenir nos actions
+      pour aider les personnes dans la rue ?
+    </p>
+    <p class="sos-message">
+      Les soutiens servent à l’aide d’urgence,
+      à l’accompagnement et au soutien humain.<br>
+      Pour connaître les moyens de soutien disponibles,
+      contactez-nous directement.
+    </p>
+    <button class="contact-btn" onclick="toggleContact()">Contacter</button>
+  </div>
+
   <div class="card">
     <h2>Anonymat & SOS</h2>
     <p>Aucune identité publique requise.<br>Seul votre ID est visible.</p>
     <p class="sos-message">
-      🆘 <strong>Besoin d’aide urgente ?</strong><br>
+      🆘 Besoin d’aide urgente ?<br>
       Vous êtes sur le site officiel des Anonymous SOS FR
-      <span class="badge-blue">✔</span>.<br>
-      📲 Contact WhatsApp prioritaire.
+      <span class="badge-blue">✔</span><br>
+      Contact WhatsApp prioritaire.
     </p>
   </div>
 
@@ -273,12 +279,10 @@ footer{
   Recrutement en continu — Anonymous SOS FR
 </footer>
 
-<!-- 🆘 BOUTON SOS -->
 <a href="https://wa.me/32456894335" target="_blank" class="sos-btn">
   🆘 SOS WhatsApp
 </a>
 
-<!-- MODALE COMPTE -->
 <div class="modal" id="registerModal">
   <div class="modal-content">
     <h2>Créer un compte</h2>
