@@ -3,114 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body {
-  margin: 0;
-  background: radial-gradient(circle at top, #400000, #0a0000 70%);
-  color: #ffffff;
-  font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #1a0000, #000);
+    color: white;
 }
 
+/* HEADER */
 header {
-  background: linear-gradient(90deg, #7a0000, #b00000);
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    background: #8b0000;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
 
-header .buttons button {
-  background: #ff1e1e;
-  border: none;
-  color: white;
-  padding: 8px 14px;
-  margin-left: 6px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
+header button {
+    background: #b30000;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
 }
 
-header .buttons button:hover {
-  background: #ff4d4d;
+header button:hover {
+    background: #ff0000;
 }
 
-.container {
-  max-width: 1000px;
-  margin: 60px auto;
-  padding: 30px;
-  background: rgba(0,0,0,0.55);
-  border-radius: 16px;
-  box-shadow: 0 0 40px rgba(255,0,0,0.25);
-  text-align: center;
+#status {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+/* MAIN */
+main {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+    text-align: center;
 }
 
 h1 {
-  color: #ff3b3b;
+    font-size: 32px;
 }
 
 .badge {
-  color: #3aa0ff;
-  font-size: 18px;
-  margin-left: 6px;
+    color: #1da1f2;
+    font-size: 20px;
+    margin-left: 6px;
 }
 
-p {
-  color: #e6e6e6;
-  line-height: 1.6;
+.subtitle {
+    margin-top: 15px;
+    line-height: 1.5;
 }
 
-.status {
-  margin-top: 10px;
-  color: #00ff88;
-  font-weight: bold;
+/* RADIO */
+.radio-box {
+    margin: 25px auto;
+    width: 260px;
+    background: #111;
+    padding: 10px;
+    border-radius: 8px;
 }
 
+/* CARDS */
 .cards {
-  display: flex;
-  gap: 20px;
-  margin-top: 40px;
-  flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    margin-top: 50px;
 }
 
 .card {
-  flex: 1;
-  min-width: 260px;
-  background: rgba(0,0,0,0.6);
-  border: 1px solid #ff2a2a;
-  border-radius: 14px;
-  padding: 20px;
+    border: 1px solid red;
+    padding: 15px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.6);
+    font-size: 14px;
 }
 
 .card h3 {
-  color: #ff3b3b;
+    margin-top: 0;
+    color: red;
 }
 
-.section-title {
-  margin-top: 70px;
-  color: #ff5c5c;
+/* FOOTER */
+footer {
+    margin-top: 40px;
+    font-size: 12px;
+    opacity: 0.8;
 }
 
-.radio {
-  margin-top: 30px;
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
 }
 
-.radio audio {
-  width: 100%;
+.modal-content {
+    background: #111;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
 }
 
-.whatsapp {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #25d366;
-  color: white;
-  padding: 14px 18px;
-  border-radius: 50px;
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: 0 0 20px rgba(37,211,102,0.6);
+.modal input {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+.gender-box {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
 }
 </style>
 </head>
@@ -118,136 +134,151 @@ p {
 <body>
 
 <header>
-  <div><strong>Anonymous SOS FR</strong></div>
-  <div class="buttons">
-    <button onclick="login()">Connexion</button>
-    <button onclick="register()">Créer un compte</button>
+    <button onclick="openLogin()">Connexion</button>
+    <button onclick="openRegister()">Créer un compte</button>
     <button onclick="logout()">Déconnexion</button>
-  </div>
 </header>
 
-<div class="container">
+<div id="status">🔴 Non connecté</div>
 
-  <div class="status" id="status">Non connecté</div>
+<main>
+    <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
 
-  <h1>
-    Bienvenue sur le site officiel des Anonymous SOS FR
-    <span class="badge">✔</span>
-  </h1>
-
-  <p>
-    Nous sommes Anonymous. Nous sommes légion.<br>
-    Nous n’oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous, n’hésitez pas à inviter du monde.
-  </p>
-
-  <p>
-    Anonymous SOS FR est une plateforme communautaire indépendante
-    dédiée à l’entraide, à la prévention et à l’orientation des personnes
-    confrontées à des situations difficiles.
-  </p>
-
-  <!-- RADIO -->
-  <div class="radio">
-    <h3>🎧 Radio Anonymous SOS FR</h3>
-    <audio controls autoplay>
-      <source src="radio.mp3" type="audio/mpeg">
-    </audio>
-  </div>
-
-  <!-- PREMIERS CARRÉS -->
-  <div class="cards">
-
-    <div class="card">
-      <h3>Anonymat</h3>
-      <p>
-        Aucun nom réel obligatoire.<br>
-        Seul un identifiant interne est affiché lorsque vous êtes connecté.
-      </p>
+    <div class="subtitle">
+        Nous sommes Anonymous. Nous sommes légion.<br>
+        Nous n'oublions pas. Nous ne pardonnons pas.<br>
+        Vous êtes chez vous, n'hésitez pas à inviter du monde.
+        <br><br>
+        Anonymous SOS FR est une communauté d'entraide dédiée à la protection
+        des personnes victimes de harcèlement, de menaces ou de situations urgentes,
+        en ligne comme dans la vie réelle.
     </div>
 
-    <div class="card">
-      <h3>Contact & services</h3>
-      <p>
-        Email : DESPRESCHEZ@gmail.com<br>
-        WhatsApp : +32 456 89 43 35<br>
-        TikTok : @anonymous_sos_fr<br>
-        YouTube : mr despres
-      </p>
+    <div class="radio-box">
+        <strong>🎧 Radio Anonymous SOS FR</strong><br>
+        <audio controls>
+            <source src="radio.mp3" type="audio/mpeg">
+        </audio>
     </div>
 
-    <div class="card">
-      <h3>Opportunités</h3>
-      <p>
-        Visionnage de contenus, publicité volontaire,
-        projets communautaires et partenariats.
-      </p>
+    <div class="cards">
+        <div class="card">
+            <h3>SOS & Urgences</h3>
+            Aucune identité publique requise.<br>
+            Contact direct WhatsApp.<br>
+            Assistance prioritaire.
+        </div>
+
+        <div class="card">
+            <h3>Création de sites</h3>
+            Création de sites web de A à Z.<br>
+            Accompagnement sérieux.<br><br>
+            📧 DESPRESCHEZ@gmail.com<br>
+            📱 WhatsApp : +32 456 89 43 35
+        </div>
+
+        <div class="card">
+            <h3>Opportunités</h3>
+            Vidéos complètes.<br>
+            Projets & visibilité.<br>
+            Opportunités réelles.
+        </div>
+
+        <div class="card">
+            <h3>Communauté</h3>
+            Entraide.<br>
+            Protection.<br>
+            Réseau solidaire.
+        </div>
     </div>
 
-  </div>
+    <footer>
+        Recrutement en continu — Anonymous SOS FR<br>
+        Ne perdez pas votre temps.
+    </footer>
+</main>
 
-  <!-- SECTION HONNÊTETÉ -->
-  <h2 class="section-title">🔎 Transparence & honnêteté</h2>
-
-  <div class="cards">
-
-    <div class="card">
-      <h3>Ce que le site FAIT</h3>
-      <p>
-        • Met en relation des personnes<br>
-        • Propose un espace communautaire<br>
-        • Oriente vers des contacts réels<br>
-        • Centralise des informations utiles
-      </p>
+<!-- CONNEXION -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <h3>Connexion</h3>
+        <input id="loginId" placeholder="ID">
+        <input id="loginPass" type="password" placeholder="Mot de passe">
+        <button onclick="login()">Connexion</button>
+        <button onclick="closeModals()">Fermer</button>
     </div>
-
-    <div class="card">
-      <h3>Ce que le site NE FAIT PAS</h3>
-      <p>
-        • Ne remplace pas la police<br>
-        • Ne remplace pas la justice<br>
-        • Ne promet pas de miracles<br>
-        • N’usurpe aucune autorité officielle
-      </p>
-    </div>
-
-    <div class="card">
-      <h3>Responsabilité</h3>
-      <p>
-        Chaque utilisateur reste responsable de ses actes.<br>
-        Les échanges doivent rester respectueux et légaux.
-      </p>
-    </div>
-
-  </div>
-
-  <p style="margin-top:50px;">
-    Projet indépendant — Anonymous SOS FR<br>
-    Plateforme communautaire en évolution continue.
-  </p>
-
 </div>
 
-<a class="whatsapp" href="https://wa.me/32456894335" target="_blank">
-  SOS WhatsApp
-</a>
+<!-- INSCRIPTION -->
+<div class="modal" id="registerModal">
+    <div class="modal-content">
+        <h3>Créer un compte</h3>
+        <input id="regEmail" placeholder="Email">
+        <input id="regId" placeholder="ID">
+        <input id="regPass" type="password" placeholder="Mot de passe">
+
+        <div class="gender-box">
+            <label><input type="radio" name="gender" value="Homme"> 👨 Homme</label>
+            <label><input type="radio" name="gender" value="Femme"> 👩 Femme</label>
+        </div>
+
+        <button onclick="register()">Créer</button>
+        <button onclick="closeModals()">Fermer</button>
+    </div>
+</div>
 
 <script>
-let userId = null;
-
-function login() {
-  userId = "USR-" + Math.floor(Math.random() * 100000);
-  document.getElementById("status").innerText =
-    "🟢 Connecté — ID : " + userId;
+function openLogin() {
+    loginModal.style.display = "flex";
+}
+function openRegister() {
+    registerModal.style.display = "flex";
+}
+function closeModals() {
+    document.querySelectorAll(".modal").forEach(m => m.style.display = "none");
 }
 
 function register() {
-  alert("Compte créé (mode démonstration)");
+    const gender = document.querySelector('input[name="gender"]:checked');
+    if (!regEmail.value || !regId.value || !regPass.value || !gender) {
+        alert("Veuillez remplir tous les champs");
+        return;
+    }
+
+    const user = {
+        email: regEmail.value,
+        id: regId.value,
+        pass: regPass.value,
+        gender: gender.value
+    };
+
+    localStorage.setItem("user_" + user.id, JSON.stringify(user));
+    alert("Compte créé avec succès");
+    closeModals();
+}
+
+function login() {
+    const data = localStorage.getItem("user_" + loginId.value);
+    if (!data) {
+        alert("Compte introuvable");
+        return;
+    }
+
+    const user = JSON.parse(data);
+    if (user.pass !== loginPass.value) {
+        alert("Mot de passe incorrect");
+        return;
+    }
+
+    localStorage.setItem("currentUser", user.id);
+    document.getElementById("status").innerHTML =
+        "🟢 Connecté en tant que " + user.id + " (" + user.gender + ")";
+    closeModals();
 }
 
 function logout() {
-  userId = null;
-  document.getElementById("status").innerText = "Non connecté";
+    localStorage.removeItem("currentUser");
+    document.getElementById("status").innerHTML = "🔴 Non connecté";
 }
 </script>
 
