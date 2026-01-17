@@ -2,166 +2,32 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Classement PUB – Simon City</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Classement</title>
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0b0000;
-  color:#fff;
-}
-
-header{
-  background:#7a0000;
-  padding:14px;
-  text-align:center;
-}
-
-header h1{
-  margin:0;
-  font-size:22px;
-}
-
-header small{
-  display:block;
-  margin-top:4px;
-  opacity:.85;
-}
-
-main{
-  max-width:700px;
-  margin:20px auto;
-  padding:15px;
-  background:#1a0000;
-  border-radius:8px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-}
-
-th, td{
-  padding:10px;
-  text-align:center;
-  border-bottom:1px solid #ff3333;
-  font-size:14px;
-}
-
-th{
-  background:#2a0000;
-}
-
-.rank1{ color:gold; font-weight:bold; }
-.rank2{ color:silver; font-weight:bold; }
-.rank3{ color:#cd7f32; font-weight:bold; }
-
-.me{
-  background:#330000;
-}
-
-.info{
-  margin-top:15px;
-  font-size:13px;
-  opacity:.85;
-  text-align:center;
-}
+body{margin:0;background:black;color:white;padding-bottom:60px;font-family:Arial}
+header{text-align:center;background:#8b0000;padding:10px}
+.bottom-nav{position:fixed;bottom:0;width:100%;background:#8b0000;display:flex;justify-content:space-around;padding:10px}
+.bottom-nav a{color:white;font-size:20px;text-decoration:none}
 </style>
 </head>
 
 <body>
 
 <script>
-// 🔐 COMPTE OBLIGATOIRE
-const currentUser = localStorage.getItem("currentUser");
-if(!currentUser){
-  window.location.href = "login.html";
+if(!localStorage.getItem("currentUser")){
+  window.location.href="connexion.html";
 }
 </script>
 
-<header>
-  <h1>🏆 Classement PUB</h1>
-  <small>Top 50 – Mis à jour en temps réel</small>
-</header>
+<header>CLASSEMENT</header>
+<p style="text-align:center">Classements visibles</p>
 
-<main>
-
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>ID</th>
-      <th>Points</th>
-    </tr>
-  </thead>
-  <tbody id="rankingBody"></tbody>
-</table>
-
-<div class="info" id="myRankInfo"></div>
-
-<div class="info">
-  Les points sont gagnés en regardant des publicités.<br>
-  Le parrainage rapporte aussi des points.
-</div>
-
-</main>
-
-<script>
-// 📊 RÉCUPÉRATION DES DONNÉES
-let users = [];
-
-for(let key in localStorage){
-  if(key.startsWith("points_")){
-    const id = key.replace("points_","");
-    const points = parseInt(localStorage.getItem(key)) || 0;
-    users.push({ id, points });
-  }
-}
-
-// 🔽 TRI PAR POINTS
-users.sort((a,b)=>b.points - a.points);
-
-// 🔢 TOP 50
-const top50 = users.slice(0,50);
-
-// 🖥️ AFFICHAGE
-const tbody = document.getElementById("rankingBody");
-let myRank = null;
-
-top50.forEach((user, index)=>{
-  const tr = document.createElement("tr");
-
-  if(index === 0) tr.classList.add("rank1");
-  if(index === 1) tr.classList.add("rank2");
-  if(index === 2) tr.classList.add("rank3");
-  if(user.id === currentUser) tr.classList.add("me");
-
-  tr.innerHTML = `
-    <td>${index + 1}</td>
-    <td>${user.id}</td>
-    <td>${user.points}</td>
-  `;
-  tbody.appendChild(tr);
-});
-
-// 📍 POSITION PERSONNELLE
-users.forEach((user, index)=>{
-  if(user.id === currentUser){
-    myRank = index + 1;
-  }
-});
-
-if(myRank){
-  document.getElementById("myRankInfo").innerText =
-    "👉 Ta position actuelle : " + myRank + " / " + users.length;
-}else{
-  document.getElementById("myRankInfo").innerText =
-    "👉 Tu n’es pas encore classé. Regarde des pubs pour apparaître.";
-}
-</script>
+<nav class="bottom-nav">
+  <a href="feed.html">🏠</a>
+  <a href="lives.html">🔴</a>
+  <a href="classement.html">🏆</a>
+  <a href="profil.html">👤</a>
+</nav>
 
 </body>
 </html>
