@@ -1,34 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR</title>
+  <meta charset="UTF-8">
+  <title>Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body{
+      margin:0;
+      font-family:Arial, sans-serif;
+      background:linear-gradient(135deg,#4b0000,#1a0000);
+      color:white;
+      text-align:center;
+    }
+    header{
+      background:#8b0000;
+      padding:15px;
+      font-weight:bold;
+    }
+    .status{
+      margin:20px;
+      font-size:16px;
+      color:#00ff88;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:15px;
+      padding:20px;
+      max-width:900px;
+      margin:auto;
+    }
+    .card{
+      border:1px solid #ff4444;
+      border-radius:12px;
+      padding:20px;
+      cursor:pointer;
+      background:rgba(0,0,0,0.3);
+      transition:0.2s;
+    }
+    .card:hover{
+      background:rgba(255,0,0,0.15);
+    }
+    .hidden{display:none;}
+  </style>
 </head>
+
 <body>
 
-<h1>Anonymous SOS FR ✔</h1>
-<p id="status">Chargement...</p>
+<header>Anonymous SOS FR</header>
 
-<div id="menu" style="display:none">
-  <button onclick="location.href='lives.html'">Lives</button>
-  <button onclick="location.href='ads.html'">Pubs</button>
+<div id="status" class="status">Chargement…</div>
+
+<div id="menu" class="grid hidden">
+  <div class="card" onclick="go('feed.html')">📺 Feed</div>
+  <div class="card" onclick="go('lives.html')">🔴 Lives</div>
+  <div class="card" onclick="go('ads.html')">💰 Pubs</div>
+  <div class="card" onclick="go('classement.html')">🏆 Classement</div>
+  <div class="card" onclick="go('profil.html')">👤 Profil</div>
 </div>
 
-<script src="firebase.js" type="module"></script>
-<script type="module">
-import { doc, getDoc } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<script>
+  function go(page){
+    window.location.href = page;
+  }
 
-const uid = localStorage.getItem("uid");
-if(!uid){ location.href="connexion.html"; }
+  const uid = localStorage.getItem("uid");
 
-const snap = await getDoc(doc(db,"users",uid));
-const u = snap.data();
-
-document.getElementById("status").innerText =
-  "Connecté : "+u.id+" ("+u.gender+")";
-document.getElementById("menu").style.display="block";
+  if(!uid){
+    document.getElementById("status").innerText =
+      "❌ Non connecté – redirection…";
+    setTimeout(()=>location.href="connexion.html",1500);
+  } else {
+    document.getElementById("status").innerText =
+      "✅ Connecté";
+    document.getElementById("menu").classList.remove("hidden");
+  }
 </script>
 
 </body>
-</html>
