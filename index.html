@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:radial-gradient(circle at top,#3a0000,#000);
+  background:#0b0000;
   color:#fff;
 }
 
@@ -29,13 +29,12 @@ header button{
   padding:8px 14px;
   border-radius:6px;
   cursor:pointer;
-  font-size:14px;
 }
 
 /* STATUS */
 #status{
   text-align:center;
-  margin:10px 0;
+  margin:10px;
   font-size:14px;
 }
 
@@ -49,11 +48,17 @@ main{
 
 h1{
   font-size:30px;
-  margin-bottom:5px;
 }
 
 .badge{
-  color:#1da1f2;
+  display:inline-block;
+  background:#1da1f2;
+  color:#fff;
+  border-radius:50%;
+  width:20px;
+  height:20px;
+  line-height:20px;
+  font-size:14px;
   margin-left:6px;
 }
 
@@ -63,40 +68,54 @@ h1{
   margin-bottom:20px;
 }
 
-.subtitle{
-  font-size:14px;
-  line-height:1.5;
-}
-
 /* RADIO */
 .radio{
   width:260px;
-  margin:25px auto;
+  margin:20px auto;
   background:#111;
   padding:8px;
   border-radius:8px;
 }
 
-/* CARDS */
+/* BOTTOM CARDS */
+.bottom{
+  margin-top:60px;
+  padding-bottom:40px;
+}
+
 .cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:15px;
-  margin-top:40px;
+  max-width:1100px;
+  margin:auto;
 }
 
 .card{
   border:1px solid #ff3333;
   border-radius:10px;
   padding:12px;
-  background:rgba(0,0,0,0.6);
-  font-size:12px;
+  background:#120000;
+  font-size:13px;
 }
 
 .card h3{
   margin:0 0 6px;
   font-size:14px;
   color:#ff4d4d;
+}
+
+/* SOS FLOAT */
+.sos{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25d366;
+  color:#fff;
+  padding:12px 16px;
+  border-radius:50px;
+  text-decoration:none;
+  font-size:14px;
 }
 
 /* MODAL */
@@ -120,7 +139,6 @@ h1{
   width:100%;
   padding:8px;
   margin-bottom:8px;
-  font-size:13px;
 }
 
 .gender{
@@ -128,19 +146,6 @@ h1{
   justify-content:space-around;
   font-size:13px;
   margin-bottom:10px;
-}
-
-/* SOS FLOAT */
-.sos{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25d366;
-  color:#fff;
-  padding:12px 16px;
-  border-radius:50px;
-  font-size:14px;
-  text-decoration:none;
 }
 </style>
 </head>
@@ -159,34 +164,40 @@ h1{
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
   <div class="official">Vous êtes sur le vrai site officiel des Anonymous</div>
 
-  <div class="subtitle">
+  <p>
     Nous sommes Anonymous. Nous sommes légion.<br>
     Nous n'oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous, n'hésitez pas à inviter du monde.
-  </div>
+    Vous êtes chez vous.
+  </p>
 
   <div class="radio">
     🎧 Radio Anonymous SOS FR<br>
-    <audio controls style="width:100%">
-      <source src="">
-    </audio>
-  </div>
-
-  <!-- 8 CARRÉS -->
-  <div class="cards">
-    <div class="card"><h3>SOS</h3>Aide rapide<br>Contact direct</div>
-    <div class="card"><h3>Sites</h3>Création web<br>Accompagnement</div>
-    <div class="card"><h3>Opportunités</h3>Vidéos<br>Visibilité</div>
-    <div class="card"><h3>Communauté</h3>Entraide<br>Protection</div>
-    <div class="card"><h3>Anonymat</h3>ID uniquement<br>Sécurité</div>
-    <div class="card"><h3>Support</h3>Humain réel</div>
-    <div class="card"><h3>Signalements</h3>Harcèlement<br>Menaces</div>
-    <div class="card"><h3>Anonymous</h3>Présence réelle</div>
+    <audio controls style="width:100%"></audio>
   </div>
 </main>
 
+<!-- CARRÉS EN BAS -->
+<section class="bottom">
+  <div class="cards">
+
+    <div class="card"><h3>🆘 SOS</h3>Aide rapide<br>Contact direct</div>
+    <div class="card"><h3>💻 Sites</h3>Création web<br>A à Z</div>
+    <div class="card"><h3>🎥 Opportunités</h3>Vidéos<br>Visibilité</div>
+    <div class="card"><h3>🤝 Communauté</h3>Entraide<br>Protection</div>
+
+    <div class="card"><h3>🔒 Anonymat</h3>ID uniquement<br>Sécurisé</div>
+    <div class="card"><h3>📞 Contact</h3>
+      📧 DESPRESCHEZ@gmail.com<br>
+      📱 +32 456 89 43 35
+    </div>
+    <div class="card"><h3>🎵 TikTok</h3>@anonymous_sos_fr</div>
+    <div class="card"><h3>▶️ YouTube</h3>mr despres</div>
+
+  </div>
+</section>
+
 <a class="sos" href="https://wa.me/32456894335" target="_blank">
-  🆘 SOS WhatsApp
+  SOS WhatsApp
 </a>
 
 <!-- LOGIN -->
@@ -203,4 +214,57 @@ h1{
 <!-- REGISTER -->
 <div class="modal" id="register">
   <div class="modal-content">
-    <h3>Inscription</h3…
+    <h3>Créer un compte</h3>
+    <input id="regEmail" placeholder="Email">
+    <input id="regId" placeholder="ID">
+    <input id="regPass" type="password" placeholder="Mot de passe">
+
+    <div class="gender">
+      <label><input type="radio" name="gender" value="Homme"> 👨 Homme</label>
+      <label><input type="radio" name="gender" value="Femme"> 👩 Femme</label>
+    </div>
+
+    <button onclick="register()">Créer</button>
+    <button onclick="closeModals()">Fermer</button>
+  </div>
+</div>
+
+<script>
+function openLogin(){login.style.display="flex";}
+function openRegister(){register.style.display="flex";}
+function closeModals(){document.querySelectorAll(".modal").forEach(m=>m.style.display="none");}
+
+function register(){
+  const g=document.querySelector('input[name="gender"]:checked');
+  if(!regEmail.value||!regId.value||!regPass.value||!g){
+    alert("Tous les champs sont obligatoires");
+    return;
+  }
+  localStorage.setItem("user_"+regId.value,JSON.stringify({
+    id:regId.value,
+    pass:regPass.value,
+    gender:g.value
+  }));
+  alert("Compte créé");
+  closeModals();
+}
+
+function login(){
+  const u=JSON.parse(localStorage.getItem("user_"+loginId.value));
+  if(!u||u.pass!==loginPass.value){
+    alert("Identifiants incorrects");
+    return;
+  }
+  localStorage.setItem("current",u.id);
+  status.innerHTML="🟢 Connecté – ID : "+u.id+" ("+u.gender+")";
+  closeModals();
+}
+
+function logout(){
+  localStorage.removeItem("current");
+  status.innerHTML="🔴 Non connecté";
+}
+</script>
+
+</body>
+</html>
