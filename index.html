@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
   font-family:Arial, sans-serif;
-  background:#0b0000;
+  background:radial-gradient(circle at top,#3a0000,#000);
   color:#fff;
 }
 
@@ -29,12 +29,13 @@ header button{
   padding:8px 14px;
   border-radius:6px;
   cursor:pointer;
+  font-size:14px;
 }
 
 /* STATUS */
 #status{
   text-align:center;
-  margin:10px;
+  margin:10px 0;
   font-size:14px;
 }
 
@@ -42,22 +43,24 @@ header button{
 main{
   max-width:1000px;
   margin:auto;
-  padding:30px 20px;
+  padding:40px 20px;
   text-align:center;
 }
 
 h1{
   font-size:30px;
+  margin-bottom:4px;
 }
 
 .badge{
-  display:inline-block;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:20px;
+  height:20px;
   background:#1da1f2;
   color:#fff;
   border-radius:50%;
-  width:20px;
-  height:20px;
-  line-height:20px;
   font-size:14px;
   margin-left:6px;
 }
@@ -68,35 +71,41 @@ h1{
   margin-bottom:20px;
 }
 
+.subtitle{
+  font-size:14px;
+  line-height:1.5;
+}
+
 /* RADIO */
 .radio{
   width:260px;
-  margin:20px auto;
+  margin:25px auto;
   background:#111;
   padding:8px;
   border-radius:8px;
 }
 
-/* BOTTOM CARDS */
-.bottom{
-  margin-top:60px;
-  padding-bottom:40px;
+/* ESPACE AVANT CARRÉS */
+.bottom-space{
+  height:120px;
 }
 
+/* CARRÉS */
 .cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:15px;
+  gap:18px;
   max-width:1100px;
-  margin:auto;
+  margin:0 auto 40px;
 }
 
 .card{
   border:1px solid #ff3333;
   border-radius:10px;
   padding:12px;
-  background:#120000;
-  font-size:13px;
+  background:rgba(0,0,0,0.6);
+  font-size:12px;
+  text-align:center;
 }
 
 .card h3{
@@ -118,7 +127,7 @@ h1{
   font-size:14px;
 }
 
-/* MODAL */
+/* MODALS */
 .modal{
   display:none;
   position:fixed;
@@ -135,7 +144,7 @@ h1{
   width:300px;
 }
 
-.modal input{
+.modal-content input{
   width:100%;
   padding:8px;
   margin-bottom:8px;
@@ -153,9 +162,9 @@ h1{
 <body>
 
 <header>
-  <button onclick="openLogin()">Connexion</button>
-  <button onclick="openRegister()">Créer un compte</button>
-  <button onclick="logout()">Déconnexion</button>
+  <button onclick="openLoginModal()">Connexion</button>
+  <button onclick="openRegisterModal()">Créer un compte</button>
+  <button onclick="logoutUser()">Déconnexion</button>
 </header>
 
 <div id="status">🔴 Non connecté</div>
@@ -164,11 +173,11 @@ h1{
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
   <div class="official">Vous êtes sur le vrai site officiel des Anonymous</div>
 
-  <p>
+  <div class="subtitle">
     Nous sommes Anonymous. Nous sommes légion.<br>
     Nous n'oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous.
-  </p>
+    Vous êtes chez vous, n'hésitez pas à inviter du monde.
+  </div>
 
   <div class="radio">
     🎧 Radio Anonymous SOS FR<br>
@@ -176,10 +185,12 @@ h1{
   </div>
 </main>
 
-<!-- CARRÉS EN BAS -->
-<section class="bottom">
-  <div class="cards">
+<!-- ESPACE POUR DESCENDRE LES CARRÉS -->
+<div class="bottom-space"></div>
 
+<!-- CARRÉS TOUT EN BAS -->
+<section>
+  <div class="cards">
     <div class="card"><h3>🆘 SOS</h3>Aide rapide<br>Contact direct</div>
     <div class="card"><h3>💻 Sites</h3>Création web<br>A à Z</div>
     <div class="card"><h3>🎥 Opportunités</h3>Vidéos<br>Visibilité</div>
@@ -192,7 +203,6 @@ h1{
     </div>
     <div class="card"><h3>🎵 TikTok</h3>@anonymous_sos_fr</div>
     <div class="card"><h3>▶️ YouTube</h3>mr despres</div>
-
   </div>
 </section>
 
@@ -201,18 +211,18 @@ h1{
 </a>
 
 <!-- LOGIN -->
-<div class="modal" id="login">
+<div class="modal" id="loginModal">
   <div class="modal-content">
     <h3>Connexion</h3>
     <input id="loginId" placeholder="ID">
     <input id="loginPass" type="password" placeholder="Mot de passe">
-    <button onclick="login()">Connexion</button>
+    <button onclick="loginUser()">Connexion</button>
     <button onclick="closeModals()">Fermer</button>
   </div>
 </div>
 
 <!-- REGISTER -->
-<div class="modal" id="register">
+<div class="modal" id="registerModal">
   <div class="modal-content">
     <h3>Créer un compte</h3>
     <input id="regEmail" placeholder="Email">
@@ -224,17 +234,23 @@ h1{
       <label><input type="radio" name="gender" value="Femme"> 👩 Femme</label>
     </div>
 
-    <button onclick="register()">Créer</button>
+    <button onclick="createAccount()">Créer</button>
     <button onclick="closeModals()">Fermer</button>
   </div>
 </div>
 
 <script>
-function openLogin(){login.style.display="flex";}
-function openRegister(){register.style.display="flex";}
-function closeModals(){document.querySelectorAll(".modal").forEach(m=>m.style.display="none");}
+function openLoginModal(){
+  document.getElementById("loginModal").style.display="flex";
+}
+function openRegisterModal(){
+  document.getElementById("registerModal").style.display="flex";
+}
+function closeModals(){
+  document.querySelectorAll(".modal").forEach(m=>m.style.display="none");
+}
 
-function register(){
+function createAccount(){
   const g=document.querySelector('input[name="gender"]:checked');
   if(!regEmail.value||!regId.value||!regPass.value||!g){
     alert("Tous les champs sont obligatoires");
@@ -249,20 +265,21 @@ function register(){
   closeModals();
 }
 
-function login(){
+function loginUser(){
   const u=JSON.parse(localStorage.getItem("user_"+loginId.value));
   if(!u||u.pass!==loginPass.value){
-    alert("Identifiants incorrects");
+    alert("ID ou mot de passe incorrect");
     return;
   }
-  localStorage.setItem("current",u.id);
-  status.innerHTML="🟢 Connecté – ID : "+u.id+" ("+u.gender+")";
+  localStorage.setItem("currentUser",u.id);
+  document.getElementById("status").innerHTML=
+    "🟢 Connecté – ID : "+u.id+" ("+u.gender+")";
   closeModals();
 }
 
-function logout(){
-  localStorage.removeItem("current");
-  status.innerHTML="🔴 Non connecté";
+function logoutUser(){
+  localStorage.removeItem("currentUser");
+  document.getElementById("status").innerHTML="🔴 Non connecté";
 }
 </script>
 
