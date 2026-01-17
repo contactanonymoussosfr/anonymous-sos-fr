@@ -13,29 +13,12 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* FOND ANONYMOUS (SÛR) */
 body {
-  color: white;
   min-height: 100vh;
-
-  /* IMAGE ANONYMOUS INTÉGRÉE (PAS DE FICHIER) */
+  color: white;
   background:
-    linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)),
-    url("data:image/svg+xml;utf8,
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 600'>
-      <defs>
-        <radialGradient id='g' cx='50%' cy='30%' r='70%'>
-          <stop offset='0%' stop-color='%23660000'/>
-          <stop offset='100%' stop-color='%23000000'/>
-        </radialGradient>
-      </defs>
-      <rect width='800' height='600' fill='url(%23g)'/>
-      <text x='400' y='320' text-anchor='middle'
-        font-size='160'
-        fill='rgba(255,255,255,0.08)'
-        font-family='Arial'>☻</text>
-    </svg>");
-  background-size: cover;
-  background-position: center;
+    radial-gradient(circle at top, #5a0000 0%, #1a0000 40%, #000 80%);
 }
 
 /* BARRE HAUTE */
@@ -44,7 +27,7 @@ body {
   justify-content: center;
   gap: 12px;
   padding: 15px;
-  background: rgba(90,0,0,0.9);
+  background: rgba(90,0,0,0.95);
 }
 
 .btn {
@@ -111,7 +94,7 @@ body {
   border: 1px solid #ff2a2a;
   border-radius: 16px;
   padding: 20px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.75);
 }
 
 .card h2 {
@@ -135,6 +118,7 @@ body {
   display: none;
   margin-top: 10px;
   font-size: 14px;
+  line-height: 1.5;
 }
 
 /* FOOTER */
@@ -175,27 +159,41 @@ footer {
 </section>
 
 <section class="cards">
+
   <div class="card">
     <h2>Anonymat</h2>
-    <p>Aucune identité publique requise.<br>Seul votre ID est visible.</p>
+    <p>
+      Aucune identité publique requise.<br>
+      Seul votre ID est visible.
+    </p>
   </div>
 
   <div class="card">
     <h2>Création de sites</h2>
-    <p>Création de sites web de A à Z.</p>
+    <p>
+      Création de sites web de A à Z.
+    </p>
 
-    <button class="contact-btn" onclick="toggleContact()">Contacter</button>
+    <button class="contact-btn" onclick="toggleContact()">
+      Contacter le service client
+    </button>
+
     <div id="contact" class="contact-info">
       📧 DESPRESCHEZ@gmail.com<br>
       📱 +32 456 89 43 35<br>
-      🎵 @anonymous_sos_fr
+      🎵 TikTok : @anonymous_sos_fr
     </div>
   </div>
 
   <div class="card">
     <h2>Opportunités</h2>
-    <p>Regardez des vidéos complètes et gagnez de l’argent.</p>
+    <p>
+      Regardez des vidéos complètes.<br>
+      Les publicités vues en entier<br>
+      vous font gagner de l’argent.
+    </p>
   </div>
+
 </section>
 
 <footer>
