@@ -5,338 +5,201 @@
 <title>Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:Arial, Helvetica, sans-serif;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: url("background.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: white;
 }
 
-body{
-  min-height:100vh;
-  color:#fff;
-  background: radial-gradient(circle at top, #5a0000 0%, #1a0000 45%, #000 85%);
-  display:flex;
-  flex-direction:column;
+.top-bar {
+  background: rgba(120,0,0,0.9);
+  padding: 12px;
+  display: flex;
+  gap: 10px;
 }
 
-/* BARRE HAUTE */
-.top-bar{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  padding:15px;
-  background:rgba(90,0,0,0.95);
+.top-bar button {
+  background: #b30000;
+  border: none;
+  padding: 8px 14px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.btn{
-  padding:10px 18px;
-  border-radius:10px;
-  border:1px solid #ff2a2a;
-  background:transparent;
-  color:#fff;
-  cursor:pointer;
+.center {
+  text-align: center;
+  padding: 60px 20px;
 }
 
-.btn.primary{
-  background:#e00000;
+h1 {
+  font-size: 32px;
 }
 
-/* STATUT */
-.status{
-  text-align:center;
-  margin:12px 0;
-  font-size:16px;
+.quote {
+  margin-top: 20px;
+  font-style: italic;
 }
 
-/* CONTENU CENTRAL */
-.main{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:20px;
+.description {
+  margin-top: 15px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.content{
-  max-width:900px;
+.radio-box {
+  margin-top: 25px;
+  padding: 15px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 10px;
+  display: inline-block;
 }
 
-.title{
-  font-size:36px;
-  margin-bottom:20px;
+.auth-box {
+  background: rgba(0,0,0,0.85);
+  padding: 20px;
+  width: 300px;
+  margin: 40px auto;
+  border-radius: 10px;
+  display: none;
 }
 
-.badge-blue{
-  display:inline-block;
-  margin-left:10px;
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  background:#1da1f2;
-  color:#fff;
-  font-size:14px;
-  line-height:22px;
+.auth-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: none;
 }
 
-.quote{
-  font-size:18px;
-  line-height:1.6;
-  margin-bottom:25px;
+.auth-box button {
+  width: 100%;
+  padding: 10px;
+  background: red;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.about{
-  font-size:16px;
-  line-height:1.7;
-  opacity:0.95;
-}
-
-/* CARTES */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(230px,1fr));
-  gap:15px;
-  padding:20px;
-}
-
-.card{
-  border:1px solid #ff2a2a;
-  border-radius:14px;
-  padding:15px;
-  background:rgba(0,0,0,0.75);
-  font-size:14px;
-}
-
-.card h2{
-  color:#ff2a2a;
-  font-size:16px;
-  margin-bottom:8px;
-}
-
-.sos-message{
-  margin-top:8px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.contact-btn{
-  margin-top:10px;
-  padding:8px;
-  width:100%;
-  background:#e00000;
-  border:none;
-  border-radius:8px;
-  color:#fff;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.contact-info{
-  display:none;
-  margin-top:8px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-footer{
-  text-align:center;
-  padding:15px;
-  font-size:13px;
-  opacity:0.8;
-}
-
-/* BOUTON SOS */
-.sos-btn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#e00000;
-  color:white;
-  padding:14px 18px;
-  border-radius:50px;
-  font-size:16px;
-  text-decoration:none;
-  font-weight:bold;
-  box-shadow:0 0 15px rgba(255,0,0,0.6);
-  z-index:9999;
-}
-
-.sos-btn:hover{
-  background:#ff2a2a;
-}
-
-/* MODALE */
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.8);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-.modal-content{
-  background:#111;
-  padding:25px;
-  border-radius:14px;
-  width:90%;
-  max-width:320px;
-  text-align:center;
-  border:1px solid #ff2a2a;
-}
-
-.modal-content input{
-  width:100%;
-  padding:10px;
-  margin-bottom:15px;
-  border-radius:8px;
-  border:none;
+.sos-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: red;
+  padding: 12px 18px;
+  border-radius: 30px;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
 }
 </style>
 </head>
 
 <body>
 
-<header class="top-bar">
-  <button class="btn" onclick="login()">Connexion</button>
-  <button class="btn primary" onclick="openRegister()">Créer un compte</button>
-  <button class="btn" onclick="logout()">Déconnexion</button>
-</header>
+<!-- BARRE HAUT -->
+<div class="top-bar">
+  <button onclick="showLogin()">Connexion</button>
+  <button onclick="showRegister()">Créer un compte</button>
+  <button onclick="logout()" id="logoutBtn" style="display:none;">Déconnexion</button>
+</div>
 
-<div class="status" id="status">🔴 Non connecté</div>
+<!-- ACCUEIL -->
+<div class="center">
+  <h1>Bienvenue sur le site officiel des Anonymous<br>SOS FR ✔️</h1>
 
-<section class="main">
-  <div class="content">
-    <h1 class="title">
-      Bienvenue sur le site officiel des Anonymous SOS FR
-      <span class="badge-blue">✔</span>
-    </h1>
+  <p class="quote">
+    Nous sommes Anonymous. Nous sommes légion.<br>
+    Nous n'oublions pas. Nous ne pardonnons pas.<br>
+    Vous êtes chez vous, n'hésitez pas à inviter du monde.
+  </p>
 
-    <p class="quote">
-      Nous sommes Anonymous. Nous sommes légion.<br>
-      Nous n’oublions pas. Nous ne pardonnons pas.<br>
-      Vous êtes chez vous, n’hésitez pas à inviter du monde.
-    </p>
+  <p class="description">
+    Anonymous SOS FR est une communauté d'entraide dédiée à la protection
+    des personnes victimes de harcèlement, de menaces ou de situations urgentes,
+    en ligne comme dans la vie réelle.
+  </p>
 
-    <p class="about">
-      Anonymous SOS FR est une communauté d’entraide dédiée
-      à la protection des personnes victimes de harcèlement,
-      de menaces ou de situations urgentes, en ligne comme dans la vie réelle.
-    </p>
-  </div>
-</section>
-
-<section class="cards">
-
-  <!-- NOUVEAU CARRÉ SOUTIEN -->
-  <div class="card">
-    <h2>🧡 Soutenir l’aide humanitaire</h2>
-    <p>
-      Vous souhaitez soutenir nos actions
-      pour aider les personnes dans la rue ?
-    </p>
-    <p class="sos-message">
-      Les soutiens servent à l’aide d’urgence,
-      à l’accompagnement et au soutien humain.<br>
-      Pour connaître les moyens de soutien disponibles,
-      contactez-nous directement.
-    </p>
-    <button class="contact-btn" onclick="toggleContact()">Contacter</button>
-  </div>
-
-  <div class="card">
-    <h2>Anonymat & SOS</h2>
-    <p>Aucune identité publique requise.<br>Seul votre ID est visible.</p>
-    <p class="sos-message">
-      🆘 Besoin d’aide urgente ?<br>
-      Vous êtes sur le site officiel des Anonymous SOS FR
-      <span class="badge-blue">✔</span><br>
-      Contact WhatsApp prioritaire.
-    </p>
-  </div>
-
-  <div class="card">
-    <h2>Création de sites</h2>
-    <p>Création de sites web de A à Z.</p>
-    <button class="contact-btn" onclick="toggleContact()">Contacter</button>
-    <div id="contact" class="contact-info">
-      📧 DESPRESCHEZ@gmail.com<br>
-      📱 WhatsApp : +32 456 89 43 35<br>
-      🎵 TikTok : @anonymous_sos_fr
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Opportunités</h2>
-    <p>Vidéos complètes et opportunités.</p>
-  </div>
-
-</section>
-
-<footer>
-  Recrutement en continu — Anonymous SOS FR
-</footer>
-
-<a href="https://wa.me/32456894335" target="_blank" class="sos-btn">
-  🆘 SOS WhatsApp
-</a>
-
-<div class="modal" id="registerModal">
-  <div class="modal-content">
-    <h2>Créer un compte</h2>
-    <input type="text" id="username" placeholder="Choisissez un pseudo">
-    <button class="btn primary" onclick="register()">Créer et se connecter</button>
-    <button class="btn" style="margin-top:10px;" onclick="closeRegister()">Annuler</button>
+  <!-- RADIO -->
+  <div class="radio-box">
+    🔊 Radio Anonymous SOS FR<br><br>
+    <audio autoplay controls>
+      <source src="https://stream.zeno.fm/your-radio-stream.mp3" type="audio/mpeg">
+    </audio>
   </div>
 </div>
 
+<!-- CONNEXION -->
+<div class="auth-box" id="loginBox">
+  <h2>Connexion</h2>
+  <input id="loginEmail" type="email" placeholder="Email">
+  <input id="loginPassword" type="password" placeholder="Mot de passe">
+  <button onclick="login()">Se connecter</button>
+</div>
+
+<!-- INSCRIPTION -->
+<div class="auth-box" id="registerBox">
+  <h2>Créer un compte</h2>
+  <input id="regUsername" placeholder="Nom d'utilisateur">
+  <input id="regEmail" type="email" placeholder="Email">
+  <input id="regPassword" type="password" placeholder="Mot de passe">
+  <button onclick="register()">Créer le compte</button>
+</div>
+
+<a class="sos-btn" href="https://wa.me/33600000000" target="_blank">SOS WhatsApp</a>
+
 <script>
-let connected=false;
-let user="";
+const supabase = window.supabase.createClient(
+  "https://TON-PROJET.supabase.co",
+  "TA-CLE-PUBLIQUE"
+);
 
-function updateStatus(){
-  document.getElementById("status").innerHTML = connected
-    ? "🟢 Connecté en tant que <strong>"+user+"</strong>"
-    : "🔴 Non connecté";
+function showLogin() {
+  document.getElementById("loginBox").style.display = "block";
+  document.getElementById("registerBox").style.display = "none";
 }
 
-function login(){
-  connected=true;
-  user="MrDespres";
-  updateStatus();
+function showRegister() {
+  document.getElementById("registerBox").style.display = "block";
+  document.getElementById("loginBox").style.display = "none";
 }
 
-function logout(){
-  connected=false;
-  user="";
-  updateStatus();
+async function login() {
+  const email = loginEmail.value;
+  const password = loginPassword.value;
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) alert(error.message);
+  else location.reload();
 }
 
-function openRegister(){
-  document.getElementById("registerModal").style.display="flex";
+async function register() {
+  const email = regEmail.value;
+  const password = regPassword.value;
+
+  const { error } = await supabase.auth.signUp({ email, password });
+  if (error) alert(error.message);
+  else alert("Compte créé avec succès");
 }
 
-function closeRegister(){
-  document.getElementById("registerModal").style.display="none";
+async function logout() {
+  await supabase.auth.signOut();
+  location.reload();
 }
 
-function register(){
-  const name=document.getElementById("username").value.trim();
-  if(!name){ alert("Veuillez entrer un pseudo."); return; }
-  user=name;
-  connected=true;
-  closeRegister();
-  updateStatus();
-}
-
-function toggleContact(){
-  const c=document.getElementById("contact");
-  c.style.display = c.style.display==="block" ? "none" : "block";
-}
-
-updateStatus();
+supabase.auth.getSession().then(({ data }) => {
+  if (data.session) {
+    document.getElementById("logoutBtn").style.display = "inline-block";
+  }
+});
 </script>
 
 </body>
