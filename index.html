@@ -6,125 +6,177 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
-  margin:0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle at top, #650000, #120000);
-  color:#fff;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-/* HEADER */
-header{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  padding:15px;
-  border-bottom:1px solid #ff000055;
+body {
+  color: white;
+  background-image: url("anonymous.jpg"); /* ✅ TA PHOTO */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
-button{
-  background:#2a0000;
-  color:#fff;
-  border:1px solid #ff0000;
-  padding:10px 18px;
-  border-radius:10px;
-  cursor:pointer;
+/* VOILE SOMBRE POUR LISIBILITÉ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: -1;
 }
 
-button.main{
-  background:#ff0000;
+/* BARRE DU HAUT */
+.top-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 15px;
+  background: rgba(90,0,0,0.9);
 }
 
-button:hover{
-  opacity:0.85;
+.btn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid #ff2a2a;
+  background: transparent;
+  color: white;
+  cursor: pointer;
 }
 
-/* MESSAGE OFFICIEL */
-.main-message{
-  text-align:center;
-  padding:40px 20px 20px;
+.btn.primary {
+  background: #e00000;
 }
 
-.main-message h1{
-  color:#ff0000;
-  font-size:32px;
+/* STATUT */
+.status {
+  text-align: center;
+  margin: 15px 0;
 }
 
-.badge{
-  color:#00aaff;
-  font-size:18px;
+/* HERO */
+.hero {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-/* STATUS */
-#statusConnexion{
-  text-align:center;
-  margin-bottom:20px;
-  font-weight:bold;
+.hero-content {
+  max-width: 900px;
+  padding: 20px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+/* VRAI BADGE BLEU */
+.badge-blue {
+  display: inline-block;
+  margin-left: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #1da1f2;
+  color: white;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.quote {
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 /* CARTES */
-.cards{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:20px;
-  padding:40px 20px;
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 40px 20px;
 }
 
-.card{
-  width:260px;
-  background:#140000;
-  border:1px solid #ff0000;
-  border-radius:14px;
-  padding:20px;
-  box-shadow:0 0 15px #ff000033;
+.card {
+  border: 1px solid #ff2a2a;
+  border-radius: 16px;
+  padding: 20px;
+  background: rgba(0,0,0,0.7);
 }
 
-.card h3{
-  color:#ff0000;
-  margin-top:0;
+.card h2 {
+  color: #ff2a2a;
+  margin-bottom: 10px;
 }
 
-.card p{
-  font-size:14px;
+/* CONTACT */
+.contact-btn {
+  margin-top: 12px;
+  padding: 10px;
+  width: 100%;
+  background: red;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
 }
 
-/* FOOTER MESSAGES */
-.footer{
-  text-align:center;
-  padding:30px 20px;
-  font-size:14px;
-  opacity:0.9;
+.contact-info {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  opacity: 0.8;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <button onclick="login()">Connexion</button>
-  <button class="main" onclick="createAccount()">Créer un compte</button>
-  <button onclick="logout()">Déconnexion</button>
+<header class="top-bar">
+  <button class="btn">Connexion</button>
+  <button class="btn primary">Créer un compte</button>
+  <button class="btn">Déconnexion</button>
 </header>
 
-<div id="statusConnexion"></div>
-
-<div class="main-message">
-  <h1>
-    Bienvenue sur le site officiel des Anonymous SOS FR 
-    <span class="badge">✔ Badge bleu</span>
-  </h1>
-  <p>
-    Nous sommes Anonymous. Nous sommes légion.<br>
-    Nous n’oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous, n’hésitez pas à inviter du monde.
-  </p>
+<div class="status">
+  🟢 Connecté en tant que <strong>MrDespres</strong>
 </div>
 
-<div class="cards">
+<section class="hero">
+  <div class="hero-content">
+    <h1>
+      Bienvenue sur le site officiel des Anonymous SOS FR
+      <span class="badge-blue">✔</span>
+    </h1>
+
+    <p class="quote">
+      Nous sommes Anonymous. Nous sommes légion.<br>
+      Nous n’oublions pas. Nous ne pardonnons pas.<br>
+      Vous êtes chez vous, n’hésitez pas à inviter du monde.
+    </p>
+  </div>
+</section>
+
+<section class="cards">
 
   <div class="card">
-    <h3>Anonymat</h3>
+    <h2>Anonymat</h2>
     <p>
       Aucune identité publique requise.<br>
       Seul votre ID est visible.
@@ -132,22 +184,26 @@ button:hover{
   </div>
 
   <div class="card">
-    <h3>Création de sites web</h3>
+    <h2>Création de sites</h2>
     <p>
-      Création de sites web de A à Z.<br>
-      Accompagnement sérieux.
+      Nous pouvons créer votre site web de A à Z.<br>
+      Vitrine, projet, plateforme, services.
     </p>
-    <p>
-      TikTok : @anonymous_sos_fr<br>
-      TikTok : popysa5<br>
-      YouTube : mr despres<br>
-      Email : DESPRESCHEZ@gmail.com<br>
-      WhatsApp : +32 456 89 43 35
-    </p>
+
+    <button class="contact-btn" onclick="toggleContact()">
+      Contacter le service client
+    </button>
+
+    <div id="contact-info" class="contact-info">
+      📧 Email : DESPRESCHEZ@gmail.com<br>
+      📱 WhatsApp : +32 456 89 43 35<br>
+      🎥 YouTube : mr despres<br>
+      🎵 TikTok : @anonymous_sos_fr
+    </div>
   </div>
 
   <div class="card">
-    <h3>Opportunités</h3>
+    <h2>Opportunités</h2>
     <p>
       Regardez des vidéos complètes.<br>
       Les publicités vues en entier<br>
@@ -155,85 +211,18 @@ button:hover{
     </p>
   </div>
 
-</div>
+</section>
 
-<div class="footer">
-  <p>
-    Recrutement en continu — Anonymous SOS FR<br>
-    Nous recrutons tous les jours.<br>
-    Ne perdez pas votre temps.
-  </p>
-</div>
+<footer>
+  Recrutement en continu — Anonymous SOS FR<br>
+  Nous recrutons tous les jours. Ne perdez pas votre temps.
+</footer>
 
-<!-- ======================
-     SYSTEME DE COMPTE
-====================== -->
 <script>
-function getUser(){
-  return JSON.parse(localStorage.getItem("anonymousUser"));
+function toggleContact() {
+  const info = document.getElementById("contact-info");
+  info.style.display = info.style.display === "block" ? "none" : "block";
 }
-
-function setUser(user){
-  localStorage.setItem("anonymousUser", JSON.stringify(user));
-}
-
-function createAccount(){
-  const email = prompt("Adresse email :");
-  if(!email) return;
-
-  const password = prompt("Mot de passe :");
-  if(!password) return;
-
-  const id = prompt("Choisissez votre ID (pseudo visible) :");
-  if(!id) return;
-
-  setUser({email,password,id,connected:true});
-  alert("Compte créé. Bienvenue " + id);
-  location.reload();
-}
-
-function login(){
-  const user = getUser();
-  if(!user){
-    alert("Aucun compte trouvé. Créez un compte.");
-    return;
-  }
-
-  const email = prompt("Email :");
-  const password = prompt("Mot de passe :");
-
-  if(email === user.email && password === user.password){
-    user.connected = true;
-    setUser(user);
-    alert("Connexion réussie. Bienvenue " + user.id);
-    location.reload();
-  } else {
-    alert("Identifiants incorrects");
-  }
-}
-
-function logout(){
-  const user = getUser();
-  if(user){
-    user.connected = false;
-    setUser(user);
-  }
-  alert("Déconnecté");
-  location.reload();
-}
-
-function updateStatus(){
-  const s = document.getElementById("statusConnexion");
-  const u = getUser();
-
-  if(u && u.connected){
-    s.innerHTML = "🟢 Connecté en tant que <b>" + u.id + "</b>";
-  } else {
-    s.innerHTML = "❌ Non connecté — créez un compte ou connectez-vous";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", updateStatus);
 </script>
 
 </body>
