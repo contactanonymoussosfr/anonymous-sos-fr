@@ -1,50 +1,4 @@
- <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* FOND ANONYMOUS (SÛR) */
-body {
-  min-height: 100vh;
-  color: white;
-  background:
-    radial-gradient(circle at top, #5a0000 0%, #1a0000 40%, #000 80%);
-}
-
-/* BARRE HAUTE */
-.top-bar {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  padding: 15px;
-  background: rgba(90,0,0,0.95);
-}
-
-.btn {
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: 1px solid #ff2a2a;
-  background: transparent;
-  color: white;
-  cursor: pointer;
-}
-
-.btn.primary {
-  background: #e00000;
-}
-
-/* S…
-[11:25, 17/01/2026] Anonymous sos fr: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -59,7 +13,7 @@ body {
   font-family:Arial, Helvetica, sans-serif;
 }
 
-/* 🔒 FOND CONSERVÉ TEL QUEL */
+/* 🔒 FOND CONSERVÉ */
 body{
   min-height:100vh;
   color:#fff;
@@ -111,7 +65,7 @@ body{
   max-width:900px;
 }
 
-/* TITRE CENTRAL */
+/* TITRE */
 .title{
   font-size:38px;
   margin-bottom:20px;
@@ -145,7 +99,7 @@ body{
   opacity:0.95;
 }
 
-/* CARTES EN BAS (PLUS PETITES) */
+/* CARTES EN BAS */
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
@@ -165,6 +119,14 @@ body{
   color:#ff2a2a;
   font-size:16px;
   margin-bottom:8px;
+}
+
+/* MESSAGE SOS */
+.sos-message{
+  margin-top:10px;
+  font-size:13px;
+  line-height:1.5;
+  opacity:0.95;
 }
 
 /* CONTACT */
@@ -212,25 +174,21 @@ footer{
 <section class="main">
   <div class="content">
 
-    <!-- 🔥 TITRE BIEN AU CENTRE -->
     <h1 class="title">
       Bienvenue sur le site officiel des Anonymous SOS FR
       <span class="badge-blue">✔</span>
     </h1>
 
-    <!-- TEXTE D’ORIGINE CONSERVÉ -->
     <p class="quote">
       Nous sommes Anonymous. Nous sommes légion.<br>
       Nous n’oublions pas. Nous ne pardonnons pas.<br>
       Vous êtes chez vous, n’hésitez pas à inviter du monde.
     </p>
 
-    <!-- PLUS DE TEXTE SUR VOUS -->
     <p class="about">
-      Anonymous SOS FR est une communauté indépendante axée sur l’entraide,
-      le partage et l’accès à des opportunités numériques.
-      Nous accompagnons nos membres, protégeons leur anonymat
-      et développons des solutions accessibles à tous.
+      Anonymous SOS FR est une communauté indépendante dédiée à l’entraide,
+      à la protection des personnes et à l’accompagnement face aux situations difficiles,
+      notamment dans le cadre du harcèlement et des abus en ligne.
     </p>
 
   </div>
@@ -238,14 +196,26 @@ footer{
 
 <section class="cards">
 
+  <!-- 🆘 CARTE SOS / ANONYMAT -->
   <div class="card">
-    <h2>Anonymat</h2>
+    <h2>Anonymat & SOS</h2>
     <p>
       Aucune identité publique requise.<br>
       Seul votre ID est visible.
     </p>
+
+    <p class="sos-message">
+      🆘 <strong>Besoin d’aide urgente ?</strong><br>
+      Si vous êtes victime de harcèlement, de menaces,
+      ou que vous traversez une situation grave,
+      vous êtes sur le site officiel des Anonymous SOS FR
+      <span class="badge-blue">✔</span>.<br>
+      <strong>N’hésitez pas à nous contacter immédiatement.</strong><br>
+      📲 WhatsApp prioritaire – réponse humaine.
+    </p>
   </div>
 
+  <!-- CRÉATION DE SITES -->
   <div class="card">
     <h2>Création de sites</h2>
     <p>
@@ -259,11 +229,12 @@ footer{
 
     <div id="contact" class="contact-info">
       📧 DESPRESCHEZ@gmail.com<br>
-      📱 +32 456 89 43 35<br>
+      📱 WhatsApp : +32 456 89 43 35<br>
       🎵 TikTok : @anonymous_sos_fr
     </div>
   </div>
 
+  <!-- OPPORTUNITÉS -->
   <div class="card">
     <h2>Opportunités</h2>
     <p>
