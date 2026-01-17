@@ -3,130 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <title>Lives</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-body{
-  margin:0;
-  background:black;
-  color:white;
-  font-family:Arial;
-  padding-bottom:70px;
-}
-header{
-  background:#8b0000;
-  padding:10px;
-  text-align:center;
-  font-weight:bold;
-}
-button{
-  background:#8b0000;
-  color:white;
-  border:none;
-  padding:8px 14px;
-  border-radius:20px;
-  cursor:pointer;
-}
-.container{
-  max-width:500px;
-  margin:auto;
-}
-.live{
-  border-bottom:1px solid #222;
-  padding:10px;
-  cursor:pointer;
-}
-.live span{
-  color:#00ff7f;
-}
-.bottom-nav{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#8b0000;
-  display:flex;
-  justify-content:space-around;
-  padding:10px 0;
-}
-.bottom-nav a{
-  color:white;
-  font-size:22px;
-  text-decoration:none;
-}
-</style>
 </head>
 
-<body>
+<body style="background:black;color:white;text-align:center;font-family:Arial">
 
 <script>
-if(!localStorage.getItem("currentUser")){
-  window.location.href="connexion.html";
+// 🔒 PROTECTION
+if(!localStorage.getItem("user")){
+  window.location.href = "connexion.html";
 }
 </script>
 
-<header>🔴 LIVES</header>
+<h2>LIVES</h2>
 
-<div class="container" style="text-align:center;margin:15px">
-  <button onclick="startLive()">▶️ Démarrer mon live</button>
-  <button onclick="stopLive()">⏹️ Arrêter mon live</button>
-</div>
+<button onclick="start()">▶️ Démarrer le live</button>
+<button onclick="stop()">⏹️ Arrêter le live</button>
 
-<div class="container" id="liveList"></div>
+<p id="status"></p>
 
-<nav class="bottom-nav">
-  <a href="feed.html">🏠</a>
-  <a href="lives.html">🔴</a>
-  <a href="classement.html">🏆</a>
-  <a href="profil.html">👤</a>
-</nav>
+<br>
+
+<a href="feed.html" style="color:red">
+⬅️ Retour au feed
+</a>
 
 <script>
-const user = localStorage.getItem("currentUser");
-let lives = JSON.parse(localStorage.getItem("activeLives")) || [];
-
-function saveLives(){
-  localStorage.setItem("activeLives", JSON.stringify(lives));
+function start(){
+  document.getElementById("status").innerText = "🔴 LIVE EN COURS";
 }
-
-function startLive(){
-  if(!lives.includes(user)){
-    lives.push(user);
-    saveLives();
-    renderLives();
-    alert("🔴 Live démarré");
-  }
+function stop(){
+  document.getElementById("status").innerText = "⏹️ LIVE ARRÊTÉ";
 }
-
-function stopLive(){
-  lives = lives.filter(u => u !== user);
-  saveLives();
-  renderLives();
-  alert("⏹️ Live arrêté");
-}
-
-function renderLives(){
-  const list = document.getElementById("liveList");
-  list.innerHTML = "";
-
-  if(lives.length === 0){
-    list.innerHTML = "<p style='text-align:center;opacity:.6'>Aucun live en cours</p>";
-    return;
-  }
-
-  lives.forEach(u => {
-    const div = document.createElement("div");
-    div.className = "live";
-    div.innerHTML = @${u} <span>EN DIRECT</span>;
-    div.onclick = () => openLive(u);
-    list.appendChild(div);
-  });
-}
-
-function openLive(u){
-  alert("🎥 Tu regardes le live de @" + u);
-}
-
-renderLives();
 </script>
 
 </body>
