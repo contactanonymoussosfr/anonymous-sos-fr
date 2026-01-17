@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Cadeaux – Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:radial-gradient(circle at top,#3b0000,#0b0000);
+  color:#fff;
+}
+
+header{
+  background:#7a0000;
+  padding:15px;
+  text-align:center;
+}
+
+.container{
+  max-width:1000px;
+  margin:30px auto;
+  padding:20px;
+}
+
+h1{text-align:center;}
+.subtitle{text-align:center;color:#ccc;margin-bottom:30px;}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.card{
+  border:1px solid #ff3333;
+  border-radius:10px;
+  padding:20px;
+  background:rgba(0,0,0,0.4);
+  text-align:center;
+}
+
+.card .icon{
+  font-size:40px;
+}
+
+.card h3{margin:10px 0;}
+.card p{font-size:14px;color:#ccc;}
+
+.card button{
+  margin-top:10px;
+  padding:10px;
+  width:100%;
+  border:none;
+  border-radius:6px;
+  background:#ff3333;
+  color:#fff;
+  cursor:pointer;
+}
+
+.card button:disabled{
+  background:#444;
+  cursor:not-allowed;
+}
+
+.balance{
+  margin-top:30px;
+  text-align:center;
+  font-size:18px;
+}
+
+.effect{
+  margin-top:20px;
+  text-align:center;
+  font-size:22px;
+  color:#00e676;
+}
+</style>
+</head>
+
+<body>
+
+<script>
+// 🔐 COMPTE OBLIGATOIRE
+const currentUser = localStorage.getItem("currentUser");
+if(!currentUser){
+  window.location.href="login.html";
+}
+</script>
+
+<header>
+  <h2>🎁 Cadeaux</h2>
+</header>
+
+<div class="container">
+
+<h1>Envoyer des cadeaux</h1>
+<p class="subtitle">Utilise tes crédits pour envoyer des cadeaux</p>
+
+<div class="grid">
+
+  <div class="card">
+    <div class="icon">❤️</div>
+    <h3>Cœur</h3>
+    <p>10 crédits • +1 point</p>
+    <button onclick="sendGift(10,1,'❤️ Cœur')">Envoyer</button>
+  </div>
+
+  <div class="card">
+    <div class="icon">🌹</div>
+    <h3>Rose</h3>
+    <p>50 crédits • +5 points</p>
+    <button onclick="sendGift(50,5,'🌹 Rose')">Envoyer</button>
+  </div>
+
+  <div class="card">
+    <div class="icon">🔥</div>
+    <h3>Flamme</h3>
+    <p>100 crédits • +10 points</p>
+    <button onclick="sendGift(100,10,'🔥 Flamme')">Envoyer</button>
+  </div>
+
+  <div class="card">
+    <div class="icon">🦁</div>
+    <h3>Lion</h3>
+    <p>5 000 crédits • +100 points</p>
+    <button onclick="sendGift(5000,100,'🦁 Lion')">Envoyer</button>
+  </div>
+
+</div>
+
+<div class="balance">
+  💰 Tes crédits : <b id="credits">0</b>
+</div>
+
+<div class="effect" id="effect"></div>
+
+</div>
+
+<script>
+// 📊 UTILISATEUR
+let userData = JSON.parse(localStorage.getItem("user_" + currentUser));
+let credits = userData.credits || 0;
+document.getElementById("credits").innerText = credits;
+
+// 🎁 ENVOI CADEAU
+function sendGift(cost, points, label){
+  if(credits < cost){
+    alert("Crédits insuffisants.");
+    return;
+  }
+
+  credits -= cost;
+  userData.credits = credits;
+  userData.points += points;
+
+  localStorage.setItem("user_" + currentUser, JSON.stringify(userData));
+  localStorage.setItem("points_" + currentUser, userData.points);
+
+  document.getElementById("credits").innerText = credits;
+  document.getElementById("effect").innerText =
+    "✨ Tu as envoyé : " + label;
+
+  setTimeout(()=>{
+    document.getElementById("effect").innerText="";
+  },3000);
+}
+</script>
+
+</body>
+</html>
