@@ -3,11 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <title>Lives</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body{margin:0;background:black;color:white;padding-bottom:60px;font-family:Arial}
-header{text-align:center;background:#8b0000;padding:10px}
-.bottom-nav{position:fixed;bottom:0;width:100%;background:#8b0000;display:flex;justify-content:space-around;padding:10px}
-.bottom-nav a{color:white;font-size:20px;text-decoration:none}
+body{
+  margin:0;
+  background:black;
+  color:white;
+  font-family:Arial;
+  padding-bottom:70px;
+}
+header{
+  background:#8b0000;
+  padding:10px;
+  text-align:center;
+  font-weight:bold;
+}
+button{
+  background:#8b0000;
+  color:white;
+  border:none;
+  padding:8px 14px;
+  border-radius:20px;
+  cursor:pointer;
+}
+.container{
+  max-width:500px;
+  margin:auto;
+}
+.live{
+  border-bottom:1px solid #222;
+  padding:10px;
+  cursor:pointer;
+}
+.live span{
+  color:#00ff7f;
+}
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#8b0000;
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+.bottom-nav a{
+  color:white;
+  font-size:22px;
+  text-decoration:none;
+}
 </style>
 </head>
 
@@ -19,8 +64,14 @@ if(!localStorage.getItem("currentUser")){
 }
 </script>
 
-<header>LIVES</header>
-<p style="text-align:center">Lives en cours</p>
+<header>🔴 LIVES</header>
+
+<div class="container" style="text-align:center;margin:15px">
+  <button onclick="startLive()">▶️ Démarrer mon live</button>
+  <button onclick="stopLive()">⏹️ Arrêter mon live</button>
+</div>
+
+<div class="container" id="liveList"></div>
 
 <nav class="bottom-nav">
   <a href="feed.html">🏠</a>
@@ -28,6 +79,55 @@ if(!localStorage.getItem("currentUser")){
   <a href="classement.html">🏆</a>
   <a href="profil.html">👤</a>
 </nav>
+
+<script>
+const user = localStorage.getItem("currentUser");
+let lives = JSON.parse(localStorage.getItem("activeLives")) || [];
+
+function saveLives(){
+  localStorage.setItem("activeLives", JSON.stringify(lives));
+}
+
+function startLive(){
+  if(!lives.includes(user)){
+    lives.push(user);
+    saveLives();
+    renderLives();
+    alert("🔴 Live démarré");
+  }
+}
+
+function stopLive(){
+  lives = lives.filter(u => u !== user);
+  saveLives();
+  renderLives();
+  alert("⏹️ Live arrêté");
+}
+
+function renderLives(){
+  const list = document.getElementById("liveList");
+  list.innerHTML = "";
+
+  if(lives.length === 0){
+    list.innerHTML = "<p style='text-align:center;opacity:.6'>Aucun live en cours</p>";
+    return;
+  }
+
+  lives.forEach(u => {
+    const div = document.createElement("div");
+    div.className = "live";
+    div.innerHTML = @${u} <span>EN DIRECT</span>;
+    div.onclick = () => openLive(u);
+    list.appendChild(div);
+  });
+}
+
+function openLive(u){
+  alert("🎥 Tu regardes le live de @" + u);
+}
+
+renderLives();
+</script>
 
 </body>
 </html>
