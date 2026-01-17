@@ -1,105 +1,117 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Panneau Admin</title>
+<meta charset="UTF-8">
+<title>Admin — Anonymous SOS FR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
-  <style>
-    body {
-      background: #0f0f0f;
-      color: #fff;
-      font-family: Arial;
-      padding: 20px;
-    }
-    .user {
-      border: 1px solid red;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    select, button {
-      margin-top: 5px;
-    }
-  </style>
+<style>
+body {
+  background: #0a0a0a;
+  color: #fff;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+h1 {
+  color: #ff2a2a;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th, td {
+  border: 1px solid #ff2a2a;
+  padding: 10px;
+  text-align: center;
+}
+th {
+  background: #1a1a1a;
+}
+.admin {
+  color: #00ff9c;
+  font-weight: bold;
+}
+.user {
+  color: #fff;
+}
+.badge {
+  color: #00bfff;
+}
+</style>
 </head>
+
 <body>
 
-<h1>🔒 Panneau Administrateur</h1>
-<div id="users"></div>
+<h1>🛠 Panneau Admin — Anonymous SOS FR</h1>
+<p id="status">Chargement...</p>
 
-<script>
-  // 🔥 CONFIG FIREBASE (reprends EXACTEMENT la tienne)
-  const firebaseConfig = {
-    apiKey: "TA_API_KEY",
-    authDomain: "TON_AUTH_DOMAIN",
-    projectId: "TON_PROJECT_ID"
-  };
+<table id="usersTable" style="display:none;">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Pseudo</th>
+      <th>Niveau</th>
+      <th>Badge</th>
+      <th>Rôle</th>
+    </tr>
+  </thead>
+  <tbody id="usersBody"></tbody>
+</table>
 
-  firebase.initializeApp(firebaseConfig);
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const auth = firebase.auth();
-  const db = firebase.firestore();
+const firebaseConfig = {
+  apiKey: "TA_CLE_API",
+  authDomain: "TON_PROJET.firebaseapp.com",
+  projectId: "TON_PROJET",
+};
 
-  auth.onAuthStateChanged(async user => {
-    if (!user) {
-      document.body.innerHTML = "⛔ Accès refusé";
-      return;
-    }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
 
-    const me = await db.collection("users").doc(user.uid).get();
+const status = document.getElementById("status");
+const table = document.getElementById("usersTable");
+const body = document.getElementById("usersBody");
 
-    if (!me.exists || me.data().role !== "admin") {
-      document.body.innerHTML = "⛔ Accès réservé aux admins";
-      return;
-    }
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    status.innerHTML = "❌ Non connecté";
+    return;
+  }
 
-    loadUsers();
+  const adminRef = doc(db, "users", user.uid);
+  const adminSnap = await getDoc(adminRef);
+
+  if (!adminSnap.exists() || adminSnap.data().role !== "admin") {
+    status.innerHTML = "⛔ Accès refusé (admin uniquement)";
+    return;
+  }
+
+  status.innerHTML = "✅ Admin connecté";
+  table.style.display = "table";
+
+  const querySnapshot = await getDocs(collection(db, "users"));
+  body.innerHTML = "";
+
+  querySnapshot.forEach((docSnap) => {
+    const d = docSnap.data();
+    body.innerHTML += `
+      <tr>
+        <td>${docSnap.id}</td>
+        <td>${d.username || "—"}</td>
+        <td>${d.level || 1}</td>
+        <td class="badge">${d.badge || "débutant"}</td>
+        <td class="${d.role === "admin" ? "admin" : "user"}">${d.role}</td>
+      </tr>
+    `;
   });
-
-  function loadUsers() {
-    db.collection("users").get().then(snapshot => {
-      const container = document.getElementById("users");
-      container.innerHTML = "";
-
-      snapshot.forEach(doc => {
-        const u = doc.data();
-
-        const div = document.createElement("div");
-        div.className = "user";
-
-        div.innerHTML = `
-          <strong>${u.username}</strong><br>
-          Niveau : <input type="number" value="${u.level || 1}" id="lvl-${doc.id}"><br>
-          Rôle :
-          <select id="role-${doc.id}">
-            <option value="user">user</option>
-            <option value="moderator">moderator</option>
-            <option value="admin">admin</option>
-          </select><br>
-          <button onclick="saveUser('${doc.id}')">💾 Sauvegarder</button>
-        `;
-
-        container.appendChild(div);
-
-        document.getElementById(role-${doc.id}).value = u.role;
-      });
-    });
-  }
-
-  function saveUser(uid) {
-    const level = Number(document.getElementById(lvl-${uid}).value);
-    const role = document.getElementById(role-${uid}).value;
-
-    db.collection("users").doc(uid).update({
-      level,
-      role
-    }).then(() => {
-      alert("✔ Modifié");
-    });
-  }
+});
 </script>
 
 </body>
