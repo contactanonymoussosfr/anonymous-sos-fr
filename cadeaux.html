@@ -20,7 +20,7 @@ header{
 }
 
 .container{
-  max-width:1000px;
+  max-width:1100px;
   margin:30px auto;
   padding:20px;
 }
@@ -38,14 +38,11 @@ h1{text-align:center;}
   border:1px solid #ff3333;
   border-radius:10px;
   padding:20px;
-  background:rgba(0,0,0,0.4);
+  background:rgba(0,0,0,0.45);
   text-align:center;
 }
 
-.card .icon{
-  font-size:40px;
-}
-
+.icon{font-size:42px;}
 .card h3{margin:10px 0;}
 .card p{font-size:14px;color:#ccc;}
 
@@ -97,39 +94,9 @@ if(!currentUser){
 <div class="container">
 
 <h1>Envoyer des cadeaux</h1>
-<p class="subtitle">Utilise tes crédits pour envoyer des cadeaux</p>
+<p class="subtitle">Les cadeaux changent automatiquement selon les fêtes 🎉</p>
 
-<div class="grid">
-
-  <div class="card">
-    <div class="icon">❤️</div>
-    <h3>Cœur</h3>
-    <p>10 crédits • +1 point</p>
-    <button onclick="sendGift(10,1,'❤️ Cœur')">Envoyer</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🌹</div>
-    <h3>Rose</h3>
-    <p>50 crédits • +5 points</p>
-    <button onclick="sendGift(50,5,'🌹 Rose')">Envoyer</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🔥</div>
-    <h3>Flamme</h3>
-    <p>100 crédits • +10 points</p>
-    <button onclick="sendGift(100,10,'🔥 Flamme')">Envoyer</button>
-  </div>
-
-  <div class="card">
-    <div class="icon">🦁</div>
-    <h3>Lion</h3>
-    <p>5 000 crédits • +100 points</p>
-    <button onclick="sendGift(5000,100,'🦁 Lion')">Envoyer</button>
-  </div>
-
-</div>
+<div class="grid" id="giftsGrid"></div>
 
 <div class="balance">
   💰 Tes crédits : <b id="credits">0</b>
@@ -144,6 +111,70 @@ if(!currentUser){
 let userData = JSON.parse(localStorage.getItem("user_" + currentUser));
 let credits = userData.credits || 0;
 document.getElementById("credits").innerText = credits;
+
+// 🎁 CADEAUX PERMANENTS
+const permanentGifts = [
+  {icon:"❤️", name:"Cœur", cost:10, points:1},
+  {icon:"🌹", name:"Rose", cost:50, points:5},
+  {icon:"🔥", name:"Flamme", cost:100, points:10},
+  {icon:"🦁", name:"Lion", cost:5000, points:100}
+];
+
+// 🎉 CADEAUX SAISONNIERS (AUTO)
+const seasonalGifts = [];
+const today = new Date();
+const day = today.getDate();
+const month = today.getMonth() + 1;
+
+// ❤️ Saint-Valentin (1–14 février)
+if(month === 2 && day <= 14){
+  seasonalGifts.push(
+    {icon:"💘", name:"Cœur Amour", cost:150, points:15},
+    {icon:"💍", name:"Bague", cost:500, points:40}
+  );
+}
+
+// 👩 Fête des mères (mai)
+if(month === 5){
+  seasonalGifts.push(
+    {icon:"🌸", name:"Fleur Maman", cost:200, points:20},
+    {icon:"💐", name:"Bouquet", cost:600, points:50}
+  );
+}
+
+// 🎄 Noël (décembre)
+if(month === 12){
+  seasonalGifts.push(
+    {icon:"🎁", name:"Cadeau Noël", cost:300, points:25},
+    {icon:"🎅", name:"Père Noël", cost:1000, points:80}
+  );
+}
+
+// 🐣 Pâques (mars–avril)
+if(month === 3 || month === 4){
+  seasonalGifts.push(
+    {icon:"🥚", name:"Œuf", cost:120, points:10},
+    {icon:"🐰", name:"Lapin", cost:400, points:30}
+  );
+}
+
+// 📦 AFFICHAGE DES CADEAUX
+const allGifts = [...permanentGifts, ...seasonalGifts];
+const grid = document.getElementById("giftsGrid");
+
+allGifts.forEach(gift=>{
+  const div = document.createElement("div");
+  div.className="card";
+  div.innerHTML = `
+    <div class="icon">${gift.icon}</div>
+    <h3>${gift.name}</h3>
+    <p>${gift.cost} crédits • +${gift.points} points</p>
+    <button onclick="sendGift(${gift.cost},${gift.points},'${gift.icon} ${gift.name}')">
+      Envoyer
+    </button>
+  `;
+  grid.appendChild(div);
+});
 
 // 🎁 ENVOI CADEAU
 function sendGift(cost, points, label){
@@ -161,7 +192,7 @@ function sendGift(cost, points, label){
 
   document.getElementById("credits").innerText = credits;
   document.getElementById("effect").innerText =
-    "✨ Tu as envoyé : " + label;
+    "✨ Cadeau envoyé : " + label;
 
   setTimeout(()=>{
     document.getElementById("effect").innerText="";
