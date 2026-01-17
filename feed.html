@@ -1,104 +1,138 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Fil – Simon City</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Feed — Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#000;
-  color:#fff;
-}
+  <style>
+    body{
+      margin:0;
+      background:#0b0b0b;
+      color:#fff;
+      font-family:Arial, sans-serif;
+    }
 
-header{
-  background:#7a0000;
-  padding:12px;
-  text-align:center;
-}
+    header{
+      background:#8b0000;
+      padding:12px;
+      text-align:center;
+      font-weight:bold;
+      letter-spacing:1px;
+    }
 
-.post{
-  border-bottom:1px solid #333;
-  padding:10px;
-}
+    .container{
+      max-width:500px;
+      margin:20px auto;
+      padding:10px;
+    }
 
-.author{
-  font-weight:bold;
-  margin-bottom:5px;
-}
+    .post{
+      background:#141414;
+      border:1px solid #ff0000;
+      border-radius:10px;
+      padding:10px;
+      margin-bottom:15px;
+    }
 
-.media{
-  width:100%;
-  max-height:400px;
-  object-fit:cover;
-  border-radius:6px;
-}
+    .username{
+      font-weight:bold;
+      color:#ff4444;
+      margin-bottom:5px;
+    }
 
-.desc{
-  margin-top:6px;
-  font-size:14px;
-}
+    video, img{
+      width:100%;
+      max-height:420px;
+      object-fit:cover;
+      border-radius:8px;
+      background:black;
+    }
 
-.date{
-  font-size:12px;
-  opacity:.6;
-  margin-top:4px;
-}
-</style>
+    .desc{
+      font-size:14px;
+      margin-top:6px;
+    }
+
+    .date{
+      font-size:12px;
+      opacity:.6;
+      margin-top:4px;
+    }
+
+    .actions{
+      display:flex;
+      justify-content:space-around;
+      margin-top:10px;
+    }
+
+    .btn{
+      background:#8b0000;
+      border:none;
+      color:white;
+      padding:6px 12px;
+      border-radius:20px;
+      cursor:pointer;
+      font-size:13px;
+    }
+
+    .btn:hover{
+      background:#ff0000;
+    }
+  </style>
 </head>
 
 <body>
 
 <script>
-// 🔐 COMPTE OBLIGATOIRE
-const currentUser = localStorage.getItem("currentUser");
-if(!currentUser){
-  window.location.href = "login.html";
-}
+  // 🔐 COMPTE OBLIGATOIRE
+  const user = localStorage.getItem("currentUser");
+  if(!user){
+    window.location.href = "connexion.html";
+  }
 </script>
 
 <header>
-  <h2>🎬 Fil principal</h2>
+  📺 FEED — Anonymous SOS FR
 </header>
 
-<div id="feed"></div>
+<div class="container">
 
-<script>
-// 📦 RÉCUPÉRATION DES POSTS
-let posts = JSON.parse(localStorage.getItem("posts")) || [];
+  <!-- POST 1 -->
+  <div class="post">
+    <div class="username">@anonymous_sos_fr</div>
 
-// 🔽 DU PLUS RÉCENT AU PLUS ANCIEN
-posts.reverse();
+    <video controls>
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    </video>
 
-const feed = document.getElementById("feed");
+    <div class="desc">Vidéo de test — système en cours de déploiement</div>
+    <div class="date">Publié aujourd’hui</div>
 
-if(posts.length === 0){
-  feed.innerHTML = "<p style='text-align:center;opacity:.6'>Aucun contenu pour le moment.</p>";
-}
+    <div class="actions">
+      <button class="btn">❤️ Like</button>
+      <button class="btn">💬 Commenter</button>
+      <button class="btn">🎁 Cadeau</button>
+    </div>
+  </div>
 
-posts.forEach(post=>{
-  const div = document.createElement("div");
-  div.className = "post";
+  <!-- POST 2 -->
+  <div class="post">
+    <div class="username">@membre_anon</div>
 
-  let mediaHTML = "";
-  if(post.type === "video"){
-    mediaHTML = <video class="media" controls src="${post.src}"></video>;
-  }else{
-    mediaHTML = <img class="media" src="${post.src}">;
-  }
+    <img src="https://picsum.photos/500/400" alt="image">
 
-  div.innerHTML = `
-    <div class="author">@${post.author}</div>
-    ${mediaHTML}
-    <div class="desc">${post.desc || ""}</div>
-    <div class="date">${new Date(post.date).toLocaleString()}</div>
-  `;
+    <div class="desc">Publication image — visibilité réseau</div>
+    <div class="date">Il y a 1 heure</div>
 
-  feed.appendChild(div);
-});
-</script>
+    <div class="actions">
+      <button class="btn">❤️ Like</button>
+      <button class="btn">💬 Commenter</button>
+      <button class="btn">🎁 Cadeau</button>
+    </div>
+  </div>
+
+</div>
 
 </body>
 </html>
