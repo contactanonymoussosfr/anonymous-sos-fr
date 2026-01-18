@@ -2,26 +2,73 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR - Films</title>
+<title>Anonymous SOS FR – Cinéma</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body onload="checkAuth()">
+<body>
 
-<header>
-  <h1>Anonymous SOS FR</h1>
-  <button onclick="location.href='subscribe.html'">Abonnement</button>
-</header>
+<!-- MENU -->
+<nav class="main-nav">
+  <div class="logo">🎬 Anonymous SOS FR</div>
+  <div class="nav-links">
+    <a href="#horreur">Horreur (18+)</a>
+    <a href="#comedie">Comédie</a>
+    <a href="#amour">Amour</a>
+    <a href="#enfants">Enfants</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</nav>
 
-<h2>Films disponibles</h2>
+<!-- RECHERCHE -->
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="🔍 Rechercher un film..." onkeyup="searchFilms()">
+</div>
 
+<!-- HORREUR -->
+<h2 id="horreur">🔞 Horreur – Adultes</h2>
 <div class="grid">
-  <div class="movie" onclick="openFilm('film1')">
-    <img src="images/film1.jpg">
-    <p>Film d'horreur 1</p>
+  <div class="movie" data-title="nosferatu" onclick="openFilm('nosferatu', true)">
+    <img src="images/nosferatu.jpg">
+    <span>Nosferatu (1922)</span>
   </div>
 </div>
 
-<script src="js/auth.js"></script>
+<!-- COMEDIE -->
+<h2 id="comedie">🎭 Comédie</h2>
+<div class="grid">
+  <div class="movie" data-title="the kid" onclick="openFilm('thekid', false)">
+    <img src="images/thekid.jpg">
+    <span>The Kid (1921)</span>
+  </div>
+</div>
+
+<!-- AMOUR -->
+<h2 id="amour">❤️ Amour</h2>
+<div class="grid">
+  <div class="movie" data-title="charade" onclick="openFilm('charade', false)">
+    <img src="images/charade.jpg">
+    <span>Charade (1963)</span>
+  </div>
+</div>
+
+<!-- ENFANTS -->
+<h2 id="enfants">👶 Enfants</h2>
+<div class="grid">
+  <div class="movie" data-title="gertie" onclick="openFilm('gertie', false)">
+    <img src="images/gertie.jpg">
+    <span>Gertie the Dinosaur</span>
+  </div>
+</div>
+
 <script src="js/films.js"></script>
+
+<!-- BOUTON WHATSAPP -->
+<a
+  href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
+  class="sos-whatsapp"
+  target="_blank">
+  💬 Contacter le service client (WhatsApp)
+</a>
+
 </body>
 </html>
