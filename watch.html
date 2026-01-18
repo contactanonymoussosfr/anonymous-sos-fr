@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Film</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>🎬 Lecture du film</h1>
+
+<div class="languages">
+  <button onclick="setLang('fr')">🇫🇷 Français</button>
+  <button onclick="setLang('en')">🇬🇧 English</button>
+</div>
+
+<div id="player"></div>
+
+<footer class="film-warning">
+  <p>🔞 Film réservé aux majeurs (18+)</p>
+  <p>En continuant, vous confirmez être majeur.</p>
+  <p>Anonymous SOS FR décline toute responsabilité.</p>
+</footer>
+
+<script>
+const films = {
+  nosferatu: {
+    fr: "https://www.youtube.com/embed/VIDEO_FR",
+    en: "https://www.youtube.com/embed/VIDEO_EN"
+  },
+  thekid: {
+    fr: "https://www.youtube.com/embed/VIDEO_FR",
+    en: "https://www.youtube.com/embed/VIDEO_EN"
+  }
+};
+
+const params = new URLSearchParams(window.location.search);
+const film = params.get("id");
+
+function setLang(lang) {
+  document.getElementById("player").innerHTML =
+    <iframe width="90%" height="500" src="${films[film][lang]}" allowfullscreen></iframe>;
+}
+
+setLang("fr");
+</script>
+
+<a
+  href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
+  class="sos-whatsapp"
+  target="_blank">
+  💬 Contacter le service client (WhatsApp)
+</a>
+
+</body>
+</html>
