@@ -2,157 +2,23 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Inscription – Simon City</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-body{
-  background:#0b0000;
-  color:#fff;
-  font-family:Arial, sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-
-.box{
-  background:#1a0000;
-  padding:25px;
-  border-radius:8px;
-  width:320px;
-}
-
-h2{
-  text-align:center;
-  margin-bottom:15px;
-}
-
-input{
-  width:100%;
-  padding:10px;
-  margin-bottom:10px;
-  border:none;
-  border-radius:4px;
-}
-
-button{
-  width:100%;
-  padding:10px;
-  background:#ff3333;
-  border:none;
-  color:#fff;
-  font-size:16px;
-  border-radius:4px;
-  cursor:pointer;
-}
-
-small{
-  display:block;
-  text-align:center;
-  opacity:.7;
-  margin-top:10px;
-}
-
-.error{
-  color:#ff7777;
-  font-size:13px;
-  text-align:center;
-}
-</style>
+<title>Créer un compte</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-<div class="box">
-  <h2>Créer un compte</h2>
-
-  <input id="email" type="email" placeholder="Adresse email" required>
-  <input id="password" type="password" placeholder="Mot de passe" required>
-  <input id="userId" type="text" placeholder="ID utilisateur" required>
-
-  <input id="referral" type="text" placeholder="Code parrain (optionnel)">
-
-  <button onclick="register()">Créer mon compte</button>
-
-  <div class="error" id="error"></div>
-
-  <small>
-    Ton ID sera aussi ton code de parrainage.
-  </small>
+<div class="form-box">
+<h2>Créer un compte</h2>
+<input id="name" placeholder="Prénom">
+<input id="birth" type="date">
+<select id="gender">
+  <option value="">Sexe</option>
+  <option>Homme</option>
+  <option>Femme</option>
+</select>
+<button onclick="saveUser()">Créer le compte</button>
 </div>
 
-<script>
-function register(){
-  const email = emailInput();
-  const password = passwordInput();
-  const id = idInput();
-  const referral = referralInput();
-
-  if(!email || !password || !id){
-    showError("Tous les champs obligatoires doivent être remplis.");
-    return;
-  }
-
-  // Vérifier si l'ID existe déjà
-  if(localStorage.getItem("user_"+id)){
-    showError("Cet ID est déjà utilisé.");
-    return;
-  }
-
-  // Création du compte
-  const userData = {
-    email: email,
-    password: password,
-    id: id,
-    credits: 5,
-    points: 5,
-    parrain: null
-  };
-
-  // Vérification du parrainage
-  if(referral){
-    if(referral === id){
-      showError("Tu ne peux pas te parrainer toi-même.");
-      return;
-    }
-
-    const parrainData = localStorage.getItem("user_"+referral);
-    if(!parrainData){
-      showError("Code parrain invalide.");
-      return;
-    }
-
-    // Bonus parrain
-    const parrain = JSON.parse(parrainData);
-    parrain.points += 5;
-    parrain.credits += 5;
-    localStorage.setItem("user_"+referral, JSON.stringify(parrain));
-
-    userData.parrain = referral;
-  }
-
-  // Sauvegarde utilisateur
-  localStorage.setItem("user_"+id, JSON.stringify(userData));
-
-  // Points PUB (classement)
-  localStorage.setItem("points_"+id, userData.points);
-
-  // Connexion automatique
-  localStorage.setItem("currentUser", id);
-
-  window.location.href = "pub.html";
-}
-
-function emailInput(){ return document.getElementById("email").value.trim(); }
-function passwordInput(){ return document.getElementById("password").value.trim(); }
-function idInput(){ return document.getElementById("userId").value.trim(); }
-function referralInput(){ return document.getElementById("referral").value.trim(); }
-
-function showError(msg){
-  document.getElementById("error").innerText = msg;
-}
-</script>
-
+<script src="js/app.js"></script>
 </body>
 </html>
