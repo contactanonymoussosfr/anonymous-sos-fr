@@ -3,39 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anonymous SOS FR - Accueil</title>
+    <title>Anonymous SOS FR</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background-color: #1a1a1a;
             color: white;
+            /* Fond d'écran étoilé */
+            background: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bcc0?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header-title {
+            margin-top: 50px;
+            font-size: 2.5em;
+            letter-spacing: 15px; /* Espaces entre les lettres */
+            font-weight: bold;
             text-align: center;
-            padding: 50px;
         }
-        .container {
-            border: 2px solid #00ff00;
-            padding: 20px;
+
+        .badge-bleu {
             display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #007bff;
+            border-radius: 50%;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        /* Image centrale (Masque + Terre) */
+        .logo-central {
+            margin: 20px 0;
+            width: 250px;
+            height: auto;
+        }
+
+        /* Formulaire */
+        .auth-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
             border-radius: 10px;
+            width: 320px;
+            text-align: center;
         }
-        h1 {
-            color: #00ff00;
+
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border: none;
         }
-        .status {
-            margin-top: 20px;
+
+        .radio-player {
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 50px;
+        }
+
+        /* Les 6 carrés */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 40px;
+            margin-bottom: 50px;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .card a {
+            color: white;
+            text-decoration: none;
             font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Bienvenue sur Anonymous SOS FR</h1>
-        <p>Interface de gestion des licences et des utilisateurs.</p>
+    <div class="header-title">
+        A N O N Y M O U S   S O S   F R
+        <span class="badge-bleu"></span>
+    </div>
+
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a6/Anonymous_emblem.svg" alt="Logo Anonymous" class="logo-central">
+
+    <div class="auth-container">
+        <h3>Inscription / Connexion</h3>
+        <input type="text" placeholder="Identifiant (ID)">
+        <input type="email" placeholder="Adresse Mail">
+        <input type="password" placeholder="Mot de passe">
         
-        <div class="status">
-            <p>Statut du système : <span style="color: #00ff00;">Opérationnel</span></p>
+        <div style="display: flex; gap: 5px; margin: 5px 15px;">
+            <select><option>Jour</option></select>
+            <select><option>Mois</option></select>
+            <select><option>Année</option></select>
         </div>
+        
+        <select>
+            <option value="">Genre</option>
+            <option value="homme">Homme</option>
+            <option value="femme">Femme</option>
+        </select>
+        
+        <button style="width: 100%; padding: 10px; margin-top: 10px; background: #007bff; color: white; border: none; cursor: pointer;">S'inscrire</button>
+    </div>
+
+    <div class="radio-player">
+        <span>📻 Radio Skyrock en direct</span><br>
+        <audio controls>
+            <source src="https://icecast.skyrock.net/s/natio_mp3_128k" type="audio/mpeg">
+            Votre navigateur ne supporte pas le lecteur audio.
+        </audio>
+    </div>
+
+    <div class="grid-container">
+        <div class="card">📞<br>+32456894335</div>
+        <div class="card">📧<br>despreschez@gmail.com</div>
+        <div class="card">✉️<br>Contactez-moi</div>
+        <div class="card">
+            <a href="https://wa.me/32456894335" target="_blank">🟢 SOS Direct WhatsApp</a>
+        </div>
+        <div class="card">🌍<br>Site officiel Anonymous</div>
+        <div class="card">🛡️<br>Notre Projet</div>
     </div>
 
 </body>
