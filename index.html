@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== BASE ===== */
 body{
   margin:0;
   font-family:Arial, sans-serif;
@@ -16,7 +15,7 @@ body{
   overflow-x:hidden;
 }
 
-/* ===== BARRE HAUT ===== */
+/* BARRE HAUT */
 .topbar{
   background:#b00000;
   padding:10px;
@@ -33,26 +32,20 @@ body{
   font-size:14px;
 }
 
-/* ===== STATUT ===== */
+/* STATUT */
 .status{
   text-align:center;
   margin-top:8px;
   font-size:13px;
 }
 
-/* ===== CONTENU CENTRAL ===== */
+/* CONTENU */
 .center{
   text-align:center;
   padding:60px 20px 160px;
-  position:relative;
-  z-index:1;
 }
 
-h1{
-  font-size:30px;
-  margin-bottom:10px;
-}
-
+h1{font-size:30px}
 .badge{
   background:#1da1f2;
   border-radius:50%;
@@ -61,46 +54,19 @@ h1{
   margin-left:5px;
 }
 
-.radio{
-  margin-top:20px;
-}
-
-/* ===== PLANÈTE ===== */
-.earth{
-  position:absolute;
-  right:10%;
-  top:45%;
-  width:220px;
-  height:220px;
-  border-radius:50%;
-  background:url("earth.png") center/cover no-repeat;
-  box-shadow:0 0 40px rgba(255,0,0,.6);
-  animation:spin 40s linear infinite;
-  z-index:0;
-}
-
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
-
-/* ===== CARTES BAS ===== */
+/* CARTES BAS */
 .bottom{
   position:fixed;
   bottom:20px;
   width:100%;
   display:flex;
   justify-content:center;
-  z-index:2;
 }
-
 .cards{
   display:flex;
   gap:14px;
   flex-wrap:wrap;
-  justify-content:center;
 }
-
 .card{
   border:1px solid #ff3b3b;
   padding:12px 16px;
@@ -110,11 +76,11 @@ h1{
   text-align:center;
 }
 
-/* ===== PROTECTION CONNEXION ===== */
+/* PROTECTION */
 .protected{display:none;}
 body.connected .protected{display:flex;}
 
-/* ===== BOUTON SOS WHATSAPP ===== */
+/* WHATSAPP */
 .whatsapp{
   position:fixed;
   bottom:20px;
@@ -126,14 +92,12 @@ body.connected .protected{display:flex;}
   font-weight:bold;
   text-decoration:none;
   box-shadow:0 0 15px rgba(0,0,0,.5);
-  z-index:999;
 }
 </style>
 </head>
 
 <body>
 
-<!-- BARRE HAUT -->
 <div class="topbar">
   <a href="connexion.html">Connexion</a>
   <a href="inscription.html">Créer un compte</a>
@@ -142,48 +106,18 @@ body.connected .protected{display:flex;}
 
 <div class="status" id="status"></div>
 
-<!-- CONTENU -->
 <div class="center">
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
   <p>
     Nous sommes Anonymous. Nous sommes légion.<br>
-    Nous n’oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous, n’hésitez pas à inviter du monde.
+    Nous n’oublions pas. Nous ne pardonnons pas.
   </p>
-
-  <div class="radio">
-    <audio controls>
-      <source src="radio.mp3" type="audio/mpeg">
-    </audio>
-    <div>🎧 Radio Anonymous SOS FR</div>
-  </div>
 </div>
 
-<!-- PLANÈTE -->
-<div class="earth"></div>
-
-<!-- CARTES EN BAS -->
 <div class="bottom">
-  <div class="cards protected">
-    <div class="card">🆘 SOS<br>Aide urgente</div>
-    <div class="card">📞 Téléphone<br>+32 456 89 43 35</div>
-    <div class="card">✉️ Email<br>despreschez@gmail.com</div>
-    <div class="card">
-      🎵 TikTok<br>
-      <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank" style="color:#ff4d4d;text-decoration:none;">
-        @anonymous_sos_fr
-      </a>
-    </div>
-    <div class="card">
-      ▶️ YouTube<br>
-      <a href="https://www.youtube.com/@mrdespres" target="_blank" style="color:#ff4d4d;text-decoration:none;">
-        mrdespres
-      </a>
-    </div>
-  </div>
+  <div class="cards protected" id="cards"></div>
 </div>
 
-<!-- BOUTON SOS WHATSAPP -->
 <a class="whatsapp" href="https://wa.me/32456894335" target="_blank">
   🆘 SOS WhatsApp
 </a>
@@ -191,14 +125,35 @@ body.connected .protected{display:flex;}
 <script>
 function update(){
   const user = localStorage.getItem("user");
+  const acc = JSON.parse(localStorage.getItem("account"));
   const status = document.getElementById("status");
+  const cards = document.getElementById("cards");
 
-  if(user){
+  if(user && acc){
     document.body.classList.add("connected");
     status.innerHTML = "🟢 Connecté – ID : " + user;
+
+    cards.innerHTML = `
+      <div class="card">🆘 SOS<br>Aide urgente</div>
+      <div class="card">📞 Téléphone<br>+32 456 89 43 35</div>
+      <div class="card">✉️ Email<br>${acc.email}</div>
+      <div class="card">
+        🎵 TikTok<br>
+        <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank" style="color:#ff4d4d;text-decoration:none;">
+          Suivre
+        </a>
+      </div>
+      <div class="card">
+        ▶️ YouTube<br>
+        <a href="https://www.youtube.com/@mrdespres" target="_blank" style="color:#ff4d4d;text-decoration:none;">
+          mrdespres
+        </a>
+      </div>
+    `;
   }else{
     document.body.classList.remove("connected");
     status.innerHTML = "🔴 Non connecté";
+    cards.innerHTML = "";
   }
 }
 
