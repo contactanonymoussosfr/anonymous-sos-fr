@@ -1,215 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Anonymous SOS FR</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+  <meta name="description" content="Anonymous SOS FR – Aide urgente et contact direct.">
+  <meta name="author" content="Anonymous SOS FR">
 
-body{
-  margin:0;
-  min-height:100vh;
-  background:
-    linear-gradient(rgba(120,0,0,0.85),rgba(60,0,0,0.95)),
-    url("anonymous-bg.jpg") center/cover no-repeat fixed;
-  color:white;
-  display:flex;
-  flex-direction:column;
-}
-
-/* BARRE HAUTE */
-.topbar{
-  background:#b00000;
-  padding:10px;
-  display:flex;
-  justify-content:center;
-  gap:10px;
-}
-.topbar button{
-  background:#e00000;
-  border:none;
-  color:white;
-  padding:8px 14px;
-  border-radius:5px;
-  cursor:pointer;
-}
-
-/* STATUT */
-#status{
-  text-align:center;
-  margin:10px 0;
-  font-size:14px;
-}
-
-/* CONTENU CENTRAL */
-.main{
-  flex:1;
-  text-align:center;
-  padding:30px 20px;
-}
-
-h1{
-  font-size:32px;
-  margin-bottom:10px;
-}
-.badge{
-  color:#1da1f2;
-  font-size:18px;
-  vertical-align:middle;
-}
-
-.logo img{
-  width:260px;
-  max-width:80%;
-  margin:25px auto;
-  display:block;
-  filter:drop-shadow(0 0 25px rgba(255,0,0,.6));
-}
-
-.desc{
-  max-width:600px;
-  margin:0 auto;
-  line-height:1.5;
-}
-
-/* CARTES EN BAS */
-.cards{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
-  padding:20px;
-  max-width:1000px;
-  margin:0 auto 20px;
-}
-
-.card{
-  border:1px solid red;
-  padding:15px;
-  border-radius:10px;
-  background:rgba(0,0,0,0.25);
-  text-align:center;
-}
-
-/* FORMULAIRE SIMPLE */
-.form{
-  max-width:300px;
-  margin:20px auto;
-}
-.form input{
-  width:100%;
-  padding:8px;
-  margin:6px 0;
-}
-.form button{
-  width:100%;
-  padding:8px;
-  background:#e00000;
-  border:none;
-  color:white;
-  cursor:pointer;
-}
-
-/* WHATSAPP */
-.whatsapp{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25D366;
-  color:white;
-  padding:12px 16px;
-  border-radius:30px;
-  text-decoration:none;
-  font-weight:bold;
-}
-</style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="topbar">
-  <button onclick="showLogin()">Connexion</button>
-  <button onclick="showRegister()">Créer un compte</button>
-  <button onclick="logout()">Déconnexion</button>
-</div>
+<!-- HEADER -->
+<header class="navbar">
+  <span class="status">● Anonymous SOS FR</span>
+</header>
 
-<div id="status">🔴 Non connecté</div>
+<!-- ACCUEIL -->
+<section class="hero">
+  <div class="overlay">
 
-<div class="main">
-  <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
+    <h1>Anonymous SOS FR</h1>
 
-  <div class="logo">
-    <img src="anonymous-emblem.png" alt="Anonymous">
+    <span class="badge-verified">✔ Compte vérifié</span>
+
+    <p class="slogan">
+      Nous sommes Anonymous.<br>
+      Nous sommes légion.<br>
+      Nous n’oublions pas. Nous ne pardonnons pas.<br>
+      <strong>Vous êtes chez vous.</strong>
+    </p>
+
+    <!-- BOUTON SOS WHATSAPP -->
+    <a
+      href="https://wa.me/32456894335"
+      target="_blank"
+      class="btn-sos"
+    >
+      🆘 SOS – Aide urgente – WhatsApp
+    </a>
+
+    <!-- CARTES (COMME SUR TA PHOTO) -->
+    <div class="cards">
+
+      <div class="card">
+        🆘 SOS<br>
+        Aide urgente – contact direct
+      </div>
+
+      <div class="card">
+        📞 Téléphone<br>
+        +32 456 89 43 35
+      </div>
+
+      <div class="card">
+        📧 Email<br>
+        despreschez@gmail.com
+      </div>
+
+      <div class="card">
+        🎵 TikTok<br>
+        @anonymous_sos_fr
+      </div>
+
+      <div class="card">
+        ▶️ YouTube<br>
+        mrdespres
+      </div>
+
+      <div class="card">
+        💼 Recrutement<br>
+        Contact uniquement par mail
+      </div>
+
+    </div>
+
   </div>
-
-  <div class="desc">
-    Nous sommes Anonymous. Nous sommes légion.<br>
-    Nous n’oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous.
-  </div>
-
-  <div id="loginBox" class="form" style="display:none">
-    <input id="loginId" placeholder="ID">
-    <input id="loginPass" type="password" placeholder="Mot de passe">
-    <button onclick="login()">Entrer</button>
-  </div>
-
-  <div id="registerBox" class="form" style="display:none">
-    <input id="regId" placeholder="ID">
-    <input id="regPass" type="password" placeholder="Mot de passe">
-    <button onclick="register()">Créer</button>
-  </div>
-</div>
-
-<div class="cards">
-  <div class="card">🆘 SOS<br>Aide urgente – contact direct</div>
-  <div class="card">📞 Téléphone<br>+32 456 89 43 35</div>
-  <div class="card">📧 Email<br>despreschez@gmail.com</div>
-  <div class="card">🎵 TikTok<br>@anonymous_sos_fr</div>
-  <div class="card">▶ YouTube<br>mrdespres</div>
-  <div class="card">💼 Recrutement<br>Contact uniquement par mail</div>
-</div>
-
-<a class="whatsapp" href="https://wa.me/32456894335" target="_blank">
-  SOS WhatsApp
-</a>
-
-<script>
-function showLogin(){
-  loginBox.style.display="block";
-  registerBox.style.display="none";
-}
-function showRegister(){
-  registerBox.style.display="block";
-  loginBox.style.display="none";
-}
-
-function register(){
-  localStorage.setItem("id",regId.value);
-  localStorage.setItem("pass",regPass.value);
-  alert("Compte créé");
-}
-
-function login(){
-  if(loginId.value===localStorage.getItem("id")
-  && loginPass.value===localStorage.getItem("pass")){
-    localStorage.setItem("connected","yes");
-    location.reload();
-  }
-}
-
-function logout(){
-  localStorage.removeItem("connected");
-  location.reload();
-}
-
-if(localStorage.getItem("connected")==="yes"){
-  status.innerHTML="🟢 Connecté – ID : "+localStorage.getItem("id");
-  loginBox.style.display="none";
-  registerBox.style.display="none";
-}
-</script>
+</section>
 
 </body>
 </html>
