@@ -2,20 +2,30 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR - Inscription</title>
+<title>Connexion</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<h1>Anonymous SOS FR</h1>
-<h2>Inscription obligatoire</h2>
+<div class="form-box">
+<h2>Connexion</h2>
+<button onclick="login()">Se connecter</button>
+<button onclick="logout()">Déconnexion</button>
+</div>
 
-<input id="email" placeholder="Email">
-<input id="age" type="number" placeholder="Âge">
-<button onclick="register()">S'inscrire</button>
+<script>
+function login(){
+  if(localStorage.getItem("user")){
+    location.href="index.html";
+  } else {
+    alert("Aucun compte trouvé");
+  }
+}
+function logout(){
+  localStorage.removeItem("user");
+  alert("Déconnecté");
+}
+</script>
 
-<p id="error"></p>
-
-<script src="js/auth.js"></script>
 </body>
 </html>
