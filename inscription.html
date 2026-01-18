@@ -2,20 +2,37 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Créer un compte</title>
+<title>Inscription</title>
 </head>
 <body>
 
 <h2>Créer un compte</h2>
-<input id="user" placeholder="Choisis un pseudo">
-<button onclick="register()">Créer</button>
+
+<input id="email" placeholder="Email"><br>
+<input id="password" type="password" placeholder="Mot de passe"><br>
+
+<select id="gender">
+  <option value="">Genre</option>
+  <option value="Homme">Garçon</option>
+  <option value="Femme">Fille</option>
+</select><br><br>
+
+<button onclick="register()">Créer le compte</button>
 
 <script>
-function register() {
-  const u = document.getElementById("user").value;
-  if (!u) return alert("Entre un pseudo");
-  localStorage.setItem("user", u);
-  window.location.href = "index.html";
+function register(){
+  const email=document.getElementById("email").value;
+  const pass=document.getElementById("password").value;
+  const gender=document.getElementById("gender").value;
+
+  if(!email||!pass||!gender){
+    alert("Remplis tout");
+    return;
+  }
+
+  localStorage.setItem("account",JSON.stringify({email,pass,gender}));
+  alert("Compte créé");
+  window.location.href="connexion.html";
 }
 </script>
 
