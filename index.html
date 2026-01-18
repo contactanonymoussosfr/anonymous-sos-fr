@@ -1,109 +1,40 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Anonymous SOS FR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Films</title>
+<style>
+body {
+  background:#0b0b0b;
+  color:white;
+  font-family:Arial;
+}
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
+  gap:15px;
+}
+.movie {
+  cursor:pointer;
+}
+.movie img {
+  width:100%;
+  border-radius:8px;
+}
+</style>
 </head>
-
 <body>
 
-  <!-- BARRE DU HAUT -->
-  <header class="topbar">
-    <div class="top-actions">
-      <button onclick="showLogin()">Connexion</button>
-      <button onclick="showRegister()">Créer un compte</button>
-      <button onclick="logout()">Déconnexion</button>
-    </div>
-    <div id="status" class="status red">● Non connecté</div>
-  </header>
+<h1>🎬 Films disponibles</h1>
 
-  <!-- CENTRE -->
-  <main class="center">
-    <h1 class="main-title">
-      Anonymous SOS FR
-      <span class="badge-blue">✔</span>
-    </h1>
-
-    <p class="subtitle">Anonymous</p>
-
-    <p class="manifesto">
-      Nous sommes Anonymous. Nous sommes légion.<br>
-      Nous n'oublions pas. Nous ne pardonnons pas.<br>
-      Vous êtes chez vous.
-    </p>
-  </main>
-
-  <!-- CARTES EN BAS -->
-  <section class="cards">
-    <div class="card">🆘 SOS<br>Aide urgente – contact direct</div>
-    <div class="card">📞 Téléphone<br>+32 456 89 43 35</div>
-    <div class="card">📧 Email<br>despreschez@gmail.com</div>
-    <div class="card">🎵 TikTok<br>@anonymous_sos_fr</div>
-    <div class="card">▶ YouTube<br>mrdespres</div>
-    <div class="card">💼 Recrutement<br>Contact uniquement par mail</div>
-  </section>
-
-  <!-- BOUTON SOS WHATSAPP FIXE -->
-  <a class="whatsapp" href="https://wa.me/32456894335" target="_blank">
-    SOS WhatsApp
-  </a>
-
-  <!-- LOGIN -->
-  <div id="loginBox" class="box hidden">
-    <input id="loginId" placeholder="Nom">
-    <input id="loginPass" type="password" placeholder="Mot de passe">
-    <button onclick="login()">Valider</button>
-    <button onclick="closeBoxes()">Fermer</button>
+<div class="grid">
+  <div class="movie" onclick="location.href='watch.html?id=film1'">
+    <img src="images/film1.jpg">
   </div>
-
-  <!-- REGISTER -->
-  <div id="registerBox" class="box hidden">
-    <input id="regId" placeholder="Nom">
-    <input id="regEmail" placeholder="Email">
-    <input id="regPass" type="password" placeholder="Mot de passe">
-    <select id="regGender">
-      <option>Homme</option>
-      <option>Femme</option>
-    </select>
-    <button onclick="register()">Créer</button>
-    <button onclick="closeBoxes()">Fermer</button>
+  <div class="movie" onclick="location.href='watch.html?id=film2'">
+    <img src="images/film2.jpg">
   </div>
-
-<script>
-function showLogin() {
-  closeBoxes();
-  document.getElementById("loginBox").classList.remove("hidden");
-}
-function showRegister() {
-  closeBoxes();
-  document.getElementById("registerBox").classList.remove("hidden");
-}
-function closeBoxes() {
-  document.querySelectorAll(".box").forEach(b => b.classList.add("hidden"));
-}
-function register() {
-  localStorage.setItem("user", regId.value);
-  localStorage.setItem("pass", regPass.value);
-  alert("Compte créé");
-  closeBoxes();
-}
-function login() {
-  if (loginId.value === localStorage.getItem("user") &&
-      loginPass.value === localStorage.getItem("pass")) {
-    document.getElementById("status").innerHTML = "● Connecté : " + loginId.value;
-    document.getElementById("status").className = "status green";
-    closeBoxes();
-  } else {
-    alert("Erreur de connexion");
-  }
-}
-function logout() {
-  document.getElementById("status").innerHTML = "● Non connecté";
-  document.getElementById("status").className = "status red";
-}
-</script>
+</div>
 
 </body>
 </html>
