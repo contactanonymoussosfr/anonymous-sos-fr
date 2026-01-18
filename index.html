@@ -1,76 +1,46 @@
-<style>
-body {
-  background: red !important;
-}
-</style>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Anonymous SOS FR – Cinéma</title>
+<title>Anonymous SOS FR</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <nav class="main-nav">
   <div class="logo">🎬 Anonymous SOS FR</div>
-  <div class="nav-links">
-    <a href="#horreur">Horreur</a>
-    <a href="#comedie">Comédie</a>
-    <a href="#amour">Amour</a>
-    <a href="#enfants">Enfants</a>
-    <a href="contact.html">Contact</a>
+  <div>
+    <a href="login.html">Connexion</a>
+    <a href="register.html">Créer un compte</a>
   </div>
 </nav>
 
 <div class="hero">
   <div>
     <h1>Le cinéma autrement</h1>
-    <p>Classiques • Indépendants • Cinéma sombre & libre</p>
+    <p>Classiques • Adultes • Enfants</p>
   </div>
 </div>
 
-<div class="search-box">
-  <input id="searchInput" placeholder="🔍 Rechercher un film..." onkeyup="searchFilms()">
-</div>
-
-<section id="horreur">
-<h2>🔞 Horreur – Adultes</h2>
+<section>
+<h2>🔞 Films adultes</h2>
 <div class="grid">
-  <div class="movie" data-title="nosferatu" onclick="openFilm('nosferatu',true)">
-    <img src="images/nosferatu.jpg"><span>Nosferatu (1922)</span>
-  </div>
-  <div class="movie" data-title="night living dead" onclick="openFilm('night',true)">
-    <img src="images/night.jpg"><span>Night of the Living Dead</span>
-  </div>
+  <div class="poster" onclick="openFilm(true)">HORREUR</div>
 </div>
 </section>
 
-<section id="comedie">
-<h2>🎭 Comédie</h2>
+<section>
+<h2>👶 Films enfants</h2>
 <div class="grid">
-  <div class="movie" data-title="the kid" onclick="openFilm('thekid',false)">
-    <img src="images/thekid.jpg"><span>The Kid</span>
-  </div>
+  <div class="poster" onclick="openFilm(false)">DESSINS ANIMÉS</div>
 </div>
 </section>
-
-<section id="enfants">
-<h2>👶 Enfants</h2>
-<div class="grid">
-  <div class="movie" data-title="gertie" onclick="openFilm('gertie',false)">
-    <img src="images/gertie.jpg"><span>Gertie the Dinosaur</span>
-  </div>
-</div>
-</section>
-
-<script src="js/app.js"></script>
 
 <a href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
 class="sos-whatsapp" target="_blank">
 💬 Contacter le service client
 </a>
 
+<script src="js/app.js"></script>
 </body>
 </html>
-
