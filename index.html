@@ -1,38 +1,86 @@
-<!-- ZONE CONTACT TOUT EN BAS -->
-<footer class="contact-bottom">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <div class="contact-grid">
+<!-- BARRE HAUT -->
+<header class="topbar">
+  <button onclick="openLogin()">Connexion</button>
+  <button onclick="openRegister()">Créer un compte</button>
+  <button id="logoutBtn" class="hidden" onclick="logout()">Déconnexion</button>
+</header>
 
-    <a href="https://wa.me/32456894335" target="_blank" class="contact-card">
-      🆘 SOS<br>
-      <span>Aide urgente – contact direct</span>
+<p id="status" class="status">🔴 Non connecté</p>
+
+<!-- CENTRE -->
+<section class="center">
+  <h1>Anonymous SOS FR <span class="badge-blue">✔</span></h1>
+  <p class="subtitle">
+    Nous sommes Anonymous. Nous sommes légion.<br>
+    Nous n’oublions pas. Nous ne pardonnons pas.<br>
+    Vous êtes chez vous.
+  </p>
+</section>
+
+<!-- CARTES EN BAS -->
+<footer class="cards-zone">
+  <div class="cards">
+
+    <a href="https://wa.me/32456894335" target="_blank" class="card">
+      🆘 SOS<br><span>Aide urgente – contact direct</span>
     </a>
 
-    <a href="tel:+32456894335" class="contact-card">
-      📞 Téléphone<br>
-      <span>+32 456 89 43 35</span>
+    <a href="tel:+32456894335" class="card">
+      📞 Téléphone<br><span>+32 456 89 43 35</span>
     </a>
 
-    <a href="mailto:despreschez@gmail.com" class="contact-card">
-      📧 Email<br>
-      <span>despreschez@gmail.com</span>
+    <a href="mailto:despreschez@gmail.com" class="card">
+      📧 Email<br><span>despreschez@gmail.com</span>
     </a>
 
-    <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank" class="contact-card">
-      🎵 TikTok<br>
-      <span>@anonymous_sos_fr</span>
+    <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank" class="card">
+      🎵 TikTok<br><span>@anonymous_sos_fr</span>
     </a>
 
-    <a href="https://www.youtube.com/@mrdespres" target="_blank" class="contact-card">
-      ▶️ YouTube<br>
-      <span>mrdespres</span>
+    <a href="https://www.youtube.com/@mrdespres" target="_blank" class="card">
+      ▶️ YouTube<br><span>mrdespres</span>
     </a>
 
-    <div class="contact-card disabled">
-      💼 Recrutement<br>
-      <span>Contact uniquement par mail</span>
+    <div class="card disabled">
+      💼 Recrutement<br><span>Contact uniquement par mail</span>
     </div>
 
   </div>
-
 </footer>
+
+<!-- SOS FLOTTANT -->
+<a href="https://wa.me/32456894335" target="_blank" class="sos-float">🆘</a>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <h2 id="modalTitle"></h2>
+
+    <input id="name" placeholder="Nom / Pseudo">
+    <input id="email" placeholder="Adresse mail">
+    <input id="password" type="password" placeholder="Mot de passe">
+
+    <select id="gender">
+      <option value="">Genre</option>
+      <option value="garcon">Garçon</option>
+      <option value="fille">Fille</option>
+    </select>
+
+    <button onclick="submitForm()">Valider</button>
+    <button onclick="closeModal()">Fermer</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
