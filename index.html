@@ -2,39 +2,26 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Films</title>
-<style>
-body {
-  background:#0b0b0b;
-  color:white;
-  font-family:Arial;
-}
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(150px,1fr));
-  gap:15px;
-}
-.movie {
-  cursor:pointer;
-}
-.movie img {
-  width:100%;
-  border-radius:8px;
-}
-</style>
+<title>Anonymous SOS FR - Films</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body onload="checkAuth()">
 
-<h1>🎬 Films disponibles</h1>
+<header>
+  <h1>Anonymous SOS FR</h1>
+  <button onclick="location.href='subscribe.html'">Abonnement</button>
+</header>
+
+<h2>Films disponibles</h2>
 
 <div class="grid">
-  <div class="movie" onclick="location.href='watch.html?id=film1'">
+  <div class="movie" onclick="openFilm('film1')">
     <img src="images/film1.jpg">
-  </div>
-  <div class="movie" onclick="location.href='watch.html?id=film2'">
-    <img src="images/film2.jpg">
+    <p>Film d'horreur 1</p>
   </div>
 </div>
 
+<script src="js/auth.js"></script>
+<script src="js/films.js"></script>
 </body>
 </html>
