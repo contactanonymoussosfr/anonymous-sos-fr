@@ -6,93 +6,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  color:white;
-  background:linear-gradient(to bottom,#7a0000,#120000);
   min-height:100vh;
-  overflow-x:hidden;
+  background:radial-gradient(circle at top,#b00000,#4a0000);
+  color:white;
+  text-align:center;
 }
 
-/* BARRE HAUT */
-.topbar{
-  background:#b00000;
-  padding:10px;
+/* TOP BAR */
+.top{
+  background:#c40000;
+  padding:12px;
   display:flex;
-  justify-content:flex-end;
+  justify-content:center;
   gap:10px;
 }
-.topbar a{
+.top button{
+  background:#e00000;
+  border:none;
   color:white;
-  text-decoration:none;
-  padding:6px 12px;
-  border:1px solid rgba(255,255,255,.4);
-  border-radius:4px;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* STATUS */
+#status{
+  margin-top:10px;
   font-size:14px;
 }
 
-/* STATUT */
-.status{
-  text-align:center;
-  margin-top:8px;
-  font-size:13px;
-}
-
-/* CONTENU CENTRAL */
+/* CENTER */
 .center{
-  text-align:center;
-  padding:60px 20px 180px;
+  margin-top:40px;
+  padding:20px;
 }
 
-h1{font-size:30px}
-
+h1{
+  font-size:32px;
+}
 .badge{
-  background:#1da1f2;
-  border-radius:50%;
-  padding:2px 6px;
-  font-size:12px;
-  margin-left:5px;
+  color:#4da6ff;
 }
 
-/* EMBLÈME ANONYMOUS AU CENTRE */
-.anonymous-center{
-  margin:30px auto;
-  text-align:center;
-}
+/* LOGO */
 .anonymous-center img{
   width:260px;
   max-width:80%;
-  opacity:0.85;
+  margin:25px auto;
+  opacity:0.9;
   filter:drop-shadow(0 0 25px rgba(255,0,0,0.6));
 }
 
-/* CARRÉS EN BAS */
-.bottom{
-  position:fixed;
-  bottom:20px;
-  width:100%;
-  display:flex;
-  justify-content:center;
-}
-.cards{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  justify-content:center;
-}
-.card{
-  border:1px solid #ff3b3b;
-  padding:12px 16px;
-  font-size:13px;
-  background:rgba(0,0,0,.4);
-  min-width:180px;
-  text-align:center;
+/* TEXT */
+.desc{
+  max-width:600px;
+  margin:0 auto 30px;
+  line-height:1.5;
 }
 
-/* VISIBILITÉ */
-.protected{display:none;}
-body.connected .protected{display:flex;}
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  padding:30px;
+  max-width:1000px;
+  margin:0 auto;
+}
+
+.card{
+  border:1px solid red;
+  padding:15px;
+  border-radius:10px;
+  background:rgba(0,0,0,0.2);
+}
+
+/* LOGIN MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  justify-content:center;
+  align-items:center;
+}
+.box{
+  background:#2b0000;
+  padding:20px;
+  border-radius:10px;
+  width:300px;
+}
+.box input{
+  width:100%;
+  margin:6px 0;
+  padding:8px;
+}
+.box button{
+  width:100%;
+  margin-top:10px;
+  background:#e00000;
+  border:none;
+  color:white;
+  padding:8px;
+  cursor:pointer;
+}
 
 /* WHATSAPP */
 .whatsapp{
@@ -101,102 +121,111 @@ body.connected .protected{display:flex;}
   right:20px;
   background:#25D366;
   color:white;
-  padding:14px 18px;
-  border-radius:50px;
-  font-weight:bold;
+  padding:12px 16px;
+  border-radius:30px;
   text-decoration:none;
-  box-shadow:0 0 15px rgba(0,0,0,.5);
+  font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
-<!-- BARRE HAUT -->
-<div class="topbar">
-  <a href="connexion.html">Connexion</a>
-  <a href="inscription.html">Créer un compte</a>
-  <a href="#" onclick="logout()">Déconnexion</a>
+<div class="top">
+  <button onclick="openLogin()">Connexion</button>
+  <button onclick="logout()">Déconnexion</button>
 </div>
 
-<div class="status" id="status"></div>
+<div id="status">🔴 Non connecté</div>
 
-<!-- CENTRE -->
 <div class="center">
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
 
-  <!-- IMAGE ANONYMOUS -->
   <div class="anonymous-center">
     <img src="anonymous-emblem.png" alt="Anonymous Emblem">
   </div>
 
-  <p>
+  <div class="desc">
     Nous sommes Anonymous. Nous sommes légion.<br>
     Nous n’oublions pas. Nous ne pardonnons pas.<br>
     Vous êtes chez vous.
-  </p>
-</div>
-
-<!-- CARRÉS EN BAS -->
-<div class="bottom">
-  <div class="cards protected">
-    <div class="card">
-      💻 <strong>Développement</strong><br>
-      Site complet codé à la main<br>
-      Délai maximum : <strong>10 jours</strong>
-    </div>
-
-    <div class="card">
-      🤝 <strong>Organisation</strong><br>
-      Aide aux personnes de la rue<br>
-      Contactez-nous sans hésiter
-    </div>
-
-    <div class="card">
-      🧠 <strong>Équipe</strong><br>
-      Développeurs expérimentés<br>
-      +30 ans d’expérience cumulée
-    </div>
-
-    <div class="card">
-      📢 <strong>Recrutement</strong><br>
-      Nous recrutons tous les jours<br>
-      Uniquement par mail
-    </div>
-
-    <div class="card">
-      ✉️ <strong>Candidature</strong><br>
-      Expliquez pourquoi vous voulez<br>
-      travailler avec nous
-    </div>
   </div>
 </div>
 
-<!-- WHATSAPP -->
+<div class="grid" id="privateContent" style="display:none">
+
+  <div class="card">
+    🆘 <b>SOS</b><br>
+    Aide urgente – contact direct
+  </div>
+
+  <div class="card">
+    📞 Téléphone<br>
+    +32 456 89 43 35
+  </div>
+
+  <div class="card">
+    📧 Email<br>
+    despreschez@gmail.com
+  </div>
+
+  <div class="card">
+    🎵 TikTok<br>
+    <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank" style="color:white">Suivre</a>
+  </div>
+
+  <div class="card">
+    ▶ YouTube<br>
+    mrdespres
+  </div>
+
+  <div class="card">
+    💼 Recrutement<br>
+    Contact uniquement par mail
+  </div>
+
+</div>
+
 <a class="whatsapp" href="https://wa.me/32456894335" target="_blank">
-  🆘 SOS WhatsApp
+  SOS WhatsApp
 </a>
 
-<script>
-function update(){
-  const user = localStorage.getItem("user");
-  const status = document.getElementById("status");
+<!-- LOGIN -->
+<div class="modal" id="login">
+  <div class="box">
+    <h3>Connexion</h3>
+    <input id="id" placeholder="ID">
+    <input id="pass" type="password" placeholder="Mot de passe">
+    <button onclick="login()">Entrer</button>
+  </div>
+</div>
 
-  if(user){
-    document.body.classList.add("connected");
-    status.innerHTML = "🟢 Connecté – ID : " + user;
-  }else{
-    document.body.classList.remove("connected");
-    status.innerHTML = "🔴 Non connecté";
+<script>
+function openLogin(){
+  document.getElementById('login').style.display='flex';
+}
+
+function login(){
+  const id=document.getElementById('id').value;
+  const pass=document.getElementById('pass').value;
+  if(id && pass){
+    localStorage.setItem('userID',id);
+    location.reload();
   }
 }
 
 function logout(){
-  localStorage.removeItem("user");
-  update();
+  localStorage.removeItem('userID');
+  location.reload();
 }
 
-update();
+const uid=localStorage.getItem('userID');
+if(uid){
+  document.getElementById('status').innerHTML='🟢 Connecté – ID : '+uid;
+  document.getElementById('privateContent').style.display='grid';
+}else{
+  document.getElementById('status').innerHTML='🔴 Non connecté';
+}
 </script>
 
 </body>
