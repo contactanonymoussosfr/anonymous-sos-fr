@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Forum</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-body {
-  background:#0a0a0a;
-  color:white;
-  font-family:Arial;
-  padding:40px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Forum – Anonymous SOS FR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="forum.css">
 </head>
-
 <body>
 
-<h1>Forum Anonymous SOS FR</h1>
-<p>Bienvenue <strong id="user"></strong></p>
+<header class="top">
+  <a href="index.html" class="brand">Anonymous SOS FR</a>
+</header>
 
-<script>
-const user = localStorage.getItem("connectedUser");
-if (!user) location.href = "connexion.html";
-document.getElementById("user").innerText = user;
-</script>
+<main class="container">
 
+  <h1>Forum Anonymous</h1>
+  <p class="intro">
+    Parlez librement. Restez anonymes. Respectez les autres.
+  </p>
+
+  <!-- CRÉER UN MESSAGE -->
+  <section class="new-post">
+    <input id="pseudo" placeholder="Votre pseudo (anonymous)">
+    <textarea id="message" placeholder="Exprimez-vous ici..."></textarea>
+    <button onclick="publish()">Publier</button>
+  </section>
+
+  <!-- LISTE DES MESSAGES -->
+  <section id="posts" class="posts"></section>
+
+</main>
+
+<script src="forum.js"></script>
 </body>
 </html>
