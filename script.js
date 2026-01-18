@@ -30,7 +30,7 @@ function submitForm() {
   if (mode === "register") {
     localStorage.setItem("user", JSON.stringify({
       name,
-      email,   // jamais affiché
+      email,
       password,
       gender
     }));
@@ -40,7 +40,8 @@ function submitForm() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (user && user.name === name && user.password === password) {
-    document.getElementById("status").textContent = "🟢 Connecté : " + name;
+    document.getElementById("status").textContent =
+      "🟢 Connecté : " + name;
     document.getElementById("logoutBtn").classList.remove("hidden");
     closeModal();
   } else {
