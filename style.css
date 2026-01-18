@@ -1,155 +1,77 @@
-/* =========================
-   RESET & BASE
-========================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-}
-
 body {
+  margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: #000;
-  color: #fff;
-  overflow-x: hidden;
+  background: radial-gradient(circle at top, #b00000, #3a0000);
+  color: white;
 }
 
-/* =========================
-   HEADER / NAV
-========================= */
-header {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 50px;
-  background: rgba(0,0,0,0.7);
-  z-index: 10;
+.navbar {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #900000;
 }
 
-nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 10px;
-  font-size: 14px;
-}
-
-/* =========================
-   CONTAINER GÉNÉRAL
-========================= */
-.container {
-  padding: 70px 15px 15px;
-}
-
-/* =========================
-   FEED VIDÉO (TIKTOK)
-========================= */
-.video {
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  border-bottom: 1px solid #111;
-}
-
-.video video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Overlay texte */
-.video .info {
-  position: absolute;
-  bottom: 70px;
-  left: 15px;
-  z-index: 2;
-}
-
-.video .info p {
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-/* Actions (like / comment) */
-.video .actions {
-  position: absolute;
-  right: 15px;
-  bottom: 80px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.video .actions button {
-  background: none;
+.nav-btn {
+  background: #c00000;
   border: none;
   color: white;
-  font-size: 22px;
+  padding: 8px 14px;
+  border-radius: 6px;
   cursor: pointer;
+  margin-left: 6px;
 }
 
-/* =========================
-   FORMULAIRES
-========================= */
-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #111;
-  border: 1px solid #222;
-  color: white;
-}
+.hidden { display: none; }
 
-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #d40000;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+.status.offline { color: #ff8080; }
+.status.online { color: #4cff4c; font-weight: bold; }
 
-/* =========================
-   LIVE (SIMULATION)
-========================= */
-.live-box {
-  width: 100%;
-  height: 200px;
-  background: #000;
-  border: 1px solid #222;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #777;
-  margin-top: 15px;
-}
-
-/* =========================
-   PAGES SIMPLES
-========================= */
-.page-title {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-/* =========================
-   FOOTER (OPTIONNEL)
-========================= */
-footer {
+.hero {
   text-align: center;
-  font-size: 12px;
-  color: #555;
-  padding: 10px;
+  padding: 60px 20px;
+}
+
+.badge-verified {
+  display: inline-block;
+  background: #1da1f2;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin: 10px 0;
+}
+
+.btn-sos {
+  display: inline-block;
+  background: red;
+  padding: 18px 30px;
+  border-radius: 14px;
+  font-size: 1.2rem;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 25px;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #600000;
+  padding: 25px;
+  border-radius: 12px;
+  width: 300px;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content button {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
 }
