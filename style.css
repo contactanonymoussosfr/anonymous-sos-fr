@@ -2,14 +2,14 @@
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, sans-serif;
   background: radial-gradient(circle at top, #3b0000, #000 70%);
   color: #f2f2f2;
   min-height: 100vh;
 }
 
 /* NAV */
-.main-nav {
+nav {
   background: linear-gradient(to right, #600000, #000);
   padding: 14px 20px;
   display: flex;
@@ -17,8 +17,8 @@ body {
   align-items: center;
 }
 
-.main-nav a {
-  color: #fff;
+nav a {
+  color: white;
   margin-left: 15px;
   text-decoration: none;
 }
@@ -28,48 +28,41 @@ body {
   color: #ff4d4d;
 }
 
-/* HERO */
-.hero {
-  height: 60vh;
-  background:
-    linear-gradient(rgba(0,0,0,.85), rgba(100,0,0,.4)),
-    url("https://images.unsplash.com/photo-1524985069026-dd778a71c7b4");
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  padding-left: 40px;
+/* SECTIONS */
+section {
+  padding: 30px;
 }
 
-.hero h1 { color: #ff4d4d; font-size: 42px; }
+h2 {
+  color: #ff4d4d;
+}
 
-/* FILMS */
-section { padding: 30px; }
-
+/* GRILLE FILMS */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 20px;
 }
 
-.poster {
-  height: 240px;
+.film {
   background: linear-gradient(135deg, #400, #000);
   border-radius: 12px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ff4d4d;
-  font-weight: bold;
+  text-align: center;
   cursor: pointer;
+  box-shadow: 0 0 15px rgba(255,0,0,0.4);
+  padding: 10px;
 }
 
-/* FORM */
+/* FORMULAIRES */
 .form-box {
   max-width: 400px;
-  margin: 60px auto;
-  padding: 30px;
-  background: rgba(60,0,0,.6);
+  margin: 80px auto;
+  background: rgba(60,0,0,0.7);
+  padding: 25px;
   border-radius: 12px;
 }
 
@@ -88,7 +81,7 @@ button {
 }
 
 /* WHATSAPP */
-.sos-whatsapp {
+.whatsapp {
   position: fixed;
   bottom: 20px;
   right: 20px;
