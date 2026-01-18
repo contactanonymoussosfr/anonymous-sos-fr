@@ -6,105 +6,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== BASE ===== */
-* { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: #fff;
-  background: #000;
-  overflow-x: hidden;
+  background: linear-gradient(to bottom, #6a0000, #1a0000);
 }
 
-/* ===== BARRE HAUT ROUGE ===== */
+/* BARRE HAUT */
 .topbar {
-  background: linear-gradient(to right, #7a0000, #b00000);
+  background: linear-gradient(to right, #8b0000, #c00000);
   padding: 10px;
   text-align: center;
 }
-
 .topbar a {
   color: #fff;
   text-decoration: none;
   margin: 0 8px;
   padding: 6px 12px;
-  border: 1px solid rgba(255,255,255,0.3);
-  font-size: 13px;
+  border: 1px solid rgba(255,255,255,0.4);
 }
-
 .status {
   margin-top: 5px;
   font-size: 13px;
 }
 
-.dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  margin-right: 6px;
-}
-
-.green { background: #00ff6a; }
-.red { background: #ff3b3b; }
-
-/* ===== FOND ===== */
-.background {
-  position: fixed;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, rgba(90,0,0,0.85), rgba(10,0,0,0.95)),
-    url("anonymous.png") center/cover no-repeat;
-  z-index: -3;
-}
-
-/* ===== PLANÈTE ROUGE ===== */
-.earth {
-  position: fixed;
-  top: 55%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: url("https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg") repeat-x;
-  background-size: cover;
-  filter: hue-rotate(-120deg) saturate(1.6) brightness(0.65);
-  animation: rotate 180s linear infinite;
-  box-shadow: 0 0 80px rgba(180,0,0,0.4);
-  z-index: -2;
-}
-
-@keyframes rotate {
-  from { background-position: 0 0; }
-  to { background-position: -2200px 0; }
-}
-
-/* ===== CONTENU ===== */
+/* CONTENU */
 .center {
   text-align: center;
-  padding: 60px 20px 20px;
+  padding: 60px 20px;
 }
 
 h1 {
-  font-size: 26px;
-  letter-spacing: 2px;
+  font-size: 28px;
 }
-
 .badge {
   background: #1da1f2;
   border-radius: 50%;
-  font-size: 12px;
   padding: 2px 6px;
-  margin-left: 6px;
+  font-size: 12px;
 }
 
-p {
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-/* ===== CARTES ===== */
 .cards {
   margin-top: 40px;
   display: grid;
@@ -113,29 +55,12 @@ p {
 }
 
 .card {
-  border: 1px solid #d40000;
+  border: 1px solid #ff3b3b;
   padding: 15px;
-  font-size: 13px;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.3);
 }
 
-.card strong {
-  display: block;
-  margin-bottom: 6px;
-}
-
-/* ===== SOS ===== */
-.sos {
-  margin-top: 20px;
-  display: inline-block;
-  background: #25D366;
-  color: #000;
-  padding: 12px 18px;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-/* ===== CACHÉ SI NON CONNECTÉ ===== */
+/* CACHÉ SI NON CONNECTÉ */
 .protected { display: none; }
 body.connected .protected { display: block; }
 </style>
@@ -143,19 +68,13 @@ body.connected .protected { display: block; }
 
 <body>
 
-<div class="background"></div>
-<div class="earth"></div>
-
-<!-- BARRE HAUT -->
 <div class="topbar">
   <a href="connexion.html">Connexion</a>
   <a href="inscription.html">Créer un compte</a>
   <a href="#" onclick="logout()">Déconnexion</a>
-
   <div class="status" id="status"></div>
 </div>
 
-<!-- CONTENU -->
 <div class="center">
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
 
@@ -165,50 +84,33 @@ body.connected .protected { display: block; }
     Vous êtes chez vous.
   </p>
 
-  <!-- CONTENU CONNECTÉ -->
   <div class="protected">
     <div class="cards">
-      <div class="card">
-        <strong>📞 Téléphone</strong>
-        +32 456 89 43 35
-      </div>
-
-      <div class="card">
-        <strong>✉️ Email</strong>
-        despreschez@gmail.com
-      </div>
-
-      <div class="card">
-        <strong>🎵 TikTok</strong>
-        @anonymous_sos_fr
-      </div>
-
-      <div class="card">
-        <strong>🎵 TikTok</strong>
-        @popysa5
-      </div>
+      <div class="card">📞 +32 456 89 43 35</div>
+      <div class="card">✉️ despreschez@gmail.com</div>
+      <div class="card">🎵 TikTok @anonymous_sos_fr</div>
+      <div class="card">🎵 TikTok @popysa5</div>
     </div>
 
-    <a class="sos"
-       href="https://wa.me/32456894335?text=SOS%20j%27ai%20besoin%20d%27aide"
-       target="_blank">
-       🆘 SOS WhatsApp direct
-    </a>
+    <p style="margin-top:20px;">
+      <a href="https://wa.me/32456894335" style="color:#00ff6a;">
+        🆘 SOS WhatsApp
+      </a>
+    </p>
   </div>
 </div>
 
 <script>
-/* ===== CONNEXION SIMPLE QUI MARCHE ===== */
 function updateStatus() {
   const user = localStorage.getItem("user");
   const status = document.getElementById("status");
 
   if (user) {
     document.body.classList.add("connected");
-    status.innerHTML = '<span class="dot green"></span>Connecté – ' + user;
+    status.innerHTML = "🟢 Connecté – " + user;
   } else {
     document.body.classList.remove("connected");
-    status.innerHTML = '<span class="dot red"></span>Non connecté';
+    status.innerHTML = "🔴 Non connecté";
   }
 }
 
