@@ -49,6 +49,5 @@ function submitForm() {
 }
 
 function logout() {
-  localStorage.removeItem("user");
   location.reload();
 }
