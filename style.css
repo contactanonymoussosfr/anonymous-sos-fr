@@ -1,134 +1,106 @@
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  background: linear-gradient(#b00000, #600000);
+  background: linear-gradient(180deg, #b00000, #6f0000);
   color: white;
+  min-height: 100vh;
 }
 
-/* BARRE HAUT */
+/* BARRE DU HAUT */
 .topbar {
   background: #d00000;
   padding: 10px;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
-.topbar button {
-  margin: 0 6px;
-  padding: 6px 14px;
-  background: #ff3030;
+.top-actions button {
+  margin: 0 4px;
+  padding: 6px 12px;
   border: none;
-  color: white;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
 }
-
-/* STATUT */
 .status {
-  text-align: center;
-  margin: 10px;
+  font-size: 14px;
 }
+.status.red { color: #ffb3b3; }
+.status.green { color: #7CFF7C; }
 
 /* CENTRE */
 .center {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 70px;
 }
-
+.main-title {
+  font-size: 42px;
+  font-weight: bold;
+}
 .badge-blue {
+  margin-left: 8px;
+  width: 22px;
+  height: 22px;
   background: #1da1f2;
-  font-size: 0.7rem;
-  padding: 3px 6px;
+  color: white;
   border-radius: 50%;
-  margin-left: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
 }
-
 .subtitle {
-  margin-top: 15px;
+  margin-top: 10px;
+  opacity: 0.8;
+}
+.manifesto {
+  margin-top: 20px;
   line-height: 1.6;
 }
 
 /* CARTES */
-.cards-zone {
-  margin-top: 120px;
-  padding-bottom: 60px;
-}
-
 .cards {
-  max-width: 1100px;
-  margin: auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 18px;
-  padding: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 40px;
 }
-
 .card {
-  text-decoration: none;
-  color: white;
-  background: rgba(0,0,0,0.25);
+  background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.25);
+  padding: 20px;
   border-radius: 14px;
-  padding: 18px;
   text-align: center;
-  box-shadow: 0 0 18px rgba(0,0,0,0.25);
 }
 
-.card span {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.9rem;
-  opacity: 0.85;
-}
-
-.card.disabled {
-  cursor: default;
-  opacity: 0.7;
-}
-
-/* SOS FLOTTANT */
-.sos-float {
+/* WHATSAPP */
+.whatsapp {
   position: fixed;
-  bottom: 20px;
   right: 20px;
-  width: 60px;
-  height: 60px;
-  background: #25d366;
+  bottom: 20px;
+  background: #25D366;
   color: white;
-  font-size: 1.6rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 14px 20px;
+  border-radius: 30px;
   text-decoration: none;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
-  z-index: 9999;
+  font-weight: bold;
 }
 
-/* MODAL */
-.modal {
+/* BOITES */
+.box {
   position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modal-box {
-  background: #700000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #900;
   padding: 20px;
   border-radius: 12px;
-  width: 280px;
 }
-
-.modal-box input,
-.modal-box select,
-.modal-box button {
-  width: 100%;
-  margin-bottom: 10px;
+.box input, .box select {
+  display: block;
+  margin: 8px 0;
   padding: 8px;
+  width: 100%;
 }
-
-.hidden {
-  display: none;
-}
+.hidden { display: none; }
