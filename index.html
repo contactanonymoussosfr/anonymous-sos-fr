@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ===== BASE ===== */
 body{
   margin:0;
   font-family:Arial, sans-serif;
@@ -16,7 +15,7 @@ body{
   overflow-x:hidden;
 }
 
-/* ===== BARRE HAUT ===== */
+/* BARRE HAUT */
 .topbar{
   background:#b00000;
   padding:10px;
@@ -33,20 +32,21 @@ body{
   font-size:14px;
 }
 
-/* ===== STATUT ===== */
+/* STATUT */
 .status{
   text-align:center;
   margin-top:8px;
   font-size:13px;
 }
 
-/* ===== CONTENU ===== */
+/* CONTENU CENTRAL */
 .center{
   text-align:center;
   padding:60px 20px 180px;
 }
 
 h1{font-size:30px}
+
 .badge{
   background:#1da1f2;
   border-radius:50%;
@@ -55,7 +55,19 @@ h1{font-size:30px}
   margin-left:5px;
 }
 
-/* ===== CARTES EN BAS ===== */
+/* EMBLÈME ANONYMOUS AU CENTRE */
+.anonymous-center{
+  margin:30px auto;
+  text-align:center;
+}
+.anonymous-center img{
+  width:260px;
+  max-width:80%;
+  opacity:0.85;
+  filter:drop-shadow(0 0 25px rgba(255,0,0,0.6));
+}
+
+/* CARRÉS EN BAS */
 .bottom{
   position:fixed;
   bottom:20px;
@@ -78,11 +90,11 @@ h1{font-size:30px}
   text-align:center;
 }
 
-/* ===== PROTECTION ===== */
+/* VISIBILITÉ */
 .protected{display:none;}
 body.connected .protected{display:flex;}
 
-/* ===== WHATSAPP ===== */
+/* WHATSAPP */
 .whatsapp{
   position:fixed;
   bottom:20px;
@@ -109,9 +121,15 @@ body.connected .protected{display:flex;}
 
 <div class="status" id="status"></div>
 
-<!-- CONTENU -->
+<!-- CENTRE -->
 <div class="center">
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
+
+  <!-- IMAGE ANONYMOUS -->
+  <div class="anonymous-center">
+    <img src="anonymous-emblem.png" alt="Anonymous Emblem">
+  </div>
+
   <p>
     Nous sommes Anonymous. Nous sommes légion.<br>
     Nous n’oublions pas. Nous ne pardonnons pas.<br>
