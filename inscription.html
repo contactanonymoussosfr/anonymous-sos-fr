@@ -2,46 +2,21 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Inscription</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Créer un compte</title>
 </head>
 <body>
 
 <h2>Créer un compte</h2>
-<input id="id" placeholder="ID utilisateur">
-<input id="email" type="email" placeholder="Email">
-<select id="gender">
-  <option>Homme</option>
-  <option>Femme</option>
-</select>
-<button id="go">Créer</button>
+<input id="user" placeholder="Choisis un pseudo">
+<button onclick="register()">Créer</button>
 
-<script src="firebase.js" type="module"></script>
-<script type="module">
-import { createUserWithEmailAndPassword } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { doc, setDoc } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-document.getElementById("go").onclick = async ()=>{
-  const id = document.getElementById("id").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const gender = document.getElementById("gender").value;
-
-  if(!id || !email){ alert("Champs manquants"); return; }
-
-  const cred = await createUserWithEmailAndPassword(auth,email,"password123");
-
-  await setDoc(doc(db,"users",cred.user.uid),{
-    id,
-    gender,
-    points:0,
-    live:false
-  });
-
-  localStorage.setItem("uid",cred.user.uid);
-  location.href="index.html";
-};
+<script>
+function register() {
+  const u = document.getElementById("user").value;
+  if (!u) return alert("Entre un pseudo");
+  localStorage.setItem("user", u);
+  window.location.href = "index.html";
+}
 </script>
 
 </body>
