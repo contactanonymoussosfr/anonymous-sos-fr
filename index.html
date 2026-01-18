@@ -6,68 +6,156 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  color: #fff;
-  background: linear-gradient(to bottom, #6a0000, #1a0000);
+/* ===== RESET ===== */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+  background:#000;
 }
 
-/* BARRE HAUT */
-.topbar {
-  background: linear-gradient(to right, #8b0000, #c00000);
-  padding: 10px;
-  text-align: center;
+/* ===== BARRE HAUT ===== */
+.topbar{
+  background:linear-gradient(to right,#7a0000,#c00000);
+  padding:12px;
+  text-align:center;
+  position:relative;
+  z-index:3;
 }
-.topbar a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 8px;
-  padding: 6px 12px;
-  border: 1px solid rgba(255,255,255,0.4);
+.topbar a{
+  color:#fff;
+  text-decoration:none;
+  margin:0 8px;
+  padding:6px 14px;
+  border:1px solid rgba(255,255,255,0.4);
+  border-radius:4px;
+  font-size:14px;
 }
-.status {
-  margin-top: 5px;
-  font-size: 13px;
+.status{
+  margin-top:6px;
+  font-size:13px;
+}
+.dot{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  margin-right:6px;
+}
+.green{background:#00ff6a}
+.red{background:#ff4040}
+
+/* ===== FOND ANONYMOUS (PHOTO) ===== */
+.background{
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(90,0,0,0.88),
+      rgba(15,0,0,0.96)
+    ),
+    url("anonymous-emblem.png") center center / contain no-repeat;
+  z-index:-3;
 }
 
-/* CONTENU */
-.center {
-  text-align: center;
-  padding: 60px 20px;
+/* ===== PLANÈTE ROUGE ===== */
+.earth{
+  position:fixed;
+  top:55%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:480px;
+  height:480px;
+  border-radius:50%;
+  background:url("https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg") repeat-x;
+  background-size:cover;
+  filter:hue-rotate(-120deg) saturate(1.6) brightness(0.65);
+  animation:rotate 180s linear infinite;
+  box-shadow:0 0 80px rgba(180,0,0,0.4);
+  z-index:-2;
+}
+@keyframes rotate{
+  from{background-position:0 0}
+  to{background-position:-2200px 0}
 }
 
-h1 {
-  font-size: 28px;
+/* ===== CONTENU ===== */
+.center{
+  text-align:center;
+  padding:80px 20px 40px;
+  position:relative;
+  z-index:1;
 }
-.badge {
-  background: #1da1f2;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
+h1{
+  font-size:30px;
+  letter-spacing:2px;
+}
+.badge{
+  background:#1da1f2;
+  color:#fff;
+  border-radius:50%;
+  padding:2px 6px;
+  font-size:12px;
+  margin-left:6px;
+}
+.subtitle{
+  margin-top:15px;
+  font-size:14px;
+  line-height:1.5;
+  opacity:.9;
 }
 
-.cards {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-  gap: 15px;
+/* ===== RADIO ===== */
+.radio{
+  margin:20px auto;
+  max-width:300px;
 }
 
-.card {
-  border: 1px solid #ff3b3b;
-  padding: 15px;
-  background: rgba(0,0,0,0.3);
+/* ===== CARTES ===== */
+.cards{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;
+}
+.card{
+  border:1px solid #ff3b3b;
+  padding:15px;
+  background:rgba(0,0,0,.35);
+  text-align:left;
+  font-size:13px;
+}
+.card strong{display:block;margin-bottom:6px}
+
+/* ===== SOS WHATSAPP ===== */
+.sos-float{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#25D366;
+  color:#000;
+  padding:12px 18px;
+  border-radius:30px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 0 20px rgba(37,211,102,.6);
+  z-index:5;
 }
 
-/* CACHÉ SI NON CONNECTÉ */
-.protected { display: none; }
-body.connected .protected { display: block; }
+/* ===== PROTECTION ===== */
+.protected{display:none}
+body.connected .protected{display:block}
 </style>
 </head>
 
 <body>
 
+<div class="background"></div>
+<div class="earth"></div>
+
+<!-- BARRE HAUT -->
 <div class="topbar">
   <a href="connexion.html">Connexion</a>
   <a href="inscription.html">Créer un compte</a>
@@ -75,50 +163,56 @@ body.connected .protected { display: block; }
   <div class="status" id="status"></div>
 </div>
 
+<!-- CONTENU -->
 <div class="center">
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
 
-  <p>
+  <div class="subtitle">
     Nous sommes Anonymous. Nous sommes légion.<br>
     Nous n’oublions pas. Nous ne pardonnons pas.<br>
-    Vous êtes chez vous.
-  </p>
+    Vous êtes chez vous, n’hésitez pas à inviter du monde.
+  </div>
 
+  <div class="radio">
+    <audio controls>
+      <source src="radio.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <!-- CARTES (VISIBLE CONNECTÉ) -->
   <div class="protected">
     <div class="cards">
-      <div class="card">📞 +32 456 89 43 35</div>
-      <div class="card">✉️ despreschez@gmail.com</div>
-      <div class="card">🎵 TikTok @anonymous_sos_fr</div>
-      <div class="card">🎵 TikTok @popysa5</div>
+      <div class="card"><strong>🆘 SOS</strong>Aide urgente – contact direct</div>
+      <div class="card"><strong>📞 Téléphone</strong>+32 456 89 43 35</div>
+      <div class="card"><strong>✉️ Email</strong>despreschez@gmail.com</div>
+      <div class="card"><strong>🎵 TikTok</strong>@anonymous_sos_fr</div>
+      <div class="card"><strong>🎵 TikTok</strong>@popysa5</div>
     </div>
-
-    <p style="margin-top:20px;">
-      <a href="https://wa.me/32456894335" style="color:#00ff6a;">
-        🆘 SOS WhatsApp
-      </a>
-    </p>
   </div>
 </div>
 
-<script>
-function updateStatus() {
-  const user = localStorage.getItem("user");
-  const status = document.getElementById("status");
+<a class="sos-float"
+   href="https://wa.me/32456894335?text=SOS%20j%27ai%20besoin%20d%27aide"
+   target="_blank">
+   🆘 SOS WhatsApp
+</a>
 
-  if (user) {
+<script>
+function updateStatus(){
+  const user=localStorage.getItem("user");
+  const status=document.getElementById("status");
+  if(user){
     document.body.classList.add("connected");
-    status.innerHTML = "🟢 Connecté – " + user;
-  } else {
+    status.innerHTML='<span class="dot green"></span>Connecté – '+user;
+  }else{
     document.body.classList.remove("connected");
-    status.innerHTML = "🔴 Non connecté";
+    status.innerHTML='<span class="dot red"></span>Non connecté';
   }
 }
-
-function logout() {
+function logout(){
   localStorage.removeItem("user");
   updateStatus();
 }
-
 updateStatus();
 </script>
 
