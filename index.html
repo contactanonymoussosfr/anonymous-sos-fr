@@ -7,11 +7,10 @@
 </head>
 <body>
 
-<!-- MENU -->
 <nav class="main-nav">
   <div class="logo">🎬 Anonymous SOS FR</div>
   <div class="nav-links">
-    <a href="#horreur">Horreur (18+)</a>
+    <a href="#horreur">Horreur</a>
     <a href="#comedie">Comédie</a>
     <a href="#amour">Amour</a>
     <a href="#enfants">Enfants</a>
@@ -19,56 +18,54 @@
   </div>
 </nav>
 
-<!-- RECHERCHE -->
+<div class="hero">
+  <div>
+    <h1>Le cinéma autrement</h1>
+    <p>Classiques • Indépendants • Cinéma sombre & libre</p>
+  </div>
+</div>
+
 <div class="search-box">
-  <input type="text" id="searchInput" placeholder="🔍 Rechercher un film..." onkeyup="searchFilms()">
+  <input id="searchInput" placeholder="🔍 Rechercher un film..." onkeyup="searchFilms()">
 </div>
 
-<!-- HORREUR -->
-<h2 id="horreur">🔞 Horreur – Adultes</h2>
+<section id="horreur">
+<h2>🔞 Horreur – Adultes</h2>
 <div class="grid">
-  <div class="movie" data-title="nosferatu" onclick="openFilm('nosferatu', true)">
-    <img src="images/nosferatu.jpg">
-    <span>Nosferatu (1922)</span>
+  <div class="movie" data-title="nosferatu" onclick="openFilm('nosferatu',true)">
+    <img src="images/nosferatu.jpg"><span>Nosferatu (1922)</span>
+  </div>
+  <div class="movie" data-title="night living dead" onclick="openFilm('night',true)">
+    <img src="images/night.jpg"><span>Night of the Living Dead</span>
   </div>
 </div>
+</section>
 
-<!-- COMEDIE -->
-<h2 id="comedie">🎭 Comédie</h2>
+<section id="comedie">
+<h2>🎭 Comédie</h2>
 <div class="grid">
-  <div class="movie" data-title="the kid" onclick="openFilm('thekid', false)">
-    <img src="images/thekid.jpg">
-    <span>The Kid (1921)</span>
+  <div class="movie" data-title="the kid" onclick="openFilm('thekid',false)">
+    <img src="images/thekid.jpg"><span>The Kid</span>
   </div>
 </div>
+</section>
 
-<!-- AMOUR -->
-<h2 id="amour">❤️ Amour</h2>
+<section id="enfants">
+<h2>👶 Enfants</h2>
 <div class="grid">
-  <div class="movie" data-title="charade" onclick="openFilm('charade', false)">
-    <img src="images/charade.jpg">
-    <span>Charade (1963)</span>
+  <div class="movie" data-title="gertie" onclick="openFilm('gertie',false)">
+    <img src="images/gertie.jpg"><span>Gertie the Dinosaur</span>
   </div>
 </div>
+</section>
 
-<!-- ENFANTS -->
-<h2 id="enfants">👶 Enfants</h2>
-<div class="grid">
-  <div class="movie" data-title="gertie" onclick="openFilm('gertie', false)">
-    <img src="images/gertie.jpg">
-    <span>Gertie the Dinosaur</span>
-  </div>
-</div>
+<script src="js/app.js"></script>
 
-<script src="js/films.js"></script>
-
-<!-- BOUTON WHATSAPP -->
-<a
-  href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
-  class="sos-whatsapp"
-  target="_blank">
-  💬 Contacter le service client (WhatsApp)
+<a href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
+class="sos-whatsapp" target="_blank">
+💬 Contacter le service client
 </a>
 
 </body>
 </html>
+
