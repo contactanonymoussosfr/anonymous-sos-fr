@@ -1,24 +1,23 @@
-body {
-  background:#0b0b0b;
-  color:white;
-  font-family:Arial;
-  text-align:center;
+.contact-box {
+  max-width: 400px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
 }
 
-input, button {
-  padding:10px;
-  margin:5px;
+.contact-box input,
+.contact-box textarea {
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
 }
 
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,160px);
-  gap:20px;
-  justify-content:center;
+.contact-box textarea {
+  min-height: 100px;
 }
 
-.movie img {
-  width:100%;
-  border-radius:10px;
-  cursor:pointer;
+.contact-box button {
+  margin-top: 10px;
 }
