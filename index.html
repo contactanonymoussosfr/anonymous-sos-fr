@@ -7,15 +7,18 @@
 
 <style>
 *{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+
 body{
   margin:0;
   min-height:100vh;
-  background:radial-gradient(circle at top,#b00000,#4a0000);
+  background:
+    linear-gradient(rgba(120,0,0,0.85),rgba(60,0,0,0.95)),
+    url("anonymous-bg.jpg") center/cover no-repeat fixed;
   color:white;
   text-align:center;
 }
 
-/* TOP BAR */
+/* BARRE HAUTE */
 .top{
   background:#c40000;
   padding:12px;
@@ -38,36 +41,30 @@ body{
   font-size:14px;
 }
 
-/* CENTER */
+/* CENTRE */
 .center{
   margin-top:40px;
   padding:20px;
 }
-
-h1{
-  font-size:32px;
-}
-.badge{
-  color:#4da6ff;
-}
+h1{font-size:32px}
+.badge{color:#4da6ff}
 
 /* LOGO */
-.anonymous-center img{
+.logo img{
   width:260px;
   max-width:80%;
   margin:25px auto;
-  opacity:0.9;
-  filter:drop-shadow(0 0 25px rgba(255,0,0,0.6));
+  filter:drop-shadow(0 0 25px rgba(255,0,0,.6));
 }
 
-/* TEXT */
+/* TEXTE */
 .desc{
   max-width:600px;
   margin:0 auto 30px;
   line-height:1.5;
 }
 
-/* GRID */
+/* CARTES */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -76,15 +73,14 @@ h1{
   max-width:1000px;
   margin:0 auto;
 }
-
 .card{
   border:1px solid red;
   padding:15px;
   border-radius:10px;
-  background:rgba(0,0,0,0.2);
+  background:rgba(0,0,0,0.25);
 }
 
-/* LOGIN MODAL */
+/* MODAL */
 .modal{
   display:none;
   position:fixed;
@@ -133,6 +129,7 @@ h1{
 
 <div class="top">
   <button onclick="openLogin()">Connexion</button>
+  <button onclick="openRegister()">Créer un compte</button>
   <button onclick="logout()">Déconnexion</button>
 </div>
 
@@ -141,8 +138,8 @@ h1{
 <div class="center">
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
 
-  <div class="anonymous-center">
-    <img src="anonymous-emblem.png" alt="Anonymous Emblem">
+  <div class="logo">
+    <img src="anonymous-emblem.png" alt="Anonymous">
   </div>
 
   <div class="desc">
@@ -152,33 +149,16 @@ h1{
   </div>
 </div>
 
-<div class="grid" id="privateContent" style="display:none">
+<div class="grid" id="cards">
 
-  <div class="card">
-    🆘 <b>SOS</b><br>
-    Aide urgente – contact direct
-  </div>
-
-  <div class="card">
-    📞 Téléphone<br>
-    +32 456 89 43 35
-  </div>
-
-  <div class="card">
-    📧 Email<br>
-    despreschez@gmail.com
-  </div>
-
+  <div class="card">🆘 SOS<br>Aide urgente – contact direct</div>
+  <div class="card">📞 Téléphone<br>+32 456 89 43 35</div>
+  <div class="card">📧 Email<br>despreschez@gmail.com</div>
   <div class="card">
     🎵 TikTok<br>
     <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank" style="color:white">Suivre</a>
   </div>
-
-  <div class="card">
-    ▶ YouTube<br>
-    mrdespres
-  </div>
-
+  <div class="card">▶ YouTube<br>mrdespres</div>
   <div class="card">
     💼 Recrutement<br>
     Contact uniquement par mail
@@ -194,37 +174,50 @@ h1{
 <div class="modal" id="login">
   <div class="box">
     <h3>Connexion</h3>
-    <input id="id" placeholder="ID">
-    <input id="pass" type="password" placeholder="Mot de passe">
+    <input id="loginId" placeholder="ID">
+    <input id="loginPass" type="password" placeholder="Mot de passe">
     <button onclick="login()">Entrer</button>
   </div>
 </div>
 
+<!-- REGISTER -->
+<div class="modal" id="register">
+  <div class="box">
+    <h3>Créer un compte</h3>
+    <input id="regId" placeholder="ID">
+    <input id="regPass" type="password" placeholder="Mot de passe">
+    <button onclick="register()">Créer</button>
+  </div>
+</div>
+
 <script>
-function openLogin(){
-  document.getElementById('login').style.display='flex';
+function openLogin(){login.style.display="flex"}
+function openRegister(){register.style.display="flex"}
+function closeAll(){login.style.display=register.style.display="none"}
+
+function register(){
+  localStorage.setItem("userID",regId.value)
+  localStorage.setItem("userPass",regPass.value)
+  closeAll();location.reload()
 }
 
 function login(){
-  const id=document.getElementById('id').value;
-  const pass=document.getElementById('pass').value;
-  if(id && pass){
-    localStorage.setItem('userID',id);
-    location.reload();
+  if(loginId.value===localStorage.getItem("userID")
+  && loginPass.value===localStorage.getItem("userPass")){
+    localStorage.setItem("connected","yes")
+    closeAll();location.reload()
   }
 }
 
 function logout(){
-  localStorage.removeItem('userID');
-  location.reload();
+  localStorage.removeItem("connected")
+  location.reload()
 }
 
-const uid=localStorage.getItem('userID');
-if(uid){
-  document.getElementById('status').innerHTML='🟢 Connecté – ID : '+uid;
-  document.getElementById('privateContent').style.display='grid';
+if(localStorage.getItem("connected")==="yes"){
+  status.innerHTML="🟢 Connecté – ID : "+localStorage.getItem("userID")
 }else{
-  document.getElementById('status').innerHTML='🔴 Non connecté';
+  status.innerHTML="🔴 Non connecté"
 }
 </script>
 
