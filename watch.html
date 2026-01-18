@@ -7,49 +7,39 @@
 </head>
 <body>
 
-<h1>🎬 Lecture du film</h1>
+<h1 style="padding:20px;">🎬 Lecture du film</h1>
 
 <div class="languages">
   <button onclick="setLang('fr')">🇫🇷 Français</button>
   <button onclick="setLang('en')">🇬🇧 English</button>
 </div>
 
-<div id="player"></div>
+<div id="player" style="text-align:center;"></div>
 
-<footer class="film-warning">
-  <p>🔞 Film réservé aux majeurs (18+)</p>
-  <p>En continuant, vous confirmez être majeur.</p>
-  <p>Anonymous SOS FR décline toute responsabilité.</p>
-</footer>
+<div class="film-warning">
+🔞 Film réservé aux majeurs (18+).  
+En continuant, vous confirmez être majeur.
+</div>
 
 <script>
-const films = {
-  nosferatu: {
-    fr: "https://www.youtube.com/embed/VIDEO_FR",
-    en: "https://www.youtube.com/embed/VIDEO_EN"
-  },
-  thekid: {
-    fr: "https://www.youtube.com/embed/VIDEO_FR",
-    en: "https://www.youtube.com/embed/VIDEO_EN"
-  }
+const films={
+  nosferatu:{fr:"https://www.youtube.com/embed/FR_ID",en:"https://www.youtube.com/embed/EN_ID"},
+  night:{fr:"https://www.youtube.com/embed/FR_ID",en:"https://www.youtube.com/embed/EN_ID"},
+  thekid:{fr:"https://www.youtube.com/embed/FR_ID",en:"https://www.youtube.com/embed/EN_ID"},
+  gertie:{fr:"https://www.youtube.com/embed/FR_ID",en:"https://www.youtube.com/embed/EN_ID"}
 };
 
-const params = new URLSearchParams(window.location.search);
-const film = params.get("id");
-
-function setLang(lang) {
-  document.getElementById("player").innerHTML =
-    <iframe width="90%" height="500" src="${films[film][lang]}" allowfullscreen></iframe>;
+const id=new URLSearchParams(location.search).get("id");
+function setLang(l){
+  document.getElementById("player").innerHTML=
+  <iframe width="90%" height="500" src="${films[id][l]}" allowfullscreen></iframe>;
 }
-
 setLang("fr");
 </script>
 
-<a
-  href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
-  class="sos-whatsapp"
-  target="_blank">
-  💬 Contacter le service client (WhatsApp)
+<a href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
+class="sos-whatsapp" target="_blank">
+💬 Contacter le service client
 </a>
 
 </body>
