@@ -8,23 +8,23 @@
 
 <h2>Connexion</h2>
 
-<input id="email" placeholder="Email"><br>
+<input id="email" placeholder="Email"><br><br>
 <input id="password" type="password" placeholder="Mot de passe"><br><br>
 
 <button onclick="login()">Se connecter</button>
 
 <script>
 function login(){
-  const email=document.getElementById("email").value;
-  const pass=document.getElementById("password").value;
-  const acc=JSON.parse(localStorage.getItem("account"));
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+  const acc = JSON.parse(localStorage.getItem("account"));
 
-  if(!acc || acc.email!==email || acc.pass!==pass){
+  if(!acc || acc.email !== email || acc.pass !== pass){
     alert("Identifiants incorrects");
     return;
   }
 
-  localStorage.setItem("user",email);
+  localStorage.setItem("user", acc.pseudo);
   window.location.href="index.html";
 }
 </script>
