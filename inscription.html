@@ -2,45 +2,34 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Inscription</title>
+<title>Créer un compte</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+<div class="form-box">
 <h2>Créer un compte</h2>
 
-<input id="pseudo" placeholder="ID / Pseudo"><br><br>
-<input id="email" placeholder="Email"><br><br>
-<input id="password" type="password" placeholder="Mot de passe"><br><br>
-
+<input id="name" placeholder="Prénom">
+<input id="birth" type="date">
 <select id="gender">
-  <option value="">Genre</option>
-  <option value="Garçon">Garçon</option>
-  <option value="Fille">Fille</option>
-</select><br><br>
+  <option value="">Sexe</option>
+  <option>Homme</option>
+  <option>Femme</option>
+</select>
 
-<button onclick="register()">Créer le compte</button>
+<button onclick="register()">Créer</button>
+</div>
 
 <script>
 function register(){
-  const pseudo = document.getElementById("pseudo").value;
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-  const gender = document.getElementById("gender").value;
-
-  if(!pseudo || !email || !pass || !gender){
-    alert("Remplis tout");
-    return;
-  }
-
-  localStorage.setItem("account", JSON.stringify({
-    pseudo,
-    email,
-    pass,
-    gender
-  }));
-
-  alert("Compte créé");
-  window.location.href="connexion.html";
+  const user={
+    name: name.value,
+    birth: birth.value,
+    gender: gender.value
+  };
+  localStorage.setItem("user", JSON.stringify(user));
+  location.href="index.html";
 }
 </script>
 
