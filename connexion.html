@@ -7,15 +7,25 @@
 <body>
 
 <h2>Connexion</h2>
-<input id="user" placeholder="Votre pseudo">
+
+<input id="email" placeholder="Email"><br>
+<input id="password" type="password" placeholder="Mot de passe"><br><br>
+
 <button onclick="login()">Se connecter</button>
 
 <script>
-function login() {
-  const u = document.getElementById("user").value;
-  if (!u) return alert("Entre un pseudo");
-  localStorage.setItem("user", u);
-  window.location.href = "index.html";
+function login(){
+  const email=document.getElementById("email").value;
+  const pass=document.getElementById("password").value;
+  const acc=JSON.parse(localStorage.getItem("account"));
+
+  if(!acc || acc.email!==email || acc.pass!==pass){
+    alert("Identifiants incorrects");
+    return;
+  }
+
+  localStorage.setItem("user",email);
+  window.location.href="index.html";
 }
 </script>
 
