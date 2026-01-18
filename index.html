@@ -7,40 +7,44 @@
 </head>
 <body>
 
-<nav class="main-nav">
+<nav>
   <div class="logo">🎬 Anonymous SOS FR</div>
   <div>
     <a href="login.html">Connexion</a>
     <a href="register.html">Créer un compte</a>
+    <a href="contact.html">Contact</a>
   </div>
 </nav>
 
-<div class="hero">
-  <div>
-    <h1>Le cinéma autrement</h1>
-    <p>Classiques • Adultes • Enfants</p>
-  </div>
-</div>
-
 <section>
-<h2>🔞 Films adultes</h2>
+<h2>👶 Enfants – Dessins animés (Animaux)</h2>
 <div class="grid">
-  <div class="poster" onclick="openFilm(true)">HORREUR</div>
+  <div class="film">🐭 Steamboat Willie (1928)</div>
+  <div class="film">🐱 Felix the Cat</div>
+  <div class="film">🦕 Gertie the Dinosaur</div>
+  <div class="film">🐰 The Tortoise and the Hare</div>
 </div>
 </section>
 
 <section>
-<h2>👶 Films enfants</h2>
+<h2>🎭 Enfants – Films famille</h2>
 <div class="grid">
-  <div class="poster" onclick="openFilm(false)">DESSINS ANIMÉS</div>
+  <div class="film">🎈 Alice in Wonderland (1915)</div>
+  <div class="film">🎪 The Kid (Chaplin)</div>
 </div>
 </section>
 
-<a href="https://wa.me/32456894335?text=Contact%20service%20client%20Anonymous%20SOS%20FR"
-class="sos-whatsapp" target="_blank">
+<section>
+<h2>🔞 Adultes – Horreur</h2>
+<div class="grid">
+  <div class="film" onclick="checkAdult()">🧛 Nosferatu</div>
+  <div class="film" onclick="checkAdult()">🧟 Night of the Living Dead</div>
+</div>
+</section>
+
+<a href="https://wa.me/32456894335" class="whatsapp" target="_blank">
 💬 Contacter le service client
 </a>
 
 <script src="js/app.js"></script>
 </body>
-</html>
