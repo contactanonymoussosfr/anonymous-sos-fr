@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Accès réservé</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h1>🔞 Contenu réservé aux majeurs</h1>
+<p>Vous devez avoir plus de 18 ans pour accéder à ce film.</p>
+
+<button onclick="confirmAge()">J’ai plus de 18 ans</button>
+<button onclick="window.location='index.html'">Retour</button>
+
+<script>
+function confirmAge() {
+  localStorage.setItem("ageVerified","yes");
+  window.location = localStorage.getItem("redirect") || "index.html";
+}
+</script>
+
+</body>
+</html>
