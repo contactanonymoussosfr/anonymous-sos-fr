@@ -4,46 +4,75 @@
 <meta charset="UTF-8">
 <title>Anonymous SOS FR</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
 
 <style>
+/* ===== BASE ===== */
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  height: 100vh;
-  overflow: hidden;
   font-family: Arial, sans-serif;
   color: #fff;
+  background: #000;
+  overflow-x: hidden;
 }
+
+/* ===== BARRE HAUT ROUGE ===== */
+.topbar {
+  background: linear-gradient(to right, #7a0000, #b00000);
+  padding: 10px;
+  text-align: center;
+}
+
+.topbar a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 8px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 13px;
+}
+
+.status {
+  margin-top: 5px;
+  font-size: 13px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.green { background: #00ff6a; }
+.red { background: #ff3b3b; }
 
 /* ===== FOND ===== */
 .background {
   position: fixed;
   inset: 0;
-  background: url("background.jpg") center/cover no-repeat;
-  filter: brightness(0.55);
+  background:
+    linear-gradient(to bottom, rgba(90,0,0,0.85), rgba(10,0,0,0.95)),
+    url("anonymous.png") center/cover no-repeat;
   z-index: -3;
 }
 
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle, rgba(0,0,0,0.3), rgba(0,0,0,0.85));
-  z-index: -2;
-}
-
-/* ===== TERRE QUI TOURNE ===== */
+/* ===== PLANÈTE ROUGE ===== */
 .earth {
-  position: absolute;
-  bottom: -40%;
+  position: fixed;
+  top: 55%;
   left: 50%;
-  transform: translateX(-50%);
-  width: 520px;
-  height: 520px;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 480px;
   border-radius: 50%;
   background: url("https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg") repeat-x;
   background-size: cover;
-  animation: rotate 140s linear infinite;
-  box-shadow: 0 0 90px rgba(0,140,255,0.4);
+  filter: hue-rotate(-120deg) saturate(1.6) brightness(0.65);
+  animation: rotate 180s linear infinite;
+  box-shadow: 0 0 80px rgba(180,0,0,0.4);
+  z-index: -2;
 }
 
 @keyframes rotate {
@@ -51,88 +80,43 @@ body {
   to { background-position: -2200px 0; }
 }
 
-/* ===== CONTENU CENTRAL ===== */
+/* ===== CONTENU ===== */
 .center {
-  position: relative;
-  z-index: 2;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.box {
-  max-width: 760px;
-  width: 90%;
-  padding: 30px;
-  background: rgba(0,0,0,0.65);
-  border: 1px solid #222;
   text-align: center;
+  padding: 60px 20px 20px;
 }
 
-.box h1 {
+h1 {
   font-size: 26px;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
 
 .badge {
-  display: inline-block;
-  margin-left: 6px;
   background: #1da1f2;
-  color: #fff;
   border-radius: 50%;
-  width: 18px;
-  height: 18px;
   font-size: 12px;
-  line-height: 18px;
+  padding: 2px 6px;
+  margin-left: 6px;
 }
 
-.box p {
+p {
   font-size: 14px;
-  opacity: 0.85;
-  margin-top: 10px;
-  line-height: 1.5;
+  opacity: 0.9;
 }
 
-/* ===== BOUTONS HAUT ===== */
-.actions a {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px 18px;
-  background: #d40000;
-  color: #fff;
-  text-decoration: none;
-}
-
-.actions a.secondary {
-  background: transparent;
-  border: 1px solid #333;
-}
-
-/* ===== CONTENU PROTÉGÉ ===== */
-.protected {
-  display: none;
-  margin-top: 30px;
-}
-
-body.connected .protected {
-  display: block;
-}
-
-/* ===== CARTES ROUGES ===== */
+/* ===== CARTES ===== */
 .cards {
+  margin-top: 40px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
   gap: 15px;
-  margin-top: 20px;
 }
 
 .card {
   border: 1px solid #d40000;
   padding: 15px;
   font-size: 13px;
-  text-align: left;
+  background: rgba(0,0,0,0.4);
 }
 
 .card strong {
@@ -140,103 +124,101 @@ body.connected .protected {
   margin-bottom: 6px;
 }
 
-/* ===== LIENS ===== */
-.card a {
-  color: #fff;
-  text-decoration: none;
-  word-break: break-all;
-}
-
-/* ===== SOS WHATSAPP ===== */
+/* ===== SOS ===== */
 .sos {
-  display: block;
   margin-top: 20px;
-  padding: 14px;
+  display: inline-block;
   background: #25D366;
   color: #000;
-  text-decoration: none;
+  padding: 12px 18px;
   font-weight: bold;
-  text-align: center;
-  animation: pulse 1.5s infinite;
+  text-decoration: none;
 }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.6); }
-  70% { box-shadow: 0 0 0 15px rgba(37,211,102,0); }
-  100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
-}
+/* ===== CACHÉ SI NON CONNECTÉ ===== */
+.protected { display: none; }
+body.connected .protected { display: block; }
 </style>
 </head>
 
 <body>
 
 <div class="background"></div>
-<div class="overlay"></div>
 <div class="earth"></div>
 
+<!-- BARRE HAUT -->
+<div class="topbar">
+  <a href="connexion.html">Connexion</a>
+  <a href="inscription.html">Créer un compte</a>
+  <a href="#" onclick="logout()">Déconnexion</a>
+
+  <div class="status" id="status"></div>
+</div>
+
+<!-- CONTENU -->
 <div class="center">
-  <div class="box">
+  <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
 
-    <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
+  <p>
+    Nous sommes Anonymous. Nous sommes légion.<br>
+    Nous n’oublions pas. Nous ne pardonnons pas.<br>
+    Vous êtes chez vous.
+  </p>
 
-    <p>
-      Nous sommes Anonymous. Nous sommes légion.<br>
-      Nous n’oublions pas. Nous ne pardonnons pas.<br>
-      Vous êtes chez vous, n’hésitez pas à inviter du monde.
-    </p>
-
-    <div class="actions">
-      <a href="connexion.html">Connexion</a>
-      <a href="inscription.html" class="secondary">Créer un compte</a>
-    </div>
-
-    <!-- ===== CARTES VISIBLES CONNECTÉ ===== -->
-    <div class="protected">
-      <div class="cards">
-
-        <div class="card">
-          <strong>🆘 SOS</strong>
-          Aide urgente – contact direct
-        </div>
-
-        <div class="card">
-          <strong>📞 Téléphone</strong>
-          +32 456 89 43 35
-        </div>
-
-        <div class="card">
-          <strong>✉️ Email</strong>
-          despreschez@gmail.com
-        </div>
-
-        <div class="card">
-          <strong>🎵 TikTok</strong>
-          <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank">
-            @anonymous_sos_fr
-          </a>
-        </div>
-
-        <div class="card">
-          <strong>🎵 TikTok</strong>
-          <a href="https://www.tiktok.com/@popysa5?_r=1&_t=ZN-93A1ALQOWko" target="_blank">
-            @popysa5
-          </a>
-        </div>
-
+  <!-- CONTENU CONNECTÉ -->
+  <div class="protected">
+    <div class="cards">
+      <div class="card">
+        <strong>📞 Téléphone</strong>
+        +32 456 89 43 35
       </div>
 
-      <a
-        class="sos"
-        href="https://wa.me/32456894335?text=SOS%20j%27ai%20besoin%20d%27aide"
-        target="_blank"
-      >
-        🆘 CONTACT SOS DIRECT SUR WHATSAPP
-      </a>
+      <div class="card">
+        <strong>✉️ Email</strong>
+        despreschez@gmail.com
+      </div>
+
+      <div class="card">
+        <strong>🎵 TikTok</strong>
+        @anonymous_sos_fr
+      </div>
+
+      <div class="card">
+        <strong>🎵 TikTok</strong>
+        @popysa5
+      </div>
     </div>
 
+    <a class="sos"
+       href="https://wa.me/32456894335?text=SOS%20j%27ai%20besoin%20d%27aide"
+       target="_blank">
+       🆘 SOS WhatsApp direct
+    </a>
   </div>
 </div>
 
-<script src="app.js"></script>
+<script>
+/* ===== CONNEXION SIMPLE QUI MARCHE ===== */
+function updateStatus() {
+  const user = localStorage.getItem("user");
+  const status = document.getElementById("status");
+
+  if (user) {
+    document.body.classList.add("connected");
+    status.innerHTML = '<span class="dot green"></span>Connecté – ' + user;
+  } else {
+    document.body.classList.remove("connected");
+    status.innerHTML = '<span class="dot red"></span>Non connecté';
+  }
+}
+
+function logout() {
+  localStorage.removeItem("user");
+  updateStatus();
+}
+
+updateStatus();
+</script>
+
 </body>
 </html>
