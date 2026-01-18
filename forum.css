@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #7a0000;
+  color: white;
+}
+
+.top {
+  background: #900000;
+  padding: 12px;
+  text-align: center;
+}
+
+.brand {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0 15px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.intro {
+  text-align: center;
+  opacity: 0.9;
+  margin-bottom: 20px;
+}
+
+/* Nouveau message */
+.new-post {
+  background: rgba(0,0,0,0.25);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.new-post input,
+.new-post textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+}
+
+.new-post textarea {
+  min-height: 100px;
+}
+
+.new-post button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Messages */
+.posts .post {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.post .author {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.post .time {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
