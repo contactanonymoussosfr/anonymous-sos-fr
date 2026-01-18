@@ -7,20 +7,16 @@
 <body>
 
 <h2>Connexion</h2>
-<input id="email" type="email" placeholder="Email">
-<button id="go">Connexion</button>
+<input id="user" placeholder="Votre pseudo">
+<button onclick="login()">Se connecter</button>
 
-<script src="firebase.js" type="module"></script>
-<script type="module">
-import { signInWithEmailAndPassword } from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-document.getElementById("go").onclick = async ()=>{
-  const email = document.getElementById("email").value;
-  const cred = await signInWithEmailAndPassword(auth,email,"password123");
-  localStorage.setItem("uid",cred.user.uid);
-  location.href="index.html";
-};
+<script>
+function login() {
+  const u = document.getElementById("user").value;
+  if (!u) return alert("Entre un pseudo");
+  localStorage.setItem("user", u);
+  window.location.href = "index.html";
+}
 </script>
 
 </body>
