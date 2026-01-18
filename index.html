@@ -15,98 +15,99 @@ body{
     linear-gradient(rgba(120,0,0,0.85),rgba(60,0,0,0.95)),
     url("anonymous-bg.jpg") center/cover no-repeat fixed;
   color:white;
-  text-align:center;
+  display:flex;
+  flex-direction:column;
 }
 
 /* BARRE HAUTE */
-.top{
-  background:#c40000;
-  padding:12px;
+.topbar{
+  background:#b00000;
+  padding:10px;
   display:flex;
   justify-content:center;
   gap:10px;
 }
-.top button{
+.topbar button{
   background:#e00000;
   border:none;
   color:white;
   padding:8px 14px;
-  border-radius:6px;
+  border-radius:5px;
   cursor:pointer;
 }
 
-/* STATUS */
+/* STATUT */
 #status{
-  margin-top:10px;
+  text-align:center;
+  margin:10px 0;
   font-size:14px;
 }
 
-/* CENTRE */
-.center{
-  margin-top:40px;
-  padding:20px;
+/* CONTENU CENTRAL */
+.main{
+  flex:1;
+  text-align:center;
+  padding:30px 20px;
 }
-h1{font-size:32px}
-.badge{color:#4da6ff}
 
-/* LOGO */
+h1{
+  font-size:32px;
+  margin-bottom:10px;
+}
+.badge{
+  color:#1da1f2;
+  font-size:18px;
+  vertical-align:middle;
+}
+
 .logo img{
   width:260px;
   max-width:80%;
   margin:25px auto;
+  display:block;
   filter:drop-shadow(0 0 25px rgba(255,0,0,.6));
 }
 
-/* TEXTE */
 .desc{
   max-width:600px;
-  margin:0 auto 30px;
+  margin:0 auto;
   line-height:1.5;
 }
 
-/* CARTES */
-.grid{
+/* CARTES EN BAS */
+.cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:15px;
-  padding:30px;
+  padding:20px;
   max-width:1000px;
-  margin:0 auto;
+  margin:0 auto 20px;
 }
+
 .card{
   border:1px solid red;
   padding:15px;
   border-radius:10px;
   background:rgba(0,0,0,0.25);
+  text-align:center;
 }
 
-/* MODAL */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  justify-content:center;
-  align-items:center;
+/* FORMULAIRE SIMPLE */
+.form{
+  max-width:300px;
+  margin:20px auto;
 }
-.box{
-  background:#2b0000;
-  padding:20px;
-  border-radius:10px;
-  width:300px;
-}
-.box input{
+.form input{
   width:100%;
-  margin:6px 0;
   padding:8px;
+  margin:6px 0;
 }
-.box button{
+.form button{
   width:100%;
-  margin-top:10px;
+  padding:8px;
   background:#e00000;
   border:none;
   color:white;
-  padding:8px;
   cursor:pointer;
 }
 
@@ -127,15 +128,15 @@ h1{font-size:32px}
 
 <body>
 
-<div class="top">
-  <button onclick="openLogin()">Connexion</button>
-  <button onclick="openRegister()">Créer un compte</button>
+<div class="topbar">
+  <button onclick="showLogin()">Connexion</button>
+  <button onclick="showRegister()">Créer un compte</button>
   <button onclick="logout()">Déconnexion</button>
 </div>
 
 <div id="status">🔴 Non connecté</div>
 
-<div class="center">
+<div class="main">
   <h1>Anonymous SOS FR <span class="badge">✔</span></h1>
 
   <div class="logo">
@@ -147,77 +148,66 @@ h1{font-size:32px}
     Nous n’oublions pas. Nous ne pardonnons pas.<br>
     Vous êtes chez vous.
   </div>
-</div>
 
-<div class="grid" id="cards">
-
-  <div class="card">🆘 SOS<br>Aide urgente – contact direct</div>
-  <div class="card">📞 Téléphone<br>+32 456 89 43 35</div>
-  <div class="card">📧 Email<br>despreschez@gmail.com</div>
-  <div class="card">
-    🎵 TikTok<br>
-    <a href="https://www.tiktok.com/@anonymous_sos_fr" target="_blank" style="color:white">Suivre</a>
-  </div>
-  <div class="card">▶ YouTube<br>mrdespres</div>
-  <div class="card">
-    💼 Recrutement<br>
-    Contact uniquement par mail
-  </div>
-
-</div>
-
-<a class="whatsapp" href="https://wa.me/32456894335" target="_blank">
-  SOS WhatsApp
-</a>
-
-<!-- LOGIN -->
-<div class="modal" id="login">
-  <div class="box">
-    <h3>Connexion</h3>
+  <div id="loginBox" class="form" style="display:none">
     <input id="loginId" placeholder="ID">
     <input id="loginPass" type="password" placeholder="Mot de passe">
     <button onclick="login()">Entrer</button>
   </div>
-</div>
 
-<!-- REGISTER -->
-<div class="modal" id="register">
-  <div class="box">
-    <h3>Créer un compte</h3>
+  <div id="registerBox" class="form" style="display:none">
     <input id="regId" placeholder="ID">
     <input id="regPass" type="password" placeholder="Mot de passe">
     <button onclick="register()">Créer</button>
   </div>
 </div>
 
+<div class="cards">
+  <div class="card">🆘 SOS<br>Aide urgente – contact direct</div>
+  <div class="card">📞 Téléphone<br>+32 456 89 43 35</div>
+  <div class="card">📧 Email<br>despreschez@gmail.com</div>
+  <div class="card">🎵 TikTok<br>@anonymous_sos_fr</div>
+  <div class="card">▶ YouTube<br>mrdespres</div>
+  <div class="card">💼 Recrutement<br>Contact uniquement par mail</div>
+</div>
+
+<a class="whatsapp" href="https://wa.me/32456894335" target="_blank">
+  SOS WhatsApp
+</a>
+
 <script>
-function openLogin(){login.style.display="flex"}
-function openRegister(){register.style.display="flex"}
-function closeAll(){login.style.display=register.style.display="none"}
+function showLogin(){
+  loginBox.style.display="block";
+  registerBox.style.display="none";
+}
+function showRegister(){
+  registerBox.style.display="block";
+  loginBox.style.display="none";
+}
 
 function register(){
-  localStorage.setItem("userID",regId.value)
-  localStorage.setItem("userPass",regPass.value)
-  closeAll();location.reload()
+  localStorage.setItem("id",regId.value);
+  localStorage.setItem("pass",regPass.value);
+  alert("Compte créé");
 }
 
 function login(){
-  if(loginId.value===localStorage.getItem("userID")
-  && loginPass.value===localStorage.getItem("userPass")){
-    localStorage.setItem("connected","yes")
-    closeAll();location.reload()
+  if(loginId.value===localStorage.getItem("id")
+  && loginPass.value===localStorage.getItem("pass")){
+    localStorage.setItem("connected","yes");
+    location.reload();
   }
 }
 
 function logout(){
-  localStorage.removeItem("connected")
-  location.reload()
+  localStorage.removeItem("connected");
+  location.reload();
 }
 
 if(localStorage.getItem("connected")==="yes"){
-  status.innerHTML="🟢 Connecté – ID : "+localStorage.getItem("userID")
-}else{
-  status.innerHTML="🔴 Non connecté"
+  status.innerHTML="🟢 Connecté – ID : "+localStorage.getItem("id");
+  loginBox.style.display="none";
+  registerBox.style.display="none";
 }
 </script>
 
